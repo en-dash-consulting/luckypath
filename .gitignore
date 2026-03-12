@@ -1,4 +1,5 @@
 .DS_Store
+.env
 
 # Tooling artifacts
 .claude/
@@ -6,3 +7,8 @@
 .rex/
 .sourcevision/
 .n-dx.json
+
+# Dependencies & build
+/node_modules/
+/.react-router/
+/build/
