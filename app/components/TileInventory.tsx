@@ -106,7 +106,7 @@ export function TileInventory({
   );
 }
 
-function TilePreview({ type, size, selected }: { type: TileType; size: number; selected?: boolean }) {
+export function TilePreview({ type, size, selected }: { type: TileType; size: number; selected?: boolean }) {
   const half = size / 2;
   const pad = 6;
   const pathColor = selected ? "#0d9488" : "#a7f3d0";
