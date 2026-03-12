@@ -29,7 +29,7 @@ export function TileInventory({
   onToggleRemoveMode,
 }: TileInventoryProps) {
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-r-2xl shadow-lg border border-l-0 border-gray-200 py-3 px-2 flex flex-col gap-2 -ml-3 mt-4">
+    <div className="bg-white/90 backdrop-blur-sm rounded-r-2xl shadow-lg border border-l-0 border-gray-200 py-3 px-3 flex flex-col gap-2.5 -ml-3 mt-4">
       {/* Tile pieces */}
       {TILE_DEFS.map(({ type, label, invKey }) => {
         const count = remaining[invKey];
@@ -47,8 +47,8 @@ export function TileInventory({
             }}
             disabled={!available}
             className={`
-              relative flex flex-col items-center gap-0.5
-              p-1.5 rounded-lg transition-all duration-150 select-none
+              relative flex flex-col items-center gap-1
+              p-2 rounded-xl transition-all duration-150 select-none
               ${isSelected
                 ? "bg-teal-100 ring-2 ring-teal-500 shadow-md scale-105"
                 : isEmpty
@@ -57,25 +57,14 @@ export function TileInventory({
               }
             `}
           >
-            <TilePreview type={type} size={56} selected={isSelected} />
+            <TilePreview type={type} size={64} selected={isSelected} />
 
-            {/* Count pips below tile */}
-            <div className="flex gap-0.5 items-center justify-center">
-              {count <= 5 ? (
-                Array.from({ length: count }).map((_, i) => (
-                  <div
-                    key={i}
-                    className={`w-2 h-2 rounded-full ${
-                      isSelected ? "bg-teal-500" : "bg-gray-300"
-                    }`}
-                  />
-                ))
-              ) : (
-                <span className={`text-[10px] font-bold ${isSelected ? "text-teal-600" : "text-gray-400"}`}>
-                  {count}
-                </span>
-              )}
-            </div>
+            {/* Count display */}
+            <span className={`text-sm font-bold tabular-nums ${
+              isSelected ? "text-teal-700" : "text-gray-500"
+            }`}>
+              {count}
+            </span>
           </button>
         );
       })}
@@ -92,8 +81,8 @@ export function TileInventory({
         }}
         disabled={disabled}
         className={`
-          flex flex-col items-center justify-center gap-0.5
-          p-1.5 rounded-lg transition-all duration-150 select-none
+          flex flex-col items-center justify-center gap-1
+          p-2 rounded-xl transition-all duration-150 select-none
           ${removeMode
             ? "bg-red-100 ring-2 ring-red-400 scale-105"
             : disabled
@@ -103,10 +92,10 @@ export function TileInventory({
         `}
         title="Remove placed tiles"
       >
-        <div className={`w-[56px] h-[56px] flex items-center justify-center rounded-md ${
+        <div className={`w-16 h-16 flex items-center justify-center rounded-lg ${
           removeMode ? "bg-red-50" : "bg-gray-50"
         }`}>
-          <svg width="26" height="26" viewBox="0 0 22 22" fill="none">
+          <svg width="28" height="28" viewBox="0 0 22 22" fill="none">
             <path d="M6 6l10 10M16 6L6 16"
               stroke={removeMode ? "#ef4444" : "#9ca3af"}
               strokeWidth="2.5" strokeLinecap="round" />
@@ -119,7 +108,7 @@ export function TileInventory({
 
 function TilePreview({ type, size, selected }: { type: TileType; size: number; selected?: boolean }) {
   const half = size / 2;
-  const pad = 5;
+  const pad = 6;
   const pathColor = selected ? "#0d9488" : "#a7f3d0";
   const pathStroke = selected ? "#115e59" : "#14b8a6";
   const dotColor = selected ? "#134e4a" : "#0d9488";
@@ -141,7 +130,7 @@ function TilePreview({ type, size, selected }: { type: TileType; size: number; s
   const [ax, ay] = getEdge(sideA);
   const [bx, by] = getEdge(sideB);
 
-  const arrowSize = 4;
+  const arrowSize = 5;
   const getArrow = (side: number, ex: number, ey: number): string => {
     switch (side) {
       case NORTH: return `M${ex - arrowSize},${ey + arrowSize} L${ex},${ey} L${ex + arrowSize},${ey + arrowSize}`;
@@ -154,25 +143,25 @@ function TilePreview({ type, size, selected }: { type: TileType; size: number; s
 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-      <rect x={1} y={1} width={size - 2} height={size - 2} rx={6}
+      <rect x={1} y={1} width={size - 2} height={size - 2} rx={8}
         fill={bgColor} stroke={borderColor} strokeWidth={1.5} />
       {type === "straight" ? (
         <>
           <line x1={ax} y1={ay} x2={bx} y2={by}
-            stroke={pathColor} strokeWidth={8} strokeLinecap="round" opacity={0.5} />
+            stroke={pathColor} strokeWidth={10} strokeLinecap="round" opacity={0.5} />
           <line x1={ax} y1={ay} x2={bx} y2={by}
-            stroke={pathStroke} strokeWidth={4} strokeLinecap="round" />
+            stroke={pathStroke} strokeWidth={5} strokeLinecap="round" />
         </>
       ) : (
         <>
           <path d={`M${ax},${ay} Q${half},${half} ${bx},${by}`}
-            fill="none" stroke={pathColor} strokeWidth={8} strokeLinecap="round" opacity={0.5} />
+            fill="none" stroke={pathColor} strokeWidth={10} strokeLinecap="round" opacity={0.5} />
           <path d={`M${ax},${ay} Q${half},${half} ${bx},${by}`}
-            fill="none" stroke={pathStroke} strokeWidth={4} strokeLinecap="round" />
+            fill="none" stroke={pathStroke} strokeWidth={5} strokeLinecap="round" />
         </>
       )}
-      <path d={getArrow(sideA, ax, ay)} fill="none" stroke={dotColor} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-      <path d={getArrow(sideB, bx, by)} fill="none" stroke={dotColor} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+      <path d={getArrow(sideA, ax, ay)} fill="none" stroke={dotColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <path d={getArrow(sideB, bx, by)} fill="none" stroke={dotColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

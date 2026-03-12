@@ -10,7 +10,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-100 via-emerald-50 to-amber-50/50 flex flex-col items-center justify-center p-6 select-none">
+    <div className="min-h-dvh bg-gradient-to-b from-green-100 via-emerald-50 to-amber-50/50 flex flex-col items-center justify-center p-6 pb-20 select-none">
       <div className="text-center">
         {/* Character */}
         <svg width="88" height="88" viewBox="0 0 72 72" className="mx-auto mb-4 drop-shadow-md">

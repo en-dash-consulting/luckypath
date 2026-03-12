@@ -94,7 +94,7 @@ export default function Worlds() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-100 via-emerald-50 to-amber-50/50 px-4 py-8 select-none">
+    <div className="min-h-dvh bg-gradient-to-b from-green-100 via-emerald-50 to-amber-50/50 px-4 py-6 sm:py-8 select-none">
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
@@ -192,7 +192,7 @@ export default function Worlds() {
         </div>
 
         {/* Rainbow easter egg — below the level grids */}
-        <div className="mt-10 flex justify-center">
+        <div className="mt-8 sm:mt-10 flex justify-center max-w-full overflow-hidden">
           <svg
             ref={rainbowRef}
             width="320"
