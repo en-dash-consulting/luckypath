@@ -1,0 +1,8 @@
+.DS_Store
+
+# Tooling artifacts
+.claude/
+.hench/
+.rex/
+.sourcevision/
+.n-dx.json
