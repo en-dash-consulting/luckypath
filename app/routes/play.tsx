@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { getLevelById, levels, worlds } from "~/engine/levels";
 import { useGameState } from "~/hooks/useGameState";
 import { GameBoard } from "~/components/GameBoard";
-import { TileInventory } from "~/components/TileInventory";
+import { TileInventory, TilePreview } from "~/components/TileInventory";
 import { GameHUD } from "~/components/GameHUD";
 import { LevelComplete } from "~/components/LevelComplete";
 import { completeLevel, loadSave } from "~/lib/persistence";
@@ -60,6 +60,7 @@ function PlayLevel({
     selectTile,
     placeTile,
     rotateTile,
+    moveTile,
     removeTile,
     runSimulation,
     resetBoard,
@@ -155,6 +156,7 @@ function PlayLevel({
             state={state}
             onCellClick={handleCellClick}
             onCellRightClick={handleCellRightClick}
+            onMoveTile={moveTile}
             highContrast={settings.highContrast}
           />
         </div>
@@ -259,9 +261,7 @@ function MobileInventory({
               }
             `}
           >
-            <span className={`text-lg font-bold capitalize ${isSelected ? "text-teal-700" : "text-gray-600"}`}>
-              {type}
-            </span>
+            <TilePreview type={type} size={40} selected={isSelected} />
             <span className={`text-base font-bold tabular-nums px-1.5 py-0.5 rounded-md ${
               isSelected ? "bg-teal-200 text-teal-800" : "bg-gray-100 text-gray-500"
             }`}>

@@ -28,6 +28,7 @@ interface GameBoardProps {
   state: GameState;
   onCellClick: (row: number, col: number) => void;
   onCellRightClick: (row: number, col: number) => void;
+  onMoveTile?: (fromRow: number, fromCol: number, toRow: number, toCol: number) => void;
   highContrast?: boolean;
 }
 
@@ -36,12 +37,23 @@ export function GameBoard({
   state,
   onCellClick,
   onCellRightClick,
+  onMoveTile,
   highContrast,
 }: GameBoardProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [animFrame, setAnimFrame] = useState(0);
   const animRef = useRef<number>(0);
   const [hoverCell, setHoverCell] = useState<{ row: number; col: number } | null>(null);
+
+  // Drag state
+  const [dragState, setDragState] = useState<{
+    fromRow: number;
+    fromCol: number;
+    cursorX: number;
+    cursorY: number;
+  } | null>(null);
+  const dragStartPos = useRef<{ x: number; y: number } | null>(null);
+  const isDragging = useRef(false);
 
   const colors = BIOME_COLORS[level.biome];
   const canvasWidth = level.width * CELL_SIZE + BOARD_PADDING * 2;
@@ -222,12 +234,25 @@ export function GameBoard({
       }
     }
 
+    // Draw ghost tile while dragging
+    if (dragState && state.phase === "placing") {
+      const tile = state.placedTiles.get(posKey(dragState.fromRow, dragState.fromCol));
+      if (tile) {
+        ctx.globalAlpha = 0.6;
+        const gx = dragState.cursorX - BOARD_PADDING - CELL_SIZE / 2;
+        const gy = dragState.cursorY - BOARD_PADDING - CELL_SIZE / 2;
+        drawTile(ctx, gx, gy, tile, highContrast);
+        ctx.globalAlpha = 1;
+      }
+    }
+
     ctx.restore();
   }, [
     level,
     state,
     animFrame,
     hoverCell,
+    dragState,
     colors,
     canvasWidth,
     canvasHeight,
@@ -237,60 +262,168 @@ export function GameBoard({
     goalKey,
   ]);
 
-  const getCellFromEvent = useCallback(
-    (e: React.MouseEvent<HTMLCanvasElement>) => {
+  // Unified coordinate helpers for mouse and touch
+  const canvasCoordsFromClient = useCallback(
+    (clientX: number, clientY: number) => {
       const canvas = canvasRef.current;
       if (!canvas) return null;
       const rect = canvas.getBoundingClientRect();
-      const scaleX = canvasWidth / rect.width;
-      const scaleY = canvasHeight / rect.height;
-      const mx = (e.clientX - rect.left) * scaleX - BOARD_PADDING;
-      const my = (e.clientY - rect.top) * scaleY - BOARD_PADDING;
-      const col = Math.floor(mx / CELL_SIZE);
-      const row = Math.floor(my / CELL_SIZE);
+      const mx = (clientX - rect.left) * (canvasWidth / rect.width);
+      const my = (clientY - rect.top) * (canvasHeight / rect.height);
+      return { mx, my };
+    },
+    [canvasWidth, canvasHeight]
+  );
+
+  const cellFromCoords = useCallback(
+    (mx: number, my: number) => {
+      const cx = mx - BOARD_PADDING;
+      const cy = my - BOARD_PADDING;
+      const col = Math.floor(cx / CELL_SIZE);
+      const row = Math.floor(cy / CELL_SIZE);
       if (row >= 0 && row < level.height && col >= 0 && col < level.width) {
         return { row, col };
       }
       return null;
     },
-    [level, canvasWidth, canvasHeight]
+    [level]
   );
 
-  const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLCanvasElement>) => {
-      const cell = getCellFromEvent(e);
-      if (cell) onCellClick(cell.row, cell.col);
+  const cellFromClient = useCallback(
+    (clientX: number, clientY: number) => {
+      const coords = canvasCoordsFromClient(clientX, clientY);
+      if (!coords) return null;
+      return cellFromCoords(coords.mx, coords.my);
     },
-    [getCellFromEvent, onCellClick]
+    [canvasCoordsFromClient, cellFromCoords]
   );
+
+  const DRAG_THRESHOLD = 8;
+
+  // Shared pointer logic
+  const handlePointerDown = useCallback(
+    (clientX: number, clientY: number) => {
+      dragStartPos.current = { x: clientX, y: clientY };
+      isDragging.current = false;
+    },
+    []
+  );
+
+  const handlePointerMove = useCallback(
+    (clientX: number, clientY: number) => {
+      const cell = cellFromClient(clientX, clientY);
+      setHoverCell(cell);
+
+      if (!dragStartPos.current) return;
+
+      const coords = canvasCoordsFromClient(clientX, clientY);
+      if (!coords) return;
+
+      if (!isDragging.current) {
+        const dx = clientX - dragStartPos.current.x;
+        const dy = clientY - dragStartPos.current.y;
+        if (Math.sqrt(dx * dx + dy * dy) > DRAG_THRESHOLD && state.phase === "placing") {
+          const startCoords = canvasCoordsFromClient(dragStartPos.current.x, dragStartPos.current.y);
+          if (!startCoords) return;
+          const startCell = cellFromCoords(startCoords.mx, startCoords.my);
+          if (startCell && state.placedTiles.has(posKey(startCell.row, startCell.col))) {
+            isDragging.current = true;
+            setDragState({ fromRow: startCell.row, fromCol: startCell.col, cursorX: coords.mx, cursorY: coords.my });
+          }
+        }
+        return;
+      }
+
+      setDragState((d) => d ? { ...d, cursorX: coords.mx, cursorY: coords.my } : null);
+    },
+    [cellFromClient, cellFromCoords, canvasCoordsFromClient, state.phase, state.placedTiles]
+  );
+
+  const handlePointerUp = useCallback(
+    (clientX: number, clientY: number) => {
+      if (isDragging.current && dragState && onMoveTile) {
+        const cell = cellFromClient(clientX, clientY);
+        if (cell) {
+          onMoveTile(dragState.fromRow, dragState.fromCol, cell.row, cell.col);
+        }
+      } else if (dragStartPos.current && !isDragging.current) {
+        const cell = cellFromClient(clientX, clientY);
+        if (cell) onCellClick(cell.row, cell.col);
+      }
+
+      dragStartPos.current = null;
+      isDragging.current = false;
+      setDragState(null);
+    },
+    [dragState, cellFromClient, onCellClick, onMoveTile]
+  );
+
+  // Mouse handlers
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    if (e.button !== 0) return;
+    handlePointerDown(e.clientX, e.clientY);
+  }, [handlePointerDown]);
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    handlePointerMove(e.clientX, e.clientY);
+  }, [handlePointerMove]);
+
+  const onMouseUp = useCallback((e: React.MouseEvent) => {
+    handlePointerUp(e.clientX, e.clientY);
+  }, [handlePointerUp]);
+
+  // Touch handlers
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length !== 1) return;
+    const t = e.touches[0];
+    handlePointerDown(t.clientX, t.clientY);
+  }, [handlePointerDown]);
+
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length !== 1) return;
+    const t = e.touches[0];
+    handlePointerMove(t.clientX, t.clientY);
+    if (isDragging.current) e.preventDefault();
+  }, [handlePointerMove]);
+
+  const onTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (e.changedTouches.length < 1) return;
+    const t = e.changedTouches[0];
+    handlePointerUp(t.clientX, t.clientY);
+  }, [handlePointerUp]);
 
   const handleRightClick = useCallback(
     (e: React.MouseEvent<HTMLCanvasElement>) => {
       e.preventDefault();
-      const cell = getCellFromEvent(e);
+      const cell = cellFromClient(e.clientX, e.clientY);
       if (cell) onCellRightClick(cell.row, cell.col);
     },
-    [getCellFromEvent, onCellRightClick]
+    [cellFromClient, onCellRightClick]
   );
 
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLCanvasElement>) => {
-      const cell = getCellFromEvent(e);
-      setHoverCell(cell);
-    },
-    [getCellFromEvent]
-  );
+  const handleMouseLeave = useCallback(() => {
+    setHoverCell(null);
+    if (isDragging.current) {
+      dragStartPos.current = null;
+      isDragging.current = false;
+      setDragState(null);
+    }
+  }, []);
 
   return (
     <div className="max-w-full" style={{ width: canvasWidth }}>
       <canvas
         ref={canvasRef}
         style={{ width: "100%", height: "auto", aspectRatio: `${canvasWidth} / ${canvasHeight}` }}
-        className="cursor-pointer rounded-xl shadow-lg touch-none"
-        onClick={handleClick}
+        className={`rounded-xl shadow-lg touch-none ${dragState ? "cursor-grabbing" : "cursor-pointer"}`}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
         onContextMenu={handleRightClick}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={() => setHoverCell(null)}
+        onMouseLeave={handleMouseLeave}
       />
     </div>
   );

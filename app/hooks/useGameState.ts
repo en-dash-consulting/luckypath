@@ -85,6 +85,39 @@ export function useGameState(level: LevelData) {
     });
   }, []);
 
+  const moveTile = useCallback(
+    (fromRow: number, fromCol: number, toRow: number, toCol: number) => {
+      setState((s) => {
+        if (s.phase !== "placing") return s;
+        const fromKey = posKey(fromRow, fromCol);
+        const toKey = posKey(toRow, toCol);
+        if (fromKey === toKey) return s;
+
+        const tile = s.placedTiles.get(fromKey);
+        if (!tile) return s;
+
+        // Can't drop on start, goal, obstacle, or existing tile
+        const startKey = posKey(level.start.row, level.start.col);
+        const goalKey = posKey(level.goal.row, level.goal.col);
+        const obstacleKeys = new Set(
+          level.obstacles.map((o) => posKey(o.row, o.col))
+        );
+        if (toKey === startKey || toKey === goalKey || obstacleKeys.has(toKey)) return s;
+        if (s.placedTiles.has(toKey)) return s;
+
+        // Bounds check
+        if (toRow < 0 || toRow >= level.height || toCol < 0 || toCol >= level.width) return s;
+
+        const newTiles = new Map(s.placedTiles);
+        newTiles.delete(fromKey);
+        newTiles.set(toKey, tile);
+
+        return { ...s, placedTiles: newTiles };
+      });
+    },
+    [level]
+  );
+
   const removeTile = useCallback((row: number, col: number) => {
     setState((s) => {
       if (s.phase !== "placing") return s;
@@ -135,6 +168,7 @@ export function useGameState(level: LevelData) {
     selectTile,
     placeTile,
     rotateTile,
+    moveTile,
     removeTile,
     runSimulation,
     resetBoard,
