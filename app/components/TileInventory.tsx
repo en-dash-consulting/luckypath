@@ -60,7 +60,7 @@ export function TileInventory({
             <TilePreview type={type} size={64} selected={isSelected} />
 
             {/* Count display */}
-            <span className={`text-sm font-bold tabular-nums ${
+            <span className={`text-lg font-bold tabular-nums ${
               isSelected ? "text-teal-700" : "text-gray-500"
             }`}>
               {count}
