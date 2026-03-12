@@ -372,27 +372,40 @@ export function GameBoard({
     handlePointerUp(e.clientX, e.clientY);
   }, [handlePointerUp]);
 
-  // Touch handlers
-  const onTouchStart = useCallback((e: React.TouchEvent) => {
-    if (e.touches.length !== 1) return;
-    e.preventDefault(); // Prevent synthetic mouse events (double-fire)
-    const t = e.touches[0];
-    handlePointerDown(t.clientX, t.clientY);
-  }, [handlePointerDown]);
+  // Attach touch listeners natively with { passive: false } so preventDefault works
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-  const onTouchMove = useCallback((e: React.TouchEvent) => {
-    if (e.touches.length !== 1) return;
-    e.preventDefault();
-    const t = e.touches[0];
-    handlePointerMove(t.clientX, t.clientY);
-  }, [handlePointerMove]);
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      e.preventDefault();
+      const t = e.touches[0];
+      handlePointerDown(t.clientX, t.clientY);
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      e.preventDefault();
+      const t = e.touches[0];
+      handlePointerMove(t.clientX, t.clientY);
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (e.changedTouches.length < 1) return;
+      e.preventDefault();
+      const t = e.changedTouches[0];
+      handlePointerUp(t.clientX, t.clientY);
+    };
 
-  const onTouchEnd = useCallback((e: React.TouchEvent) => {
-    if (e.changedTouches.length < 1) return;
-    e.preventDefault();
-    const t = e.changedTouches[0];
-    handlePointerUp(t.clientX, t.clientY);
-  }, [handlePointerUp]);
+    canvas.addEventListener("touchstart", onTouchStart, { passive: false });
+    canvas.addEventListener("touchmove", onTouchMove, { passive: false });
+    canvas.addEventListener("touchend", onTouchEnd, { passive: false });
+
+    return () => {
+      canvas.removeEventListener("touchstart", onTouchStart);
+      canvas.removeEventListener("touchmove", onTouchMove);
+      canvas.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [handlePointerDown, handlePointerMove, handlePointerUp]);
 
   const handleRightClick = useCallback(
     (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -421,9 +434,6 @@ export function GameBoard({
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
         onContextMenu={handleRightClick}
         onMouseLeave={handleMouseLeave}
       />
