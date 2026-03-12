@@ -29,7 +29,6 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Deploy to Cloud Run
-        working-directory: app
         run: |
           gcloud run deploy $SERVICE_NAME \
             --project $PROJECT_ID \
