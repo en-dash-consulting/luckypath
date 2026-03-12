@@ -375,19 +375,21 @@ export function GameBoard({
   // Touch handlers
   const onTouchStart = useCallback((e: React.TouchEvent) => {
     if (e.touches.length !== 1) return;
+    e.preventDefault(); // Prevent synthetic mouse events (double-fire)
     const t = e.touches[0];
     handlePointerDown(t.clientX, t.clientY);
   }, [handlePointerDown]);
 
   const onTouchMove = useCallback((e: React.TouchEvent) => {
     if (e.touches.length !== 1) return;
+    e.preventDefault();
     const t = e.touches[0];
     handlePointerMove(t.clientX, t.clientY);
-    if (isDragging.current) e.preventDefault();
   }, [handlePointerMove]);
 
   const onTouchEnd = useCallback((e: React.TouchEvent) => {
     if (e.changedTouches.length < 1) return;
+    e.preventDefault();
     const t = e.changedTouches[0];
     handlePointerUp(t.clientX, t.clientY);
   }, [handlePointerUp]);
