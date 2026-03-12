@@ -1,87 +1,39 @@
-# Welcome to React Router!
+# Lucky Path
 
-A modern, production-ready template for building full-stack React applications using React Router.
+A puzzle game where you guide a leprechaun named Lucky to a pot of gold by placing path tiles on a grid. Think of it as a chill, tile-laying brain teaser — part puzzle, part luck of the Irish.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+**Play it now:** [luckypath.endash.us](https://luckypath.endash.us)
 
-## Features
+## How it works
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+You get a handful of path tiles — straights and curves — and a grid with a start point and a goal. Place and rotate tiles to build a connected path from Lucky to the gold. Hit Go and watch him walk it. If he makes it, you're golden (literally). If not, pull up some tiles and try again.
 
-## Getting Started
+- 12 handcrafted levels across 2 worlds
+- Two tile types: straight and curve, each rotatable
+- Par scoring with a clover rating system
+- Progress saved locally
 
-### Installation
-
-Install the dependencies:
+## Dev setup
 
 ```bash
 npm install
-```
-
-### Development
-
-Start the development server with HMR:
-
-```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+Runs at `http://localhost:5173`.
 
-## Building for Production
+## Stack
 
-Create a production build:
+- React Router v7 (framework mode w/ SSR)
+- HTML5 Canvas for the game board
+- Tailwind CSS v4
+- TypeScript
+- Deployed to Google Cloud Run
 
-```bash
-npm run build
-```
+## Deploy
 
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+Pushes to `main` auto-deploy via GitHub Actions.
 
 ---
 
-Built with ❤️ using React Router.
+Built by [En Dash](https://endash.us)
