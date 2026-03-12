@@ -147,9 +147,9 @@ function PlayLevel({
         </div>
       )}
 
-      {/* Board + Inventory: side by side on desktop, stacked on mobile */}
-      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-0">
-        <div className="overflow-x-auto max-w-full">
+      {/* Board + Inventory */}
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-0 w-full max-w-2xl">
+        <div className="w-full sm:w-auto sm:flex-1 sm:min-w-0">
           <GameBoard
             level={level}
             state={state}
@@ -159,8 +159,8 @@ function PlayLevel({
           />
         </div>
 
-        {/* Desktop: vertical sidebar. Mobile: horizontal bar below board */}
-        <div className="hidden sm:block">
+        {/* Desktop: vertical sidebar */}
+        <div className="hidden sm:block shrink-0">
           <TileInventory
             remaining={state.remainingInventory}
             selectedType={state.selectedTileType}
@@ -174,7 +174,7 @@ function PlayLevel({
           />
         </div>
 
-        {/* Mobile inventory bar */}
+        {/* Mobile: horizontal bar below board */}
         <div className="sm:hidden">
           <MobileInventory
             remaining={state.remainingInventory}
@@ -259,10 +259,10 @@ function MobileInventory({
               }
             `}
           >
-            <span className={`text-base font-bold capitalize ${isSelected ? "text-teal-700" : "text-gray-600"}`}>
+            <span className={`text-lg font-bold capitalize ${isSelected ? "text-teal-700" : "text-gray-600"}`}>
               {type}
             </span>
-            <span className={`text-sm font-bold tabular-nums px-1.5 py-0.5 rounded-md ${
+            <span className={`text-base font-bold tabular-nums px-1.5 py-0.5 rounded-md ${
               isSelected ? "bg-teal-200 text-teal-800" : "bg-gray-100 text-gray-500"
             }`}>
               {count}

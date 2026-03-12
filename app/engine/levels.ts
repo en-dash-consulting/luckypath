@@ -15,7 +15,7 @@ export const levels: LevelData[] = [
     inventory: { straight: 1, curve: 0 },
     par: 1,
     biome: "meadow",
-    hint: "Place a straight tile to connect the path!",
+    hint: "Tap a tile to place it. Tap a placed tile to rotate it!",
   },
   {
     id: "1-2",

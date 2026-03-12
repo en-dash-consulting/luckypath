@@ -111,18 +111,17 @@ export function GameBoard({
           ctx.fillStyle = colors.empty;
         }
 
-        // Hover highlight
+        // Hover highlight (empty cell with tile selected, or placed tile for rotation)
+        const isHovered = hoverCell && hoverCell.row === r && hoverCell.col === c;
         if (
-          hoverCell &&
-          hoverCell.row === r &&
-          hoverCell.col === c &&
+          isHovered &&
           state.phase === "placing" &&
-          state.selectedTileType &&
           !obstacleSet.has(key) &&
           key !== startKey &&
-          key !== goalKey
+          key !== goalKey &&
+          (state.selectedTileType || state.placedTiles.has(key))
         ) {
-          ctx.fillStyle = "#b2dfdb";
+          ctx.fillStyle = state.placedTiles.has(key) ? "#b2dfdb" : "#b2dfdb";
         }
 
         // Draw cell with rounded corners
@@ -146,6 +145,10 @@ export function GameBoard({
         } else if (state.placedTiles.has(key)) {
           const tile = state.placedTiles.get(key)!;
           drawTile(ctx, x, y, tile, highContrast);
+          // Show rotate hint on hover during placing phase
+          if (isHovered && state.phase === "placing") {
+            drawRotateHint(ctx, x, y);
+          }
         }
       }
     }
@@ -279,15 +282,17 @@ export function GameBoard({
   );
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{ width: canvasWidth, height: canvasHeight }}
-      className="cursor-pointer rounded-xl shadow-lg"
-      onClick={handleClick}
-      onContextMenu={handleRightClick}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => setHoverCell(null)}
-    />
+    <div className="max-w-full" style={{ width: canvasWidth }}>
+      <canvas
+        ref={canvasRef}
+        style={{ width: "100%", height: "auto", aspectRatio: `${canvasWidth} / ${canvasHeight}` }}
+        className="cursor-pointer rounded-xl shadow-lg touch-none"
+        onClick={handleClick}
+        onContextMenu={handleRightClick}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setHoverCell(null)}
+      />
+    </div>
   );
 }
 
@@ -629,6 +634,42 @@ function drawFailIndicator(
   ctx.moveTo(x + s, y - s);
   ctx.lineTo(x - s, y + s);
   ctx.stroke();
+}
+
+function drawRotateHint(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+) {
+  const cx = x + CELL_SIZE - 14 * S;
+  const cy = y + 14 * S;
+  const r = 7 * S;
+
+  // Background circle
+  ctx.fillStyle = "rgba(255,255,255,0.85)";
+  ctx.beginPath();
+  ctx.arc(cx, cy, r + 2 * S, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Circular arrow
+  ctx.strokeStyle = "#0d9488";
+  ctx.lineWidth = 2 * S;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, -Math.PI * 0.8, Math.PI * 0.5);
+  ctx.stroke();
+
+  // Arrowhead
+  const tipAngle = Math.PI * 0.5;
+  const tipX = cx + r * Math.cos(tipAngle);
+  const tipY = cy + r * Math.sin(tipAngle);
+  const aSize = 4 * S;
+  ctx.fillStyle = "#0d9488";
+  ctx.beginPath();
+  ctx.moveTo(tipX + aSize, tipY - aSize * 0.3);
+  ctx.lineTo(tipX - aSize * 0.3, tipY - aSize);
+  ctx.lineTo(tipX, tipY + aSize * 0.5);
+  ctx.closePath();
+  ctx.fill();
 }
 
 function drawSuccessSparkles(

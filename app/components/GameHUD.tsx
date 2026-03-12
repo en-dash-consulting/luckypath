@@ -34,7 +34,7 @@ export function GameHUD({
         <div className="text-[11px] sm:text-xs uppercase tracking-wider text-emerald-700/60 leading-none font-semibold">
           {worldName}
         </div>
-        <div className="text-sm sm:text-base font-bold text-emerald-900 truncate">{levelName}</div>
+        <div className="text-base sm:text-lg font-bold text-emerald-900 truncate">{levelName}</div>
       </div>
 
       {/* Status / Action */}
@@ -82,7 +82,7 @@ export function GameHUD({
       {/* Tiles remaining */}
       {tilesRemaining > 0 && phase === "placing" && (
         <div className="text-right shrink-0">
-          <div className="text-base font-bold text-emerald-900 tabular-nums">
+          <div className="text-lg font-bold text-emerald-900 tabular-nums">
             {tilesRemaining}
           </div>
           <div className="text-[11px] sm:text-xs text-emerald-700/50 leading-none font-semibold">left</div>
