@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { levels } from "~/engine";
+import { getAllLevelIds } from "~/engine";
 import { loadSave, getDefaultSave, isLevelUnlockedWithSave } from "~/lib/persistence";
 import type { SaveData } from "~/lib/persistence";
 
@@ -16,7 +16,7 @@ export function useWorldSession() {
     typeof window !== "undefined" ? loadSave() : getDefaultSave()
   );
 
-  const allLevelIds = levels.map((l) => l.id);
+  const allLevelIds = getAllLevelIds();
 
   function isLevelUnlocked(levelId: string): boolean {
     return isLevelUnlockedWithSave(save, levelId, allLevelIds);

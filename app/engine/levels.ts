@@ -3,7 +3,7 @@ import { NORTH, EAST, SOUTH, WEST } from "./types";
 import { BIOME_THEMES } from "./biome-theme";
 import type { Biome } from "./biome-theme";
 
-export const levels: LevelData[] = [
+const levels: LevelData[] = [
   // === World 1: Meadow Start ===
   {
     id: "1-1",
@@ -302,6 +302,21 @@ export function getLevelsForWorld(worldId: number): LevelData[] {
   return levels.filter((l) => l.worldId === worldId);
 }
 
+/** Return every level ID in definition order. */
+export function getAllLevelIds(): string[] {
+  return levels.map((l) => l.id);
+}
+
+/**
+ * Return the next level after `currentId` in the global ordering,
+ * or `null` if `currentId` is the last level or not found.
+ */
+export function getNextLevel(currentId: string): LevelData | null {
+  const idx = levels.findIndex((l) => l.id === currentId);
+  if (idx < 0 || idx >= levels.length - 1) return null;
+  return levels[idx + 1];
+}
+
 /** World definition — structural data only. Visual metadata (name, color) is derived from BIOME_THEMES. */
 export interface WorldData {
   id: number;
@@ -329,4 +344,19 @@ function buildWorlds(): WorldData[] {
   return biomes.map((biome, idx) => makeWorld(idx + 1, biome));
 }
 
-export const worlds: WorldData[] = buildWorlds();
+const worlds: WorldData[] = buildWorlds();
+
+/** Return every world. */
+export function getAllWorlds(): readonly WorldData[] {
+  return worlds;
+}
+
+/** Find a single world by its numeric ID. */
+export function getWorldById(id: number): WorldData | undefined {
+  return worlds.find((w) => w.id === id);
+}
+
+/** Return every world ID in definition order. */
+export function getAllWorldIds(): number[] {
+  return worlds.map((w) => w.id);
+}

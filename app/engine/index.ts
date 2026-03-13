@@ -50,5 +50,13 @@ export type { Biome, BiomeTheme, BiomeCanvasColors } from "./biome-theme";
 export { BIOME_THEMES, getBiomeCanvasColors } from "./biome-theme";
 
 // Levels & worlds
-export { levels, getLevelById, getLevelsForWorld, worlds } from "./levels";
+export {
+  getLevelById,
+  getLevelsForWorld,
+  getAllLevelIds,
+  getNextLevel,
+  getAllWorlds,
+  getWorldById,
+  getAllWorldIds,
+} from "./levels";
 export type { WorldData } from "./levels";
