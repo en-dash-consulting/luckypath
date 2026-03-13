@@ -1,13 +1,11 @@
 import { Link } from "react-router";
-import { levels, worlds, getLevelsForWorld } from "~/engine";
-import { loadSave, getDefaultSave, isLevelUnlockedWithSave } from "~/lib/persistence";
-import { useState } from "react";
-import type { SaveData } from "~/lib/persistence";
+import { worlds, getLevelsForWorld } from "~/engine";
 import {
   useRainbowEasterEgg,
   SVG_WIDTH,
   SVG_HEIGHT,
 } from "~/hooks/useRainbowEasterEgg";
+import { useWorldSession } from "~/hooks/useWorldSession";
 
 const RAINBOW_COLORS = [
   "#ef4444",
@@ -23,12 +21,7 @@ const ARC_CX = SVG_WIDTH / 2;       // 160
 const ARC_BASELINE = SVG_HEIGHT - 10; // 130
 
 export default function Worlds() {
-  // Initialise directly from loadSave() with an SSR guard to avoid the
-  // two-phase init flash (getDefaultSave → useEffect → loadSave).
-  const [save, setSave] = useState<SaveData>(() =>
-    typeof window !== "undefined" ? loadSave() : getDefaultSave()
-  );
-  const allLevelIds = levels.map((l) => l.id);
+  const { save, setSave, isLevelUnlocked, getClovers } = useWorldSession();
 
   const {
     rainbowRef,
@@ -39,14 +32,6 @@ export default function Worlds() {
     handlePotClick,
     handleRainbowLeave,
   } = useRainbowEasterEgg(setSave);
-
-  function isLevelUnlocked(levelId: string): boolean {
-    return isLevelUnlockedWithSave(save, levelId, allLevelIds);
-  }
-
-  function getClovers(levelId: string): number {
-    return save.completedLevels[levelId] || 0;
-  }
 
   return (
     <div className="min-h-dvh bg-gradient-to-b from-green-100 via-emerald-50 to-amber-50/50 px-4 py-6 sm:py-8 select-none">

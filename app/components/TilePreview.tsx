@@ -1,6 +1,5 @@
 import type { TileType, Rotation } from "~/engine";
-import { NORTH, EAST, SOUTH, WEST, getConnection } from "~/engine";
-import { getEdgePoint } from "./board-utils";
+import { NORTH, EAST, SOUTH, WEST, getConnection, getEdgePoint } from "~/engine";
 
 /**
  * SVG preview of a single tile piece.
