@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import type { GameState, LevelData, TileType, Rotation } from "~/engine";
-import { posKey, simulateTraversal } from "~/engine";
+import { posKey, isCellForbidden, simulateTraversal } from "~/engine";
 
 function createInitialState(level: LevelData): GameState {
   return {
@@ -42,15 +42,9 @@ export function useGameState(level: LevelData) {
         if (s.phase !== "placing") return s;
         if (!s.selectedTileType) return s;
 
-        const key = posKey(row, col);
-        const startKey = posKey(level.start.row, level.start.col);
-        const goalKey = posKey(level.goal.row, level.goal.col);
-        const obstacleKeys = new Set(
-          level.obstacles.map((o) => posKey(o.row, o.col))
-        );
-        if (key === startKey || key === goalKey || obstacleKeys.has(key))
-          return s;
+        if (isCellForbidden(level, row, col)) return s;
 
+        const key = posKey(row, col);
         const existing = s.placedTiles.get(key);
         const newInventory = { ...s.remainingInventory };
 
@@ -104,12 +98,7 @@ export function useGameState(level: LevelData) {
         if (!tile) return s;
 
         // Can't drop on start, goal, obstacle, or existing tile
-        const startKey = posKey(level.start.row, level.start.col);
-        const goalKey = posKey(level.goal.row, level.goal.col);
-        const obstacleKeys = new Set(
-          level.obstacles.map((o) => posKey(o.row, o.col))
-        );
-        if (toKey === startKey || toKey === goalKey || obstacleKeys.has(toKey)) return s;
+        if (isCellForbidden(level, toRow, toCol)) return s;
         if (s.placedTiles.has(toKey)) return s;
 
         // Bounds check

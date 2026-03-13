@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import type React from "react";
-import { levels } from "~/engine";
+import { levels, worlds } from "~/engine";
 import { loadSave, saveSave } from "~/lib/persistence";
 import type { SaveData } from "~/lib/persistence";
 
@@ -68,7 +68,7 @@ export function useRainbowEasterEgg(onSaveChanged: (save: SaveData) => void) {
     const freshSave = loadSave();
     // Grant access to all levels without fabricating completion scores
     freshSave.unlockedLevels = levels.map((l) => l.id);
-    freshSave.unlockedWorlds = [1, 2, 3, 4];
+    freshSave.unlockedWorlds = worlds.map((w) => w.id);
     saveSave(freshSave);
     onSaveChanged({ ...freshSave });
   }, [unlocked, onSaveChanged]);
