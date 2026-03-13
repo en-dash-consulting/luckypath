@@ -3,7 +3,8 @@
  *
  * These are consumed by both the RainbowArc presentation component
  * (SVG viewBox) and the useRainbowEasterEgg hook (hit-detection math).
- * Extracted to a lib-level module so neither zone imports from the other.
+ * Placed in the engine layer so both hooks and components can import
+ * without violating the architecture DAG.
  */
 
 /** SVG viewBox width for the rainbow arc. */
