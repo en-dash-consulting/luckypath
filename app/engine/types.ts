@@ -1,3 +1,5 @@
+import type { Biome } from "./biome-theme";
+
 // Cardinal directions
 export const NORTH = 0;
 export const EAST = 1;
@@ -35,7 +37,7 @@ export interface LevelData {
   obstacles: Position[];
   inventory: { straight: number; curve: number };
   par: number;
-  biome: "meadow" | "mushroom" | "rainbow" | "grove";
+  biome: Biome;
   hint?: string;
 }
 

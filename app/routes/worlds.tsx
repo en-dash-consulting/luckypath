@@ -1,8 +1,9 @@
 import { Link } from "react-router";
 import { levels, worlds, getLevelsForWorld } from "~/engine";
-import { loadSave, saveSave, getDefaultSave } from "~/lib/persistence";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { loadSave, getDefaultSave } from "~/lib/persistence";
+import { useEffect, useState } from "react";
 import type { SaveData } from "~/lib/persistence";
+import { useRainbowEasterEgg } from "~/hooks/useRainbowEasterEgg";
 
 const RAINBOW_COLORS = [
   "#ef4444",
@@ -17,70 +18,19 @@ export default function Worlds() {
   const [save, setSave] = useState<SaveData>(getDefaultSave);
   const allLevelIds = levels.map((l) => l.id);
 
-  // Rainbow easter egg state
-  const [progress, setProgress] = useState(0);
-  const [potRevealed, setPotRevealed] = useState(false);
-  const [unlocked, setUnlocked] = useState(false);
-  const rainbowRef = useRef<SVGSVGElement>(null);
-  const maxProgress = useRef(0);
+  const {
+    rainbowRef,
+    progress,
+    potRevealed,
+    unlocked,
+    handleRainbowMove,
+    handlePotClick,
+    handleRainbowLeave,
+  } = useRainbowEasterEgg(setSave);
 
   useEffect(() => {
     setSave(loadSave());
   }, []);
-
-  const handleRainbowMove = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
-    const svg = rainbowRef.current;
-    if (!svg || potRevealed) return;
-
-    const rect = svg.getBoundingClientRect();
-    const cx = rect.left + rect.width * 0.5;
-    const cy = rect.top + rect.height * 0.78;
-    const dx = e.clientX - cx;
-    const dy = -(e.clientY - cy);
-
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const maxR = rect.width * 0.48;
-    const minR = rect.width * 0.12;
-    if (dist < minR || dist > maxR) return;
-
-    let angle = Math.atan2(dy, dx);
-    if (angle < 0) angle += Math.PI * 2;
-    if (angle > Math.PI) return;
-
-    const t = 1 - angle / Math.PI;
-
-    if (t > maxProgress.current - 0.05) {
-      maxProgress.current = Math.max(maxProgress.current, t);
-      setProgress(maxProgress.current);
-
-      if (maxProgress.current > 0.9) {
-        setPotRevealed(true);
-        setProgress(1);
-      }
-    }
-  }, [potRevealed]);
-
-  const handlePotClick = useCallback(() => {
-    if (unlocked) return;
-    setUnlocked(true);
-
-    const freshSave = loadSave();
-    for (const level of levels) {
-      if (!(level.id in freshSave.completedLevels)) {
-        freshSave.completedLevels[level.id] = 1;
-      }
-    }
-    freshSave.unlockedWorlds = [1, 2, 3, 4];
-    saveSave(freshSave);
-    setSave({ ...freshSave });
-  }, [unlocked]);
-
-  const handleRainbowLeave = useCallback(() => {
-    if (!potRevealed) {
-      setProgress(0);
-      maxProgress.current = 0;
-    }
-  }, [potRevealed]);
 
   function isLevelUnlocked(levelId: string): boolean {
     const idx = allLevelIds.indexOf(levelId);

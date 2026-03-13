@@ -1,5 +1,7 @@
 import type { LevelData } from "./types";
 import { NORTH, EAST, SOUTH, WEST } from "./types";
+import { BIOME_THEMES } from "./biome-theme";
+import type { Biome } from "./biome-theme";
 
 export const levels: LevelData[] = [
   // === World 1: Meadow Start ===
@@ -300,9 +302,24 @@ export function getLevelsForWorld(worldId: number): LevelData[] {
   return levels.filter((l) => l.worldId === worldId);
 }
 
-export const worlds = [
-  { id: 1, name: "Meadow Start", biome: "meadow" as const, color: "#4ade80" },
-  { id: 2, name: "Mushroom Maze", biome: "mushroom" as const, color: "#c084fc" },
-  { id: 3, name: "Rainbow Run", biome: "rainbow" as const, color: "#60a5fa" },
-  { id: 4, name: "Gold Grove", biome: "grove" as const, color: "#fbbf24" },
+/** World definition — structural data only. Visual metadata (name, color) is derived from BIOME_THEMES. */
+export interface WorldData {
+  id: number;
+  biome: Biome;
+  /** Display name, derived from BIOME_THEMES. */
+  name: string;
+  /** Accent color, derived from BIOME_THEMES. */
+  color: string;
+}
+
+function makeWorld(id: number, biome: Biome): WorldData {
+  const theme = BIOME_THEMES[biome];
+  return { id, biome, name: theme.displayName, color: theme.accentColor };
+}
+
+export const worlds: WorldData[] = [
+  makeWorld(1, "meadow"),
+  makeWorld(2, "mushroom"),
+  makeWorld(3, "rainbow"),
+  makeWorld(4, "grove"),
 ];

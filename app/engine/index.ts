@@ -28,10 +28,16 @@ export {
   moveInDirection,
   simulateTraversal,
 } from "./traversal";
-export type { TraversalResult } from "./traversal";
+export type { TraversalResult, TraversalOutcome } from "./traversal";
+export { TRAVERSAL_MESSAGES } from "./traversal";
 
 // Utilities
 export { posKey } from "./utils";
 
+// Biome themes
+export type { Biome, BiomeTheme, BiomeCanvasColors } from "./biome-theme";
+export { BIOME_THEMES, getBiomeCanvasColors } from "./biome-theme";
+
 // Levels & worlds
 export { levels, getLevelById, getLevelsForWorld, worlds } from "./levels";
+export type { WorldData } from "./levels";

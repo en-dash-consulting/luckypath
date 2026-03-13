@@ -14,8 +14,6 @@ import { posKey } from "./utils";
 
 // Base connections at rotation 0: [sideA, sideB]
 // A tile connects two sides; Lucky can enter from either and exit the other
-// Base connections at rotation 0: [sideA, sideB]
-// A tile connects two sides; Lucky can enter from either and exit the other
 const BASE_CONNECTIONS: Record<TileType, [Direction, Direction]> = {
   straight: [NORTH, SOUTH], // vertical path
   curve: [SOUTH, EAST],     // connects two adjacent sides
@@ -64,10 +62,41 @@ export function moveInDirection(
   return { row: pos.row + dr, col: pos.col + dc };
 }
 
+/** Typed traversal outcomes — exhaustively checkable at call sites. */
+export type TraversalOutcome =
+  | "goal"
+  | "edge"
+  | "obstacle"
+  | "no-path"
+  | "loop"
+  | "blocked"
+  | "timeout";
+
+/** Human-readable messages for each outcome, used in the UI. */
+export const TRAVERSAL_MESSAGES: Record<TraversalOutcome, string> = {
+  goal: "",
+  edge: "Lucky walked off the edge!",
+  obstacle: "Lucky bumped into an obstacle!",
+  "no-path": "Lucky lost the path!",
+  loop: "Lucky is going in circles!",
+  blocked: "Lucky can't enter this tile from that direction!",
+  timeout: "Lucky wandered too long!",
+};
+
 export interface TraversalResult {
   path: (Position & { direction: Direction })[];
+  outcome: TraversalOutcome;
+  /** Whether Lucky reached the goal. */
   success: boolean;
+  /** Human-readable explanation shown in the UI. */
   failReason?: string;
+}
+
+function fail(
+  path: (Position & { direction: Direction })[],
+  outcome: Exclude<TraversalOutcome, "goal">
+): TraversalResult {
+  return { path, outcome, success: false, failReason: TRAVERSAL_MESSAGES[outcome] };
 }
 
 export function simulateTraversal(
@@ -98,32 +127,32 @@ export function simulateTraversal(
       next.col >= level.width
     ) {
       path.push({ ...next, direction: dir });
-      return { path, success: false, failReason: "Lucky walked off the edge!" };
+      return fail(path, "edge");
     }
 
     // Check goal
     if (key === goalKey) {
       path.push({ ...next, direction: dir });
-      return { path, success: true };
+      return { path, outcome: "goal" as const, success: true };
     }
 
     // Check obstacle
     if (obstacleSet.has(key)) {
       path.push({ ...next, direction: dir });
-      return { path, success: false, failReason: "Lucky bumped into an obstacle!" };
+      return fail(path, "obstacle");
     }
 
     // Check for tile
     const tile = placedTiles.get(key);
     if (!tile) {
       path.push({ ...next, direction: dir });
-      return { path, success: false, failReason: "Lucky lost the path!" };
+      return fail(path, "no-path");
     }
 
     // Check for loops
     const stateKey = `${key}:${dir}`;
     if (visited.has(stateKey)) {
-      return { path, success: false, failReason: "Lucky is going in circles!" };
+      return fail(path, "loop");
     }
     visited.add(stateKey);
 
@@ -132,11 +161,7 @@ export function simulateTraversal(
     const exitSide = getExitSide(tile.type, tile.rotation, entrySide);
     if (exitSide === null) {
       path.push({ ...next, direction: dir });
-      return {
-        path,
-        success: false,
-        failReason: "Lucky can't enter this tile from that direction!",
-      };
+      return fail(path, "blocked");
     }
 
     path.push({ ...next, direction: exitSide });
@@ -144,5 +169,5 @@ export function simulateTraversal(
     dir = exitSide;
   }
 
-  return { path, success: false, failReason: "Lucky wandered too long!" };
+  return fail(path, "timeout");
 }
