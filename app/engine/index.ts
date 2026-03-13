@@ -32,3 +32,6 @@ export type { TraversalResult } from "./traversal";
 
 // Utilities
 export { posKey } from "./utils";
+
+// Levels & worlds
+export { levels, getLevelById, getLevelsForWorld, worlds } from "./levels";
