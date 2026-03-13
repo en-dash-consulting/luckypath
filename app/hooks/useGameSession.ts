@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGameState } from "~/hooks/useGameState";
 import { useSave } from "~/hooks/useSave";
-import { completeLevel } from "~/hooks/persistence";
-import type { SaveData } from "~/hooks/persistence";
+import { completeLevel } from "~/services/persistence";
+import type { SaveData } from "~/services/persistence";
 import type { GameState, LevelData, TileType, WorldData } from "~/engine";
 import { getWorldById, getNextLevel, isCellForbidden, posKey } from "~/engine";
 

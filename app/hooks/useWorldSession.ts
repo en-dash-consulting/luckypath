@@ -2,8 +2,8 @@ import type React from "react";
 import { useSave } from "~/hooks/useSave";
 import { getAllLevelIds, getAllWorlds, getLevelsForWorld } from "~/engine";
 import type { LevelData, WorldData } from "~/engine";
-import { isLevelUnlockedWithSave } from "~/hooks/persistence";
-import type { SaveData } from "~/hooks/persistence";
+import { isLevelUnlockedWithSave } from "~/services/persistence";
+import type { SaveData } from "~/services/persistence";
 
 /**
  * Public contract for useWorldSession.

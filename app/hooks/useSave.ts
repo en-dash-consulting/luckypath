@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import type React from "react";
-import { loadSave, getDefaultSave, saveSave } from "~/hooks/persistence";
-import type { SaveData } from "~/hooks/persistence";
+import { loadSave, getDefaultSave, saveSave } from "~/services/persistence";
+import type { SaveData } from "~/services/persistence";
 
 /**
  * Public contract for useSave.
