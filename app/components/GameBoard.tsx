@@ -1,7 +1,7 @@
 import { useRef, useEffect, useCallback, useState } from "react";
 import type { LevelData, GameState } from "~/engine";
-import { posKey } from "~/engine";
-import { CELL_SIZE, BOARD_PADDING, SCALE as S, getBiomeCanvasColors } from "./board-utils";
+import { posKey, getBiomeCanvasColors } from "~/engine";
+import { CELL_SIZE, BOARD_PADDING, SCALE as S } from "./board-utils";
 import {
   drawRoundedRect,
   drawStart,
