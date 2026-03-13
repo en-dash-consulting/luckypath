@@ -6,6 +6,44 @@ import type { SaveData } from "~/services/persistence";
 import type { GameState, LevelData, TileType, WorldData } from "~/engine";
 import { getWorldById, getNextLevel, isCellForbidden, posKey, calculateClovers } from "~/engine";
 
+/* ── Pure helpers (exported for testing) ──────────────────────────── */
+
+/**
+ * Determines which cell-click action to dispatch, or `"none"` if the
+ * click should be ignored.  Pure function — no side-effects.
+ */
+export type CellClickAction = "remove" | "rotate" | "place" | "none";
+
+export function resolveCellClickAction(
+  state: Pick<GameState, "phase" | "removeMode" | "placedTiles" | "selectedTileType">,
+  level: LevelData,
+  row: number,
+  col: number,
+): CellClickAction {
+  if (state.phase !== "placing") return "none";
+  if (isCellForbidden(level, row, col)) return "none";
+  if (state.removeMode) return "remove";
+  if (state.placedTiles.has(posKey(row, col))) return "rotate";
+  if (state.selectedTileType) return "place";
+  return "none";
+}
+
+/**
+ * Guard for whether a candidate next level should be offered.
+ * Returns `null` when the candidate's world is locked.
+ */
+export function guardNextLevel(
+  candidate: LevelData | null,
+  currentWorldId: number,
+  unlockedWorlds: number[],
+): LevelData | null {
+  if (!candidate) return null;
+  if (candidate.worldId !== currentWorldId) {
+    if (!unlockedWorlds.includes(candidate.worldId)) return null;
+  }
+  return candidate;
+}
+
 /**
  * Public contract for useGameSession.
  *
@@ -66,24 +104,15 @@ export function useGameSession(level: LevelData): UseGameSessionReturn {
 
   const handleCellClick = useCallback(
     (row: number, col: number) => {
-      if (state.phase !== "placing") return;
-      if (isCellForbidden(level, row, col)) return;
-
-      if (state.removeMode) {
-        removeTile(row, col);
-        return;
-      }
-
-      if (state.placedTiles.has(posKey(row, col))) {
-        rotateTile(row, col);
-        return;
-      }
-
-      if (state.selectedTileType) {
-        placeTile(row, col);
+      const action = resolveCellClickAction(state, level, row, col);
+      switch (action) {
+        case "remove":  removeTile(row, col); break;
+        case "rotate":  rotateTile(row, col); break;
+        case "place":   placeTile(row, col);  break;
+        case "none":    break;
       }
     },
-    [state.phase, state.selectedTileType, state.placedTiles, state.removeMode, level, placeTile, rotateTile, removeTile]
+    [state, level, placeTile, rotateTile, removeTile]
   );
 
   const handleCellRightClick = useCallback(
@@ -108,17 +137,10 @@ export function useGameSession(level: LevelData): UseGameSessionReturn {
     [selectTile]
   );
 
-  const nextLevel = useMemo(() => {
-    const candidate = getNextLevel(level.id);
-    if (!candidate) return null;
-    // Guard: don't offer a next level whose world is locked
-    if (candidate.worldId !== level.worldId) {
-      if (!save.unlockedWorlds.includes(candidate.worldId)) {
-        return null;
-      }
-    }
-    return candidate;
-  }, [level.id, level.worldId, save.unlockedWorlds]);
+  const nextLevel = useMemo(
+    () => guardNextLevel(getNextLevel(level.id), level.worldId, save.unlockedWorlds),
+    [level.id, level.worldId, save.unlockedWorlds],
+  );
 
   return {
     state,
