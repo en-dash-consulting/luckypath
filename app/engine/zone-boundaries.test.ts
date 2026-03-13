@@ -6,6 +6,11 @@
  * A misconfigured rule silently degrades to no enforcement, so these tests
  * verify that the rules are correctly set up by checking that ESLint reports
  * errors for known-bad imports and passes for known-good ones.
+ *
+ * The config-validation tests below also confirm that the eslint config
+ * itself is syntactically valid and that the no-restricted-paths zones
+ * array is non-empty — a misconfigured or accidentally emptied array
+ * fails silently with no CI signal otherwise.
  */
 import { describe, it, expect, afterEach } from "vitest";
 import { writeFileSync, unlinkSync, existsSync } from "node:fs";
@@ -56,6 +61,33 @@ afterEach(() => {
     if (existsSync(f)) try { unlinkSync(f); } catch { /* ignore */ }
   }
   TEMP_FILES.length = 0;
+});
+
+describe("eslint config validation", () => {
+  it("loads without error and contains non-empty no-restricted-paths zones", async () => {
+    // Dynamically import the ESLint config to verify it's syntactically valid
+    const configModule = await import("../../eslint.config");
+    const configs = configModule.default;
+
+    expect(Array.isArray(configs)).toBe(true);
+    expect(configs.length).toBeGreaterThan(0);
+
+    // Find the config object containing no-restricted-paths
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ruleConfig = configs.find((c: any) =>
+      c.rules?.["import-x/no-restricted-paths"],
+    );
+    expect(ruleConfig).toBeDefined();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const restrictedPaths = (ruleConfig as any).rules[
+      "import-x/no-restricted-paths"
+    ] as [string, { zones: unknown[] }];
+    expect(restrictedPaths).toBeDefined();
+    expect(restrictedPaths[0]).toBe("error");
+    expect(Array.isArray(restrictedPaths[1].zones)).toBe(true);
+    expect(restrictedPaths[1].zones.length).toBeGreaterThan(0);
+  });
 });
 
 describe("zone-boundary ESLint rules", () => {

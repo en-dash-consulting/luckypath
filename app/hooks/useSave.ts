@@ -1,6 +1,21 @@
 import { useState, useCallback } from "react";
-import { loadSave, getDefaultSave, saveSave } from "~/lib/persistence";
-import type { SaveData } from "~/lib/persistence";
+import type React from "react";
+import { loadSave, getDefaultSave, saveSave } from "~/hooks/persistence";
+import type { SaveData } from "~/hooks/persistence";
+
+/**
+ * Public contract for useSave.
+ *
+ * Following the hook return type naming convention: all hooks in this zone
+ * define a named exported interface `Use{HookName}Return` so consumers have
+ * a stable, explicit type to depend on.
+ */
+export interface UseSaveReturn {
+  save: SaveData;
+  setSave: React.Dispatch<React.SetStateAction<SaveData>>;
+  refreshSave: () => void;
+  updateSave: (updater: (current: SaveData) => SaveData) => void;
+}
 
 /**
  * Centralized save-data primitive — the single initialization coordinator
@@ -11,7 +26,7 @@ import type { SaveData } from "~/lib/persistence";
  * If save validation, migration logic, or error recovery is ever needed,
  * this is the ONE place to add it instead of patching every consumer.
  */
-export function useSave() {
+export function useSave(): UseSaveReturn {
   const [save, setSave] = useState<SaveData>(() =>
     typeof window !== "undefined" ? loadSave() : getDefaultSave()
   );

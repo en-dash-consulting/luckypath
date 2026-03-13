@@ -49,6 +49,9 @@ export { posKey, isCellForbidden, getEdgePoint } from "./utils";
 export type { Biome, BiomeTheme, BiomeCanvasColors } from "./biome-theme";
 export { BIOME_THEMES, getBiomeCanvasColors } from "./biome-theme";
 
+// Rainbow easter-egg geometry
+export { SVG_WIDTH, SVG_HEIGHT, ARC_CENTER_Y_RATIO } from "./rainbow-constants";
+
 // Levels & worlds
 export {
   getLevelById,

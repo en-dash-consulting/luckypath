@@ -1,3 +1,22 @@
+/**
+ * ESLint Configuration — Single Authoritative Source of DAG Enforcement
+ *
+ * This file is the ONE AND ONLY mechanism that enforces the architecture
+ * layer boundary at import time:
+ *
+ *   engine → hooks → components → routes
+ *
+ * The `import-x/no-restricted-paths` rules below are what actually prevent
+ * illegal cross-zone imports. Other documentation of the DAG (JSDoc comments
+ * in source files, .n-dx.json zone overrides, architecture diagrams) are
+ * informational only — editing them does NOT change what is enforced.
+ *
+ * If you modify the zone rules below:
+ *   1. Run `npm test` — the zone-boundaries.test.ts smoke tests will catch
+ *      syntactically broken or silently empty rules.
+ *   2. Verify with `npm run lint` on the full codebase.
+ *   3. Do NOT rely on JSDoc or config overrides as substitutes for these rules.
+ */
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import importX from "eslint-plugin-import-x";

@@ -1,8 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import type React from "react";
-import { getAllLevelIds, getAllWorldIds } from "~/engine";
-import type { SaveData } from "~/lib/persistence";
-import { ARC_CENTER_Y_RATIO } from "~/lib/rainbow-constants";
+import { getAllLevelIds, getAllWorldIds, ARC_CENTER_Y_RATIO } from "~/engine";
+import type { SaveData } from "~/hooks/persistence";
 
 /** Return type for useRainbowEasterEgg — makes the persistence mutation visible. */
 export interface UseRainbowEasterEggReturn {
