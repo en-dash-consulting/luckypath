@@ -18,6 +18,7 @@ export default tseslint.config(
         "error",
         {
           zones: [
+            // Engine barrel enforcement — no deep imports
             {
               target: "./app/components/**",
               from: "./app/engine/!(index).ts",
@@ -32,6 +33,23 @@ export default tseslint.config(
               target: "./app/hooks/**",
               from: "./app/engine/!(index).ts",
               message: "Import from ~/engine barrel instead of engine internals.",
+            },
+            // Layer enforcement — hooks must not import from routes or components
+            {
+              target: "./app/hooks/**",
+              from: "./app/routes/**",
+              message: "Hooks must not import from routes (violates layer boundary: engine → hooks → components → routes).",
+            },
+            {
+              target: "./app/hooks/**",
+              from: "./app/components/**",
+              message: "Hooks must not import from components (violates layer boundary: engine → hooks → components → routes).",
+            },
+            // Layer enforcement — components must not import from routes
+            {
+              target: "./app/components/**",
+              from: "./app/routes/**",
+              message: "Components must not import from routes (violates layer boundary: engine → hooks → components → routes).",
             },
           ],
         },

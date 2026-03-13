@@ -1,3 +1,18 @@
+/**
+ * world-selection-ui zone — route handler for the level-select screen.
+ *
+ * Layer: routes (top of the dependency DAG: engine → hooks → components → routes).
+ * This file is a route handler that sits ABOVE hooks in the dependency hierarchy.
+ * It consumes hooks but hooks must never import from routes.
+ *
+ * Supplier zones:
+ *   - engine  (worlds, getLevelsForWorld)
+ *   - hooks   (useWorldSession, useRainbowEasterEgg)
+ *
+ * The zone override in .n-dx.json places this file in its own zone to enforce
+ * the route→hook layering boundary and prevent the route from being co-located
+ * with its hook dependencies in sourcevision zone detection.
+ */
 import { Link } from "react-router";
 import { worlds, getLevelsForWorld } from "~/engine";
 import {
