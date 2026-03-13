@@ -56,15 +56,33 @@ export function completeLevel(
   return save;
 }
 
-export function isLevelUnlocked(
+/**
+ * Pure predicate — determines whether a level is unlocked given save data.
+ *
+ * A level is unlocked if:
+ * 1. It appears in the save's `unlockedLevels` list (e.g. easter-egg grant), OR
+ * 2. It is the first level (idx === 0), OR
+ * 3. The immediately preceding level has been completed.
+ */
+export function isLevelUnlockedWithSave(
+  save: SaveData,
   levelId: string,
   allLevelIds: string[]
 ): boolean {
-  const save = loadSave();
   if (save.unlockedLevels.includes(levelId)) return true;
   const idx = allLevelIds.indexOf(levelId);
   if (idx === 0) return true;
   if (idx < 0) return false;
   const prevId = allLevelIds[idx - 1];
   return prevId in save.completedLevels;
+}
+
+/**
+ * Convenience wrapper that loads save data from storage before checking.
+ */
+export function isLevelUnlocked(
+  levelId: string,
+  allLevelIds: string[]
+): boolean {
+  return isLevelUnlockedWithSave(loadSave(), levelId, allLevelIds);
 }

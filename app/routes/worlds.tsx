@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { levels, worlds, getLevelsForWorld } from "~/engine";
-import { loadSave, getDefaultSave } from "~/lib/persistence";
+import { loadSave, getDefaultSave, isLevelUnlockedWithSave } from "~/lib/persistence";
 import { useState } from "react";
 import type { SaveData } from "~/lib/persistence";
 import {
@@ -41,11 +41,7 @@ export default function Worlds() {
   } = useRainbowEasterEgg(setSave);
 
   function isLevelUnlocked(levelId: string): boolean {
-    if (save.unlockedLevels.includes(levelId)) return true;
-    const idx = allLevelIds.indexOf(levelId);
-    if (idx === 0) return true;
-    if (idx < 0) return false;
-    return allLevelIds[idx - 1] in save.completedLevels;
+    return isLevelUnlockedWithSave(save, levelId, allLevelIds);
   }
 
   function getClovers(levelId: string): number {

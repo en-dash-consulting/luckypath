@@ -33,7 +33,7 @@ export type { TraversalResult, TraversalOutcome } from "./traversal";
 export { TRAVERSAL_MESSAGES } from "./traversal";
 
 // Utilities
-export { posKey } from "./utils";
+export { posKey, isCellForbidden } from "./utils";
 
 // Biome themes
 export type { Biome, BiomeTheme, BiomeCanvasColors } from "./biome-theme";

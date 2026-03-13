@@ -19,13 +19,6 @@ export const BOARD_PADDING = 20;
 export const SCALE = CELL_SIZE / 64;
 
 /**
- * Returns the (x, y) pixel coordinate at the edge midpoint for a given
- * direction within a cell whose top-left corner is (cellX, cellY).
- *
- * Used by both GameBoard (canvas) and TileInventory (SVG) when drawing
- * tile connection endpoints.
- */
-/**
  * Retrieve the canvas color palette for a given biome.
  *
  * This is a rendering concern (canvas-specific color lookup),
@@ -35,6 +28,17 @@ export function getBiomeCanvasColors(biome: Biome): BiomeCanvasColors {
   return BIOME_THEMES[biome].canvas;
 }
 
+/**
+ * Returns the (x, y) coordinate at the edge midpoint for a given direction
+ * within a cell whose top-left corner is (cellX, cellY).
+ *
+ * This function is intentionally **coordinate-system agnostic** — it works
+ * in any 2D space (canvas pixels, SVG viewBox units, etc.) as long as the
+ * caller passes a consistent `cellSize`. GameBoard uses it with CELL_SIZE
+ * for canvas rendering; TilePreview uses it with the SVG viewBox size for
+ * SVG rendering. Both are correct because the maths depends only on
+ * relative geometry, not absolute pixel scale.
+ */
 export function getEdgePoint(
   side: Direction,
   cellX: number,

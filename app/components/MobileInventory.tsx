@@ -1,6 +1,6 @@
 import type { TileType } from "~/engine";
 import { TILE_TYPE_DEFS } from "~/engine";
-import { TilePreview } from "./TileInventory";
+import { TilePreview } from "./TilePreview";
 
 interface MobileInventoryProps {
   remaining: { straight: number; curve: number };

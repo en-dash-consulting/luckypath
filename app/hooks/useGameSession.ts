@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGameState } from "~/hooks/useGameState";
 import { completeLevel, loadSave } from "~/lib/persistence";
 import type { LevelData } from "~/engine";
-import { levels, worlds, posKey } from "~/engine";
+import { levels, worlds, isCellForbidden, posKey } from "~/engine";
 
 export function useGameSession(level: LevelData) {
   const [showComplete, setShowComplete] = useState(false);
@@ -39,22 +39,14 @@ export function useGameSession(level: LevelData) {
   const handleCellClick = useCallback(
     (row: number, col: number) => {
       if (state.phase !== "placing") return;
-
-      const key = posKey(row, col);
-      const startKey = posKey(level.start.row, level.start.col);
-      const goalKey = posKey(level.goal.row, level.goal.col);
-      const obstacleKeys = new Set(
-        level.obstacles.map((o) => posKey(o.row, o.col))
-      );
-
-      if (key === startKey || key === goalKey || obstacleKeys.has(key)) return;
+      if (isCellForbidden(level, row, col)) return;
 
       if (state.removeMode) {
-        if (state.placedTiles.has(key)) removeTile(row, col);
+        removeTile(row, col);
         return;
       }
 
-      if (state.placedTiles.has(key)) {
+      if (state.placedTiles.has(posKey(row, col))) {
         rotateTile(row, col);
         return;
       }
