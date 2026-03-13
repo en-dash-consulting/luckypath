@@ -6,22 +6,9 @@ import type {
   PlacedTile,
   TileType,
   Rotation,
-} from "~/engine/types";
-import { posKey, NORTH, EAST, SOUTH, WEST } from "~/engine/types";
-import { getConnection } from "~/engine/traversal";
-
-const CELL_SIZE = 80;
-const BOARD_PADDING = 20;
-// Scale factor relative to the original 64px cell size
-const S = CELL_SIZE / 64;
-
-// Biome color palettes
-const BIOME_COLORS = {
-  meadow: { bg: "#e8f5e9", grid: "#a5d6a7", empty: "#c8e6c9", obstacle: "#795548" },
-  mushroom: { bg: "#f3e5f5", grid: "#ce93d8", empty: "#e1bee7", obstacle: "#6d4c41" },
-  rainbow: { bg: "#e3f2fd", grid: "#90caf9", empty: "#bbdefb", obstacle: "#78909c" },
-  grove: { bg: "#fff8e1", grid: "#ffe082", empty: "#fff9c4", obstacle: "#5d4037" },
-};
+} from "~/engine";
+import { NORTH, EAST, SOUTH, WEST, posKey, getConnection, getEdgePoint } from "~/engine";
+import { CELL_SIZE, BOARD_PADDING, SCALE as S, getBiomeCanvasColors } from "./board-utils";
 
 interface GameBoardProps {
   level: LevelData;
@@ -55,7 +42,7 @@ export function GameBoard({
   const dragStartPos = useRef<{ x: number; y: number } | null>(null);
   const isDragging = useRef(false);
 
-  const colors = BIOME_COLORS[level.biome];
+  const colors = getBiomeCanvasColors(level.biome);
   const canvasWidth = level.width * CELL_SIZE + BOARD_PADDING * 2;
   const canvasHeight = level.height * CELL_SIZE + BOARD_PADDING * 2;
 
@@ -605,21 +592,8 @@ function drawTile(
   ctx.lineWidth = highContrast ? 7*S : 10*S;
   ctx.lineCap = "round";
 
-  const getEdgePoint = (side: Direction): [number, number] => {
-    switch (side) {
-      case NORTH:
-        return [cx, y + 4];
-      case SOUTH:
-        return [cx, y + CELL_SIZE - 4];
-      case EAST:
-        return [x + CELL_SIZE - 4, cy];
-      case WEST:
-        return [x + 4, cy];
-    }
-  };
-
-  const [ax, ay] = getEdgePoint(sideA);
-  const [bx, by] = getEdgePoint(sideB);
+  const [ax, ay] = getEdgePoint(sideA, x, y, CELL_SIZE);
+  const [bx, by] = getEdgePoint(sideB, x, y, CELL_SIZE);
 
   if (tile.type === "straight") {
     ctx.beginPath();

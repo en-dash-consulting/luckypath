@@ -2,7 +2,7 @@ import type { TileType } from "~/engine";
 import { TILE_TYPE_DEFS } from "~/engine";
 import { TilePreview } from "./TilePreview";
 
-interface TileInventoryProps {
+interface MobileInventoryProps {
   remaining: { straight: number; curve: number };
   selectedType: TileType | null;
   onSelect: (type: TileType | null) => void;
@@ -11,18 +11,17 @@ interface TileInventoryProps {
   onToggleRemoveMode?: () => void;
 }
 
-export function TileInventory({
+export function MobileInventory({
   remaining,
   selectedType,
   onSelect,
   disabled,
   removeMode,
   onToggleRemoveMode,
-}: TileInventoryProps) {
+}: MobileInventoryProps) {
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-r-2xl shadow-lg border border-l-0 border-gray-200 py-3 px-3 flex flex-col gap-2.5 -ml-3 mt-4">
-      {/* Tile pieces */}
-      {TILE_TYPE_DEFS.map(({ type, label, invKey }) => {
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 py-2 px-3 flex items-center gap-3 mt-2">
+      {TILE_TYPE_DEFS.map(({ type, invKey }) => {
         const count = remaining[invKey];
         const isSelected = selectedType === type && !removeMode;
         const isEmpty = count <= 0;
@@ -38,21 +37,18 @@ export function TileInventory({
             }}
             disabled={!available}
             className={`
-              relative flex flex-col items-center gap-1
-              p-2 rounded-xl transition-all duration-150 select-none
+              flex items-center gap-2 px-3 py-2 rounded-xl transition-all select-none
               ${isSelected
-                ? "bg-teal-100 ring-2 ring-teal-500 shadow-md scale-105"
+                ? "bg-teal-100 ring-2 ring-teal-500"
                 : isEmpty
                   ? "opacity-30 cursor-not-allowed"
-                  : "hover:bg-teal-50 hover:scale-105 cursor-pointer"
+                  : "hover:bg-teal-50 cursor-pointer"
               }
             `}
           >
-            <TilePreview type={type} size={64} selected={isSelected} />
-
-            {/* Count display */}
-            <span className={`text-lg font-bold tabular-nums ${
-              isSelected ? "text-teal-700" : "text-gray-500"
+            <TilePreview type={type} size={40} selected={isSelected} />
+            <span className={`text-base font-bold tabular-nums px-1.5 py-0.5 rounded-md ${
+              isSelected ? "bg-teal-200 text-teal-800" : "bg-gray-100 text-gray-500"
             }`}>
               {count}
             </span>
@@ -61,9 +57,9 @@ export function TileInventory({
       })}
 
       {/* Divider */}
-      <div className="h-px bg-gray-200 mx-1" />
+      <div className="w-px h-8 bg-gray-200" />
 
-      {/* Remove tool */}
+      {/* Remove */}
       <button
         onClick={() => {
           if (disabled) return;
@@ -72,26 +68,21 @@ export function TileInventory({
         }}
         disabled={disabled}
         className={`
-          flex flex-col items-center justify-center gap-1
-          p-2 rounded-xl transition-all duration-150 select-none
+          p-2 rounded-xl transition-all select-none
           ${removeMode
-            ? "bg-red-100 ring-2 ring-red-400 scale-105"
+            ? "bg-red-100 ring-2 ring-red-400"
             : disabled
               ? "opacity-30 cursor-not-allowed"
-              : "hover:bg-red-50 hover:scale-105 cursor-pointer"
+              : "hover:bg-red-50 cursor-pointer"
           }
         `}
         title="Remove placed tiles"
       >
-        <div className={`w-16 h-16 flex items-center justify-center rounded-lg ${
-          removeMode ? "bg-red-50" : "bg-gray-50"
-        }`}>
-          <svg width="28" height="28" viewBox="0 0 22 22" fill="none">
-            <path d="M6 6l10 10M16 6L6 16"
-              stroke={removeMode ? "#ef4444" : "#9ca3af"}
-              strokeWidth="2.5" strokeLinecap="round" />
-          </svg>
-        </div>
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M6 6l10 10M16 6L6 16"
+            stroke={removeMode ? "#ef4444" : "#9ca3af"}
+            strokeWidth="2.5" strokeLinecap="round" />
+        </svg>
       </button>
     </div>
   );

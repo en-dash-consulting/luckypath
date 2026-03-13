@@ -1,12 +1,27 @@
 import { useState, useCallback } from "react";
-import type {
-  GameState,
-  LevelData,
-  TileType,
-  Rotation,
-} from "~/engine/types";
-import { posKey } from "~/engine/types";
-import { simulateTraversal } from "~/engine/traversal";
+import type { GameState, LevelData, TileType, Rotation } from "~/engine";
+import { posKey, isCellForbidden, simulateTraversal } from "~/engine";
+
+/**
+ * Public contract for useGameState.
+ *
+ * This interface is the explicit boundary between game-state-core and its
+ * consumers (primarily useGameSession in game-session-persistence). Defining
+ * it here ensures that schema changes to the hook's return value are caught
+ * at compile time and don't silently break downstream zones.
+ */
+export interface UseGameStateReturn {
+  state: GameState;
+  selectTile: (type: TileType | null) => void;
+  toggleRemoveMode: () => void;
+  placeTile: (row: number, col: number) => void;
+  rotateTile: (row: number, col: number) => void;
+  moveTile: (fromRow: number, fromCol: number, toRow: number, toCol: number) => void;
+  removeTile: (row: number, col: number) => void;
+  runSimulation: () => void;
+  resetBoard: () => void;
+  resetForLevel: (newLevel: LevelData) => void;
+}
 
 function createInitialState(level: LevelData): GameState {
   return {
@@ -17,16 +32,29 @@ function createInitialState(level: LevelData): GameState {
     luckyPosition: null,
     luckyDirection: null,
     traversalPath: [],
+    removeMode: false,
   };
 }
 
-export function useGameState(level: LevelData) {
+export function useGameState(level: LevelData): UseGameStateReturn {
   const [state, setState] = useState<GameState>(() =>
     createInitialState(level)
   );
 
   const selectTile = useCallback((type: TileType | null) => {
-    setState((s) => ({ ...s, selectedTileType: type }));
+    setState((s) => ({
+      ...s,
+      selectedTileType: type,
+      removeMode: type ? false : s.removeMode,
+    }));
+  }, []);
+
+  const toggleRemoveMode = useCallback(() => {
+    setState((s) => ({
+      ...s,
+      removeMode: !s.removeMode,
+      selectedTileType: null,
+    }));
   }, []);
 
   const placeTile = useCallback(
@@ -35,15 +63,9 @@ export function useGameState(level: LevelData) {
         if (s.phase !== "placing") return s;
         if (!s.selectedTileType) return s;
 
-        const key = posKey(row, col);
-        const startKey = posKey(level.start.row, level.start.col);
-        const goalKey = posKey(level.goal.row, level.goal.col);
-        const obstacleKeys = new Set(
-          level.obstacles.map((o) => posKey(o.row, o.col))
-        );
-        if (key === startKey || key === goalKey || obstacleKeys.has(key))
-          return s;
+        if (isCellForbidden(level, row, col)) return s;
 
+        const key = posKey(row, col);
         const existing = s.placedTiles.get(key);
         const newInventory = { ...s.remainingInventory };
 
@@ -97,12 +119,7 @@ export function useGameState(level: LevelData) {
         if (!tile) return s;
 
         // Can't drop on start, goal, obstacle, or existing tile
-        const startKey = posKey(level.start.row, level.start.col);
-        const goalKey = posKey(level.goal.row, level.goal.col);
-        const obstacleKeys = new Set(
-          level.obstacles.map((o) => posKey(o.row, o.col))
-        );
-        if (toKey === startKey || toKey === goalKey || obstacleKeys.has(toKey)) return s;
+        if (isCellForbidden(level, toRow, toCol)) return s;
         if (s.placedTiles.has(toKey)) return s;
 
         // Bounds check
@@ -148,6 +165,7 @@ export function useGameState(level: LevelData) {
         phase: result.success ? "success" : "failure",
         traversalPath: result.path,
         failReason: result.failReason,
+        removeMode: false,
       };
     });
   }, [level]);
@@ -166,6 +184,7 @@ export function useGameState(level: LevelData) {
   return {
     state,
     selectTile,
+    toggleRemoveMode,
     placeTile,
     rotateTile,
     moveTile,

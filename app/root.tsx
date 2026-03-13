@@ -33,6 +33,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <title>Lucky Path</title>
         <Meta />
         <Links />
+        {import.meta.env.PROD && (
+          <>
+            <script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=G-RMKR4MM0MH"
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-RMKR4MM0MH');
+                `,
+              }}
+            />
+          </>
+        )}
       </head>
       <body>
         {children}

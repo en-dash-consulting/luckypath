@@ -1,3 +1,5 @@
+import type { Biome } from "./biome-theme";
+
 // Cardinal directions
 export const NORTH = 0;
 export const EAST = 1;
@@ -8,6 +10,24 @@ export type Direction = 0 | 1 | 2 | 3;
 export type Rotation = 0 | 1 | 2 | 3; // 0=0°, 1=90°, 2=180°, 3=270° clockwise
 
 export type TileType = "straight" | "curve";
+
+/**
+ * Canonical tile-type registry — the single source of truth for tile metadata.
+ *
+ * Both TileInventory (desktop) and MobileInventory (mobile) derive their
+ * local tile lists from this registry to prevent drift when tile types change.
+ */
+export interface TileTypeDef {
+  type: TileType;
+  label: string;
+  /** Key into the inventory counts object. */
+  invKey: "straight" | "curve";
+}
+
+export const TILE_TYPE_DEFS: TileTypeDef[] = [
+  { type: "straight", label: "Straight", invKey: "straight" },
+  { type: "curve", label: "Curve", invKey: "curve" },
+];
 
 export interface Position {
   row: number;
@@ -35,7 +55,7 @@ export interface LevelData {
   obstacles: Position[];
   inventory: { straight: number; curve: number };
   par: number;
-  biome: "meadow" | "mushroom" | "rainbow" | "grove";
+  biome: Biome;
   hint?: string;
 }
 
@@ -48,18 +68,6 @@ export interface GameState {
   luckyDirection: Direction | null;
   traversalPath: (Position & { direction: Direction })[];
   failReason?: string;
+  removeMode: boolean;
 }
 
-export interface SaveData {
-  completedLevels: Record<string, number>; // levelId -> clover count (1-3)
-  unlockedWorlds: number[];
-  settings: {
-    fastMode: boolean;
-    highContrast: boolean;
-  };
-}
-
-// Utility to create a position key for Map storage
-export function posKey(row: number, col: number): string {
-  return `${row},${col}`;
-}

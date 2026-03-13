@@ -1,6 +1,9 @@
-import { type LevelData, NORTH, EAST, SOUTH, WEST } from "./types";
+import type { LevelData } from "./types";
+import { NORTH, EAST, SOUTH, WEST } from "./types";
+import { BIOME_THEMES } from "./biome-theme";
+import type { Biome } from "./biome-theme";
 
-export const levels: LevelData[] = [
+const levels: LevelData[] = [
   // === World 1: Meadow Start ===
   {
     id: "1-1",
@@ -299,9 +302,61 @@ export function getLevelsForWorld(worldId: number): LevelData[] {
   return levels.filter((l) => l.worldId === worldId);
 }
 
-export const worlds = [
-  { id: 1, name: "Meadow Start", biome: "meadow" as const, color: "#4ade80" },
-  { id: 2, name: "Mushroom Maze", biome: "mushroom" as const, color: "#c084fc" },
-  { id: 3, name: "Rainbow Run", biome: "rainbow" as const, color: "#60a5fa" },
-  { id: 4, name: "Gold Grove", biome: "grove" as const, color: "#fbbf24" },
-];
+/** Return every level ID in definition order. */
+export function getAllLevelIds(): string[] {
+  return levels.map((l) => l.id);
+}
+
+/**
+ * Return the next level after `currentId` in the global ordering,
+ * or `null` if `currentId` is the last level or not found.
+ */
+export function getNextLevel(currentId: string): LevelData | null {
+  const idx = levels.findIndex((l) => l.id === currentId);
+  if (idx < 0 || idx >= levels.length - 1) return null;
+  return levels[idx + 1];
+}
+
+/** World definition — structural data only. Visual metadata (name, color) is derived from BIOME_THEMES. */
+export interface WorldData {
+  id: number;
+  biome: Biome;
+  /** Display name, derived from BIOME_THEMES. */
+  name: string;
+  /** Accent color, derived from BIOME_THEMES. */
+  color: string;
+}
+
+function makeWorld(id: number, biome: Biome): WorldData {
+  const theme = BIOME_THEMES[biome];
+  return { id, biome, name: theme.displayName, color: theme.accentColor };
+}
+
+/**
+ * Build the worlds list from BIOME_THEMES keys to guarantee exhaustiveness.
+ *
+ * Every biome in BIOME_THEMES gets a world entry — adding a new key to
+ * BIOME_THEMES automatically includes it here, so there is no silent
+ * two-step operation.
+ */
+function buildWorlds(): WorldData[] {
+  const biomes = Object.keys(BIOME_THEMES) as Biome[];
+  return biomes.map((biome, idx) => makeWorld(idx + 1, biome));
+}
+
+const worlds: WorldData[] = buildWorlds();
+
+/** Return every world. */
+export function getAllWorlds(): readonly WorldData[] {
+  return worlds;
+}
+
+/** Find a single world by its numeric ID. */
+export function getWorldById(id: number): WorldData | undefined {
+  return worlds.find((w) => w.id === id);
+}
+
+/** Return every world ID in definition order. */
+export function getAllWorldIds(): number[] {
+  return worlds.map((w) => w.id);
+}
