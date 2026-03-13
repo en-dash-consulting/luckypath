@@ -152,13 +152,13 @@ function MobileInventory({
   onToggleRemoveMode,
 }: {
   remaining: { straight: number; curve: number };
-  selectedType: import("~/engine/types").TileType | null;
-  onSelect: (type: import("~/engine/types").TileType | null) => void;
+  selectedType: import("~/engine").TileType | null;
+  onSelect: (type: import("~/engine").TileType | null) => void;
   disabled?: boolean;
   removeMode?: boolean;
   onToggleRemoveMode?: () => void;
 }) {
-  const tiles: { type: import("~/engine/types").TileType; key: "straight" | "curve" }[] = [
+  const tiles: { type: import("~/engine").TileType; key: "straight" | "curve" }[] = [
     { type: "straight", key: "straight" },
     { type: "curve", key: "curve" },
   ];

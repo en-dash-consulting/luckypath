@@ -6,15 +6,9 @@ import type {
   PlacedTile,
   TileType,
   Rotation,
-} from "~/engine/types";
-import { NORTH, EAST, SOUTH, WEST } from "~/engine/types";
-import { posKey } from "~/engine/utils";
-import { getConnection } from "~/engine/traversal";
-
-const CELL_SIZE = 80;
-const BOARD_PADDING = 20;
-// Scale factor relative to the original 64px cell size
-const S = CELL_SIZE / 64;
+} from "~/engine";
+import { NORTH, EAST, SOUTH, WEST, posKey, getConnection } from "~/engine";
+import { CELL_SIZE, BOARD_PADDING, SCALE as S, getEdgePoint } from "./board-utils";
 
 // Biome color palettes
 const BIOME_COLORS = {
@@ -606,21 +600,8 @@ function drawTile(
   ctx.lineWidth = highContrast ? 7*S : 10*S;
   ctx.lineCap = "round";
 
-  const getEdgePoint = (side: Direction): [number, number] => {
-    switch (side) {
-      case NORTH:
-        return [cx, y + 4];
-      case SOUTH:
-        return [cx, y + CELL_SIZE - 4];
-      case EAST:
-        return [x + CELL_SIZE - 4, cy];
-      case WEST:
-        return [x + 4, cy];
-    }
-  };
-
-  const [ax, ay] = getEdgePoint(sideA);
-  const [bx, by] = getEdgePoint(sideB);
+  const [ax, ay] = getEdgePoint(sideA, x, y, CELL_SIZE);
+  const [bx, by] = getEdgePoint(sideB, x, y, CELL_SIZE);
 
   if (tile.type === "straight") {
     ctx.beginPath();
