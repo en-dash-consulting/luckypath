@@ -1,6 +1,8 @@
 export interface SaveData {
   completedLevels: Record<string, number>; // levelId -> clover count (1-3)
   unlockedWorlds: number[];
+  /** Levels granted access without a completion score (e.g. via easter egg). */
+  unlockedLevels: string[];
   settings: {
     fastMode: boolean;
     highContrast: boolean;
@@ -13,6 +15,7 @@ export function getDefaultSave(): SaveData {
   return {
     completedLevels: {},
     unlockedWorlds: [1],
+    unlockedLevels: [],
     settings: {
       fastMode: false,
       highContrast: false,
@@ -25,7 +28,13 @@ export function loadSave(): SaveData {
   try {
     const raw = localStorage.getItem(SAVE_KEY);
     if (!raw) return getDefaultSave();
-    return { ...getDefaultSave(), ...JSON.parse(raw) };
+    const parsed = JSON.parse(raw);
+    const defaults = getDefaultSave();
+    return {
+      ...defaults,
+      ...parsed,
+      settings: { ...defaults.settings, ...parsed.settings },
+    };
   } catch {
     return getDefaultSave();
   }
@@ -52,6 +61,7 @@ export function isLevelUnlocked(
   allLevelIds: string[]
 ): boolean {
   const save = loadSave();
+  if (save.unlockedLevels.includes(levelId)) return true;
   const idx = allLevelIds.indexOf(levelId);
   if (idx === 0) return true;
   if (idx < 0) return false;

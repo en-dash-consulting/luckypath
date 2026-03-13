@@ -1,9 +1,13 @@
 import { Link } from "react-router";
 import { levels, worlds, getLevelsForWorld } from "~/engine";
 import { loadSave, getDefaultSave } from "~/lib/persistence";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { SaveData } from "~/lib/persistence";
-import { useRainbowEasterEgg } from "~/hooks/useRainbowEasterEgg";
+import {
+  useRainbowEasterEgg,
+  SVG_WIDTH,
+  SVG_HEIGHT,
+} from "~/hooks/useRainbowEasterEgg";
 
 const RAINBOW_COLORS = [
   "#ef4444",
@@ -14,8 +18,16 @@ const RAINBOW_COLORS = [
   "#8b5cf6",
 ];
 
+/** Arc geometry constants derived from SVG_WIDTH / SVG_HEIGHT. */
+const ARC_CX = SVG_WIDTH / 2;       // 160
+const ARC_BASELINE = SVG_HEIGHT - 10; // 130
+
 export default function Worlds() {
-  const [save, setSave] = useState<SaveData>(getDefaultSave);
+  // Initialise directly from loadSave() with an SSR guard to avoid the
+  // two-phase init flash (getDefaultSave → useEffect → loadSave).
+  const [save, setSave] = useState<SaveData>(() =>
+    typeof window !== "undefined" ? loadSave() : getDefaultSave()
+  );
   const allLevelIds = levels.map((l) => l.id);
 
   const {
@@ -28,11 +40,8 @@ export default function Worlds() {
     handleRainbowLeave,
   } = useRainbowEasterEgg(setSave);
 
-  useEffect(() => {
-    setSave(loadSave());
-  }, []);
-
   function isLevelUnlocked(levelId: string): boolean {
+    if (save.unlockedLevels.includes(levelId)) return true;
     const idx = allLevelIds.indexOf(levelId);
     if (idx === 0) return true;
     if (idx < 0) return false;
@@ -145,31 +154,31 @@ export default function Worlds() {
         <div className="mt-8 sm:mt-10 flex justify-center max-w-full overflow-hidden">
           <svg
             ref={rainbowRef}
-            width="320"
-            height="140"
-            viewBox="0 0 320 140"
+            width={SVG_WIDTH}
+            height={SVG_HEIGHT}
+            viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
             onMouseMove={handleRainbowMove}
             onMouseLeave={handleRainbowLeave}
           >
             {/* Invisible hit area for the full arc zone */}
             <path
-              d="M 20 130 A 140 140 0 0 1 300 130"
+              d={`M 20 ${ARC_BASELINE} A 140 140 0 0 1 ${SVG_WIDTH - 20} ${ARC_BASELINE}`}
               fill="none"
               stroke="transparent"
               strokeWidth="80"
             />
 
             {RAINBOW_COLORS.map((color, i) => {
-              const r = 130 - i * 14;
+              const r = ARC_BASELINE - i * 14;
               const arcProgress = Math.min(progress, 1);
               if (arcProgress <= 0.01) return null;
 
               const startAngle = Math.PI;
               const endAngle = Math.PI - arcProgress * Math.PI;
-              const x1 = 160 + r * Math.cos(startAngle);
-              const y1 = 130 - r * Math.sin(startAngle);
-              const x2 = 160 + r * Math.cos(endAngle);
-              const y2 = 130 - r * Math.sin(endAngle);
+              const x1 = ARC_CX + r * Math.cos(startAngle);
+              const y1 = ARC_BASELINE - r * Math.sin(startAngle);
+              const x2 = ARC_CX + r * Math.cos(endAngle);
+              const y2 = ARC_BASELINE - r * Math.sin(endAngle);
               const largeArc = arcProgress > 0.5 ? 1 : 0;
 
               return (

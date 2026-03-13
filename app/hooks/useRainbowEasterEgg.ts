@@ -4,6 +4,13 @@ import { levels } from "~/engine";
 import { loadSave, saveSave } from "~/lib/persistence";
 import type { SaveData } from "~/lib/persistence";
 
+/** SVG viewBox dimensions for the rainbow arc — shared with worlds.tsx. */
+export const SVG_WIDTH = 320;
+export const SVG_HEIGHT = 140;
+
+/** Vertical center of the arc as a ratio of SVG_HEIGHT (used for hit-detection). */
+export const ARC_CENTER_Y_RATIO = 0.78;
+
 /**
  * Encapsulates the rainbow-tracing easter egg interaction.
  *
@@ -26,7 +33,7 @@ export function useRainbowEasterEgg(onSaveChanged: (save: SaveData) => void) {
 
       const rect = svg.getBoundingClientRect();
       const cx = rect.left + rect.width * 0.5;
-      const cy = rect.top + rect.height * 0.78;
+      const cy = rect.top + rect.height * ARC_CENTER_Y_RATIO;
       const dx = e.clientX - cx;
       const dy = -(e.clientY - cy);
 
@@ -59,11 +66,8 @@ export function useRainbowEasterEgg(onSaveChanged: (save: SaveData) => void) {
     setUnlocked(true);
 
     const freshSave = loadSave();
-    for (const level of levels) {
-      if (!(level.id in freshSave.completedLevels)) {
-        freshSave.completedLevels[level.id] = 1;
-      }
-    }
+    // Grant access to all levels without fabricating completion scores
+    freshSave.unlockedLevels = levels.map((l) => l.id);
     freshSave.unlockedWorlds = [1, 2, 3, 4];
     saveSave(freshSave);
     onSaveChanged({ ...freshSave });

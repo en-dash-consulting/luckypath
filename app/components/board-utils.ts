@@ -6,8 +6,8 @@
  * stay visually consistent and creates structural cohesion within the
  * core-game-board zone.
  */
-import type { Direction } from "~/engine";
-import { NORTH, EAST, SOUTH, WEST } from "~/engine";
+import type { Direction, Biome, BiomeCanvasColors } from "~/engine";
+import { NORTH, EAST, SOUTH, WEST, BIOME_THEMES } from "~/engine";
 
 /** Pixel size of one board cell. */
 export const CELL_SIZE = 80;
@@ -25,6 +25,16 @@ export const SCALE = CELL_SIZE / 64;
  * Used by both GameBoard (canvas) and TileInventory (SVG) when drawing
  * tile connection endpoints.
  */
+/**
+ * Retrieve the canvas color palette for a given biome.
+ *
+ * This is a rendering concern (canvas-specific color lookup),
+ * so it lives here rather than in the engine barrel.
+ */
+export function getBiomeCanvasColors(biome: Biome): BiomeCanvasColors {
+  return BIOME_THEMES[biome].canvas;
+}
+
 export function getEdgePoint(
   side: Direction,
   cellX: number,

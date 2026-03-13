@@ -17,8 +17,9 @@ export type {
   GameState,
 } from "./types";
 
-// Direction constants
-export { NORTH, EAST, SOUTH, WEST } from "./types";
+// Direction constants & tile registry
+export { NORTH, EAST, SOUTH, WEST, TILE_TYPE_DEFS } from "./types";
+export type { TileTypeDef } from "./types";
 
 // Traversal
 export {
@@ -36,7 +37,7 @@ export { posKey } from "./utils";
 
 // Biome themes
 export type { Biome, BiomeTheme, BiomeCanvasColors } from "./biome-theme";
-export { BIOME_THEMES, getBiomeCanvasColors } from "./biome-theme";
+export { BIOME_THEMES } from "./biome-theme";
 
 // Levels & worlds
 export { levels, getLevelById, getLevelsForWorld, worlds } from "./levels";

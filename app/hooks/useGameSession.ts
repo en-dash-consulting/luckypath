@@ -89,9 +89,19 @@ export function useGameSession(level: LevelData) {
   );
 
   const currentIdx = levels.findIndex((l) => l.id === level.id);
-  const nextLevel = currentIdx >= 0 && currentIdx < levels.length - 1
-    ? levels[currentIdx + 1]
-    : null;
+  const nextLevel = useMemo(() => {
+    if (currentIdx < 0 || currentIdx >= levels.length - 1) return null;
+    const candidate = levels[currentIdx + 1];
+    // Guard: don't offer a next level whose world is locked
+    const save = loadSave();
+    if (
+      candidate.worldId !== level.worldId &&
+      !save.unlockedWorlds.includes(candidate.worldId)
+    ) {
+      return null;
+    }
+    return candidate;
+  }, [currentIdx, level.worldId]);
 
   return {
     state,
