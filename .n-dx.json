@@ -1,0 +1,13 @@
+{
+  "llm": {
+    "vendor": "claude"
+  },
+  "sourcevision": {
+    "archetypeOverrides": {
+      "app/components/board-utils.ts": "utility"
+    },
+    "zoneOverrides": {
+      "app/routes/worlds.tsx": "world-selection-ui"
+    }
+  }
+}
