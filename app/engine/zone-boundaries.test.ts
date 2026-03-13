@@ -139,6 +139,14 @@ describe("zone-boundary ESLint rules", () => {
     expect(rules).toContain("import-x/no-restricted-paths");
   });
 
+  it("allows components importing from hooks (valid DAG direction)", () => {
+    const rules = lintTempFile(
+      "app/components/_zone_test_tmp.ts",
+      `import { useGameSession } from "~/hooks/useGameSession";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+
   it("allows barrel engine imports from hooks", () => {
     const rules = lintTempFile(
       "app/hooks/_zone_test_tmp.ts",
