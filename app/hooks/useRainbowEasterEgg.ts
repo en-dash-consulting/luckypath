@@ -9,9 +9,9 @@ import {
   REVEAL_THRESHOLD,
   PROGRESS_TOLERANCE,
 } from "~/engine";
-import type { SaveData } from "~/services/persistence";
+import { useSave } from "~/hooks/useSave";
 
-/** Return type for useRainbowEasterEgg — makes the persistence mutation visible. */
+/** Return type for useRainbowEasterEgg. */
 export interface UseRainbowEasterEggReturn {
   rainbowRef: React.RefObject<SVGSVGElement | null>;
   progress: number;
@@ -21,8 +21,8 @@ export interface UseRainbowEasterEggReturn {
   /**
    * Click handler for the pot of gold.
    *
-   * Side-effect: delegates to the caller's `updateSave` to unlock all levels
-   * and worlds. The persistence write is handled by `useSave`.
+   * Side-effect: calls `updateSave` (via internal `useSave()`) to unlock all
+   * levels and worlds.
    */
   handlePotClick: () => void;
   handleRainbowLeave: () => void;
@@ -34,20 +34,14 @@ export interface UseRainbowEasterEggReturn {
  * The user traces along a rainbow arc SVG; once progress exceeds 90 %,
  * a pot of gold is revealed. Clicking the pot unlocks all levels.
  *
- * Side-effects:
- *   - `handlePotClick` delegates to the caller's `updateSave` to persist
- *     unlocked levels/worlds. This keeps all persistence writes flowing
- *     through the `useSave` coordinator.
+ * Persistence: follows the project convention (see useSave.ts module doc) by
+ * calling `useSave()` internally rather than accepting persistence functions
+ * as parameters.
  *
  * Returns state and event handlers that should be wired to the SVG element.
- *
- * TODO: This hook accepts `updateSave` as a parameter, which diverges from
- * the project convention (see useSave.ts module doc). It should call
- * `useSave()` internally instead of relying on dependency injection.
  */
-export function useRainbowEasterEgg(
-  updateSave: (updater: (current: SaveData) => SaveData) => void,
-): UseRainbowEasterEggReturn {
+export function useRainbowEasterEgg(): UseRainbowEasterEggReturn {
+  const { updateSave } = useSave();
   const [progress, setProgress] = useState(0);
   const [potRevealed, setPotRevealed] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
@@ -94,8 +88,6 @@ export function useRainbowEasterEgg(
     setUnlocked(true);
 
     // Grant access to all levels without fabricating completion scores.
-    // Delegates read-modify-write to the caller's updateSave so persistence
-    // initialisation stays in the useSave coordinator.
     updateSave((current) => ({
       ...current,
       unlockedLevels: getAllLevelIds(),

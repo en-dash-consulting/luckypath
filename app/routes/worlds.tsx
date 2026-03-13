@@ -22,7 +22,7 @@ import { WorldGrid } from "~/components/WorldGrid";
 import { RainbowArc } from "~/components/RainbowArc";
 
 export default function Worlds() {
-  const { save, updateSave, worlds, isLevelUnlocked, getClovers, getLevels } = useWorldSession();
+  const { save, worlds, isLevelUnlocked, getClovers, getLevels } = useWorldSession();
 
   const {
     rainbowRef,
@@ -32,7 +32,7 @@ export default function Worlds() {
     handleRainbowMove,
     handlePotClick,
     handleRainbowLeave,
-  } = useRainbowEasterEgg(updateSave);
+  } = useRainbowEasterEgg();
 
   return (
     <div className="min-h-dvh bg-gradient-to-b from-green-100 via-emerald-50 to-amber-50/50 px-4 py-6 sm:py-8 select-none">
