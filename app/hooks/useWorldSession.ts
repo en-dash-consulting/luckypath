@@ -1,22 +1,24 @@
-import { useState } from "react";
-import { getAllLevelIds } from "~/engine";
-import { loadSave, getDefaultSave, isLevelUnlockedWithSave } from "~/lib/persistence";
+import { useSave } from "~/hooks/useSave";
+import { getAllLevelIds, getAllWorlds, getLevelsForWorld } from "~/engine";
+import type { LevelData, WorldData } from "~/engine";
+import { isLevelUnlockedWithSave } from "~/lib/persistence";
 import type { SaveData } from "~/lib/persistence";
 
 /**
- * Encapsulates save-data loading and level-unlock checks for the worlds route.
+ * Encapsulates save-data loading, level-unlock checks, and world/level
+ * queries for the worlds route.
  *
- * Extracting this from worlds.tsx decouples the route handler from
- * persistence details and keeps the route focused on layout/rendering.
+ * This is the sole gateway to engine world/level data for routes —
+ * routes should not import engine query functions directly.
+ *
+ * Delegates persistence initialisation to `useSave` so validation,
+ * migration, and error recovery live in a single coordinator.
  */
 export function useWorldSession() {
-  // Initialise directly from loadSave() with an SSR guard to avoid the
-  // two-phase init flash (getDefaultSave → useEffect → loadSave).
-  const [save, setSave] = useState<SaveData>(() =>
-    typeof window !== "undefined" ? loadSave() : getDefaultSave()
-  );
+  const { save, setSave, updateSave } = useSave();
 
   const allLevelIds = getAllLevelIds();
+  const worlds = getAllWorlds();
 
   function isLevelUnlocked(levelId: string): boolean {
     return isLevelUnlockedWithSave(save, levelId, allLevelIds);
@@ -26,10 +28,19 @@ export function useWorldSession() {
     return save.completedLevels[levelId] || 0;
   }
 
+  function getLevels(worldId: number): LevelData[] {
+    return getLevelsForWorld(worldId);
+  }
+
   return {
     save,
     setSave,
+    updateSave,
+    worlds,
     isLevelUnlocked,
     getClovers,
+    getLevels,
   };
 }
+
+export type { SaveData, WorldData };

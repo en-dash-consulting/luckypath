@@ -1,23 +1,19 @@
 /**
  * gameplay-ui zone — highest coupling breadth in the codebase.
  *
- * This route consumes three supplier zones:
- *   1. engine       (getLevelById)
- *   2. components   (GameBoard, TileInventory, MobileInventory, GameHUD, LevelComplete)
- *   3. hooks        (useGameSession)
+ * This route consumes two supplier zones:
+ *   1. components   (GameBoard, TileInventory, MobileInventory, GameHUD, LevelComplete)
+ *   2. hooks        (useLevelById, useGameSession)
  *
- * Monitor: if the import count from any single zone grows beyond its
- * current level, treat it as a leading indicator of architectural drift
- * and consider extracting a facade or container component.
+ * Engine access is mediated entirely through hooks so there is a single
+ * abstraction path: engine → hooks → routes.
  *
  * Current import budget:
- *   engine      — 1 symbol
  *   components  — 5 symbols
- *   hooks       — 1 symbol
+ *   hooks       — 2 symbols
  */
 import { useParams, useNavigate } from "react-router";
-import { useMemo } from "react";
-import { getLevelById } from "~/engine";
+import { useLevelById } from "~/hooks/useLevelById";
 import { useGameSession } from "~/hooks/useGameSession";
 import { GameBoard } from "~/components/GameBoard";
 import { TileInventory } from "~/components/TileInventory";
@@ -36,10 +32,7 @@ export default function Play() {
   const { levelId } = useParams();
   const navigate = useNavigate();
 
-  const level = useMemo(
-    () => getLevelById(levelId || ""),
-    [levelId]
-  );
+  const level = useLevelById(levelId || "");
 
   if (!level) {
     return (
@@ -63,7 +56,7 @@ export default function Play() {
 function PlayLevel({
   level,
 }: {
-  level: NonNullable<ReturnType<typeof getLevelById>>;
+  level: NonNullable<ReturnType<typeof useLevelById>>;
 }) {
   const navigate = useNavigate();
 

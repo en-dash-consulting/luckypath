@@ -33,15 +33,17 @@ export default tseslint.config(
               from: "./app/engine/!(index).ts",
               message: "Import from ~/engine barrel instead of engine internals.",
             },
-            {
-              target: "./app/routes/**",
-              from: "./app/engine/!(index).ts",
-              message: "Import from ~/engine barrel instead of engine internals.",
-            },
+            // (routes→engine is fully blocked below — no need for a deep-import-only rule here)
             {
               target: "./app/hooks/**",
               from: "./app/engine/!(index).ts",
               message: "Import from ~/engine barrel instead of engine internals.",
+            },
+            // Layer enforcement — routes must access engine through hooks
+            {
+              target: "./app/routes/**",
+              from: "./app/engine/**",
+              message: "Routes must access engine through hooks, not directly (engine → hooks → routes).",
             },
             // Layer enforcement — hooks must not import from routes or components
             {

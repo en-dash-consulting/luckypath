@@ -9,23 +9,20 @@
  * (SVG, grid, layout) is delegated to dedicated components (WorldGrid, RainbowArc).
  *
  * Supplier zones:
- *   - engine     (getAllWorlds, getLevelsForWorld)
  *   - hooks      (useWorldSession, useRainbowEasterEgg)
  *   - components (WorldGrid, RainbowArc)
  *
- * The zone override in .n-dx.json places this file in its own zone to enforce
- * the route→hook layering boundary and prevent the route from being co-located
- * with its hook dependencies in sourcevision zone detection.
+ * Engine access is mediated entirely through hooks (useWorldSession) so there
+ * is a single abstraction path: engine → hooks → routes.
  */
 import { Link } from "react-router";
-import { getAllWorlds, getLevelsForWorld } from "~/engine";
 import { useRainbowEasterEgg } from "~/hooks/useRainbowEasterEgg";
 import { useWorldSession } from "~/hooks/useWorldSession";
 import { WorldGrid } from "~/components/WorldGrid";
 import { RainbowArc } from "~/components/RainbowArc";
 
 export default function Worlds() {
-  const { save, setSave, isLevelUnlocked, getClovers } = useWorldSession();
+  const { save, updateSave, worlds, isLevelUnlocked, getClovers, getLevels } = useWorldSession();
 
   const {
     rainbowRef,
@@ -35,7 +32,7 @@ export default function Worlds() {
     handleRainbowMove,
     handlePotClick,
     handleRainbowLeave,
-  } = useRainbowEasterEgg(setSave);
+  } = useRainbowEasterEgg(updateSave);
 
   return (
     <div className="min-h-dvh bg-gradient-to-b from-green-100 via-emerald-50 to-amber-50/50 px-4 py-6 sm:py-8 select-none">
@@ -53,8 +50,8 @@ export default function Worlds() {
 
         {/* Worlds */}
         <div className="flex flex-col gap-6">
-          {getAllWorlds().map((world) => {
-            const worldLevels = getLevelsForWorld(world.id);
+          {worlds.map((world) => {
+            const worldLevels = getLevels(world.id);
             const anyUnlocked = worldLevels.some((l) => isLevelUnlocked(l.id));
             const worldForceUnlocked = save.unlockedWorlds.includes(world.id);
             const isLocked = !anyUnlocked && !worldForceUnlocked && world.id > 1;
