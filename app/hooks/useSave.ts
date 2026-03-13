@@ -1,3 +1,43 @@
+/**
+ * @module useSave
+ *
+ * ## Hook Persistence Convention
+ *
+ * **Rule: hooks that need persistence always call `useSave()` internally.**
+ *
+ * Every hook that reads or writes save state must compose `useSave()`
+ * directly rather than accepting `updateSave` (or `save`) as a parameter.
+ * This keeps persistence initialization centralized: validation, migration,
+ * and error recovery live in one coordinator instead of being scattered
+ * across call sites.
+ *
+ * ```
+ * // ✅ Correct — hook owns its persistence dependency
+ * function useMyFeature() {
+ *   const { save, updateSave } = useSave();
+ *   // ...
+ * }
+ *
+ * // ❌ Avoid — caller must know which persistence primitives the hook needs
+ * function useMyFeature(updateSave: ...) {
+ *   // ...
+ * }
+ * ```
+ *
+ * Why not dependency injection?
+ * - `useSave()` is intentionally cheap (single `useState` + `useCallback`).
+ * - Injecting `updateSave` forces every call site to destructure and forward
+ *   the right subset of persistence primitives, adding coupling with no
+ *   testability benefit (hooks can be tested with a stubbed localStorage).
+ * - A single initialization path means future concerns (schema migration,
+ *   cross-tab sync, error telemetry) propagate automatically.
+ *
+ * Routes and components should never pass persistence functions between
+ * hooks. If a route needs data from two hooks that both call `useSave()`,
+ * each hook manages its own instance — React state deduplication keeps
+ * this safe in practice.
+ */
+
 import { useState, useCallback } from "react";
 import type React from "react";
 import { loadSave, getDefaultSave, saveSave } from "~/services/persistence";

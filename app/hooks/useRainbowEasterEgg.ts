@@ -40,6 +40,10 @@ export interface UseRainbowEasterEggReturn {
  *     through the `useSave` coordinator.
  *
  * Returns state and event handlers that should be wired to the SVG element.
+ *
+ * TODO: This hook accepts `updateSave` as a parameter, which diverges from
+ * the project convention (see useSave.ts module doc). It should call
+ * `useSave()` internally instead of relying on dependency injection.
  */
 export function useRainbowEasterEgg(
   updateSave: (updater: (current: SaveData) => SaveData) => void,
