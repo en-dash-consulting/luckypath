@@ -14,6 +14,12 @@ import type { WorldData } from "~/engine";
  * Defining an explicit return interface contains blast radius — any
  * schema change to useGameState or persistence.ts that alters this
  * surface is caught at compile time rather than silently propagating.
+ *
+ * Side-effects:
+ *   - When `state.phase` transitions to `"success"`, `completeLevel()`
+ *     is called internally to persist the completion and clover count
+ *     to localStorage. If `onLevelCompleted` is provided via options,
+ *     it fires after persistence so callers can react.
  */
 export interface UseGameSessionReturn {
   state: GameState;
@@ -32,7 +38,17 @@ export interface UseGameSessionReturn {
   moveTile: (fromRow: number, fromCol: number, toRow: number, toCol: number) => void;
 }
 
-export function useGameSession(level: LevelData): UseGameSessionReturn {
+export interface UseGameSessionOptions {
+  /**
+   * Optional callback invoked after a level is persisted as complete.
+   * This makes the internal completeLevel() write side-effect observable
+   * and testable without mocking localStorage.
+   */
+  onLevelCompleted?: (levelId: string, clovers: number) => void;
+}
+
+export function useGameSession(level: LevelData, options: UseGameSessionOptions = {}): UseGameSessionReturn {
+  const { onLevelCompleted } = options;
   const [showComplete, setShowComplete] = useState(false);
   const [settings, setSettings] = useState<SaveData["settings"]>({ fastMode: false, highContrast: false });
 
@@ -57,12 +73,13 @@ export function useGameSession(level: LevelData): UseGameSessionReturn {
   useEffect(() => {
     if (state.phase === "success") {
       completeLevel(level.id, clovers);
+      onLevelCompleted?.(level.id, clovers);
       const timer = setTimeout(() => setShowComplete(true), 1500);
       return () => clearTimeout(timer);
     } else {
       setShowComplete(false);
     }
-  }, [state.phase, level.id, clovers]);
+  }, [state.phase, level.id, clovers, onLevelCompleted]);
 
   const handleCellClick = useCallback(
     (row: number, col: number) => {
