@@ -5,7 +5,7 @@ import type {
   TileType,
   Rotation,
 } from "~/engine/types";
-import { posKey } from "~/engine/types";
+import { posKey } from "~/engine/utils";
 import { simulateTraversal } from "~/engine/traversal";
 
 function createInitialState(level: LevelData): GameState {
@@ -17,6 +17,7 @@ function createInitialState(level: LevelData): GameState {
     luckyPosition: null,
     luckyDirection: null,
     traversalPath: [],
+    removeMode: false,
   };
 }
 
@@ -26,7 +27,19 @@ export function useGameState(level: LevelData) {
   );
 
   const selectTile = useCallback((type: TileType | null) => {
-    setState((s) => ({ ...s, selectedTileType: type }));
+    setState((s) => ({
+      ...s,
+      selectedTileType: type,
+      removeMode: type ? false : s.removeMode,
+    }));
+  }, []);
+
+  const toggleRemoveMode = useCallback(() => {
+    setState((s) => ({
+      ...s,
+      removeMode: !s.removeMode,
+      selectedTileType: null,
+    }));
   }, []);
 
   const placeTile = useCallback(
@@ -148,6 +161,7 @@ export function useGameState(level: LevelData) {
         phase: result.success ? "success" : "failure",
         traversalPath: result.path,
         failReason: result.failReason,
+        removeMode: false,
       };
     });
   }, [level]);
@@ -166,6 +180,7 @@ export function useGameState(level: LevelData) {
   return {
     state,
     selectTile,
+    toggleRemoveMode,
     placeTile,
     rotateTile,
     moveTile,

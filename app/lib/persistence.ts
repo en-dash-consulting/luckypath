@@ -1,4 +1,11 @@
-import type { SaveData } from "~/engine/types";
+export interface SaveData {
+  completedLevels: Record<string, number>; // levelId -> clover count (1-3)
+  unlockedWorlds: number[];
+  settings: {
+    fastMode: boolean;
+    highContrast: boolean;
+  };
+}
 
 const SAVE_KEY = "luckypath_save";
 
