@@ -7,8 +7,8 @@ import type {
   TileType,
   Rotation,
 } from "~/engine";
-import { NORTH, EAST, SOUTH, WEST, posKey, getConnection } from "~/engine";
-import { CELL_SIZE, BOARD_PADDING, SCALE as S, getEdgePoint, getBiomeCanvasColors } from "./board-utils";
+import { NORTH, EAST, SOUTH, WEST, posKey, getConnection, getEdgePoint } from "~/engine";
+import { CELL_SIZE, BOARD_PADDING, SCALE as S, getBiomeCanvasColors } from "./board-utils";
 
 interface GameBoardProps {
   level: LevelData;
