@@ -7,7 +7,8 @@ import type {
   TileType,
   Rotation,
 } from "~/engine/types";
-import { posKey, NORTH, EAST, SOUTH, WEST } from "~/engine/types";
+import { NORTH, EAST, SOUTH, WEST } from "~/engine/types";
+import { posKey } from "~/engine/utils";
 import { getConnection } from "~/engine/traversal";
 
 const CELL_SIZE = 80;

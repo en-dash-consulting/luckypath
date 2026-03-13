@@ -1,13 +1,12 @@
 import { useParams, useNavigate } from "react-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { getLevelById, levels, worlds } from "~/engine/levels";
-import { useGameState } from "~/hooks/useGameState";
+import { useMemo } from "react";
+import { getLevelById, levels } from "~/engine/levels";
+import { useGameSession } from "~/hooks/useGameSession";
 import { GameBoard } from "~/components/GameBoard";
 import { TileInventory, TilePreview } from "~/components/TileInventory";
 import { GameHUD } from "~/components/GameHUD";
 import { LevelComplete } from "~/components/LevelComplete";
-import { completeLevel, loadSave } from "~/lib/persistence";
-import { posKey } from "~/engine/types";
+import { useState } from "react";
 
 export default function Play() {
   const { levelId } = useParams();
@@ -46,87 +45,23 @@ function PlayLevel({
   onChangeLevel: (id: string) => void;
 }) {
   const navigate = useNavigate();
-  const [showComplete, setShowComplete] = useState(false);
-  const [settings, setSettings] = useState({ highContrast: false });
-  const [removeMode, setRemoveMode] = useState(false);
-
-  useEffect(() => {
-    const save = loadSave();
-    setSettings(save.settings);
-  }, []);
 
   const {
     state,
-    selectTile,
-    placeTile,
-    rotateTile,
+    settings,
+    world,
+    tilesUsed,
+    clovers,
+    showComplete,
+    nextLevel,
+    handleCellClick,
+    handleCellRightClick,
+    handleRun,
+    handleReset,
+    handleSelectTile,
+    toggleRemoveMode,
     moveTile,
-    removeTile,
-    runSimulation,
-    resetBoard,
-  } = useGameState(level);
-
-  const world = worlds.find((w) => w.id === level.worldId);
-  const tilesUsed = state.placedTiles.size;
-
-  const clovers = useMemo(() => {
-    if (state.phase !== "success") return 0;
-    if (tilesUsed <= level.par) return 3;
-    if (tilesUsed <= level.par + 1) return 2;
-    return 1;
-  }, [state.phase, tilesUsed, level.par]);
-
-  useEffect(() => {
-    if (state.phase === "success") {
-      completeLevel(level.id, clovers);
-      const timer = setTimeout(() => setShowComplete(true), 1500);
-      return () => clearTimeout(timer);
-    } else {
-      setShowComplete(false);
-    }
-  }, [state.phase, level.id, clovers]);
-
-  const handleCellClick = useCallback(
-    (row: number, col: number) => {
-      if (state.phase !== "placing") return;
-
-      const key = posKey(row, col);
-      const startKey = posKey(level.start.row, level.start.col);
-      const goalKey = posKey(level.goal.row, level.goal.col);
-      const obstacleKeys = new Set(
-        level.obstacles.map((o) => posKey(o.row, o.col))
-      );
-
-      if (key === startKey || key === goalKey || obstacleKeys.has(key)) return;
-
-      if (removeMode) {
-        if (state.placedTiles.has(key)) removeTile(row, col);
-        return;
-      }
-
-      if (state.placedTiles.has(key)) {
-        rotateTile(row, col);
-        return;
-      }
-
-      if (state.selectedTileType) {
-        placeTile(row, col);
-      }
-    },
-    [state.phase, state.selectedTileType, state.placedTiles, level, placeTile, rotateTile, removeTile, removeMode]
-  );
-
-  const handleCellRightClick = useCallback(
-    (row: number, col: number) => {
-      removeTile(row, col);
-    },
-    [removeTile]
-  );
-
-  const currentIdx = levels.findIndex((l) => l.id === level.id);
-  const nextLevel = currentIdx >= 0 && currentIdx < levels.length - 1
-    ? levels[currentIdx + 1]
-    : null;
+  } = useGameSession(level);
 
   return (
     <div className="min-h-dvh bg-gradient-to-b from-green-100 via-emerald-50 to-amber-50/50 flex flex-col items-center px-2 sm:px-4 py-3 gap-2 select-none">
@@ -136,8 +71,8 @@ function PlayLevel({
         phase={state.phase}
         failReason={state.failReason}
         tilesRemaining={state.remainingInventory.straight + state.remainingInventory.curve}
-        onRun={() => { setRemoveMode(false); runSimulation(); }}
-        onReset={() => { setRemoveMode(false); resetBoard(); }}
+        onRun={handleRun}
+        onReset={handleReset}
         onBack={() => navigate("/worlds")}
       />
 
@@ -166,13 +101,10 @@ function PlayLevel({
           <TileInventory
             remaining={state.remainingInventory}
             selectedType={state.selectedTileType}
-            onSelect={(type) => {
-              selectTile(type);
-              if (type) setRemoveMode(false);
-            }}
+            onSelect={handleSelectTile}
             disabled={state.phase !== "placing"}
-            removeMode={removeMode}
-            onToggleRemoveMode={() => setRemoveMode((r) => !r)}
+            removeMode={state.removeMode}
+            onToggleRemoveMode={toggleRemoveMode}
           />
         </div>
 
@@ -181,13 +113,10 @@ function PlayLevel({
           <MobileInventory
             remaining={state.remainingInventory}
             selectedType={state.selectedTileType}
-            onSelect={(type) => {
-              selectTile(type);
-              if (type) setRemoveMode(false);
-            }}
+            onSelect={handleSelectTile}
             disabled={state.phase !== "placing"}
-            removeMode={removeMode}
-            onToggleRemoveMode={() => setRemoveMode((r) => !r)}
+            removeMode={state.removeMode}
+            onToggleRemoveMode={toggleRemoveMode}
           />
         </div>
       </div>
@@ -205,7 +134,7 @@ function PlayLevel({
               navigate(`/play/${nextLevel.id}`, { replace: true });
             }
           }}
-          onReplay={resetBoard}
+          onReplay={handleReset}
           onBack={() => navigate("/worlds")}
         />
       )}

@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { levels, worlds, getLevelsForWorld } from "~/engine/levels";
 import { loadSave, saveSave, getDefaultSave } from "~/lib/persistence";
 import { useEffect, useState, useRef, useCallback } from "react";
-import type { SaveData } from "~/engine/types";
+import type { SaveData } from "~/lib/persistence";
 
 const RAINBOW_COLORS = [
   "#ef4444",

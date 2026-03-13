@@ -48,18 +48,6 @@ export interface GameState {
   luckyDirection: Direction | null;
   traversalPath: (Position & { direction: Direction })[];
   failReason?: string;
+  removeMode: boolean;
 }
 
-export interface SaveData {
-  completedLevels: Record<string, number>; // levelId -> clover count (1-3)
-  unlockedWorlds: number[];
-  settings: {
-    fastMode: boolean;
-    highContrast: boolean;
-  };
-}
-
-// Utility to create a position key for Map storage
-export function posKey(row: number, col: number): string {
-  return `${row},${col}`;
-}

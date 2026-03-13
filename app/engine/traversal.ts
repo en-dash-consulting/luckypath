@@ -9,8 +9,8 @@ import {
   EAST,
   SOUTH,
   WEST,
-  posKey,
 } from "./types";
+import { posKey } from "./utils";
 
 // Base connections at rotation 0: [sideA, sideB]
 // A tile connects two sides; Lucky can enter from either and exit the other
