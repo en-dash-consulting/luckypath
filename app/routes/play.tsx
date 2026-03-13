@@ -1,3 +1,20 @@
+/**
+ * gameplay-ui zone — highest coupling breadth in the codebase.
+ *
+ * This route consumes three supplier zones:
+ *   1. engine       (getLevelById)
+ *   2. components   (GameBoard, TileInventory, MobileInventory, GameHUD, LevelComplete)
+ *   3. hooks        (useGameSession)
+ *
+ * Monitor: if the import count from any single zone grows beyond its
+ * current level, treat it as a leading indicator of architectural drift
+ * and consider extracting a facade or container component.
+ *
+ * Current import budget:
+ *   engine      — 1 symbol
+ *   components  — 5 symbols
+ *   hooks       — 1 symbol
+ */
 import { useParams, useNavigate } from "react-router";
 import { useMemo } from "react";
 import { getLevelById } from "~/engine";

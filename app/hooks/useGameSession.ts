@@ -1,12 +1,40 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGameState } from "~/hooks/useGameState";
 import { completeLevel, loadSave } from "~/lib/persistence";
-import type { LevelData } from "~/engine";
+import type { SaveData } from "~/lib/persistence";
+import type { GameState, LevelData, TileType } from "~/engine";
 import { levels, worlds, isCellForbidden, posKey } from "~/engine";
+import type { WorldData } from "~/engine";
 
-export function useGameSession(level: LevelData) {
+/**
+ * Public contract for useGameSession.
+ *
+ * This zone is the sole integration point between three concerns:
+ * state (useGameState), persistence (persistence.ts), and routing.
+ * Defining an explicit return interface contains blast radius — any
+ * schema change to useGameState or persistence.ts that alters this
+ * surface is caught at compile time rather than silently propagating.
+ */
+export interface UseGameSessionReturn {
+  state: GameState;
+  settings: SaveData["settings"];
+  world: WorldData | undefined;
+  tilesUsed: number;
+  clovers: number;
+  showComplete: boolean;
+  nextLevel: LevelData | null;
+  handleCellClick: (row: number, col: number) => void;
+  handleCellRightClick: (row: number, col: number) => void;
+  handleRun: () => void;
+  handleReset: () => void;
+  handleSelectTile: (type: TileType | null) => void;
+  toggleRemoveMode: () => void;
+  moveTile: (fromRow: number, fromCol: number, toRow: number, toCol: number) => void;
+}
+
+export function useGameSession(level: LevelData): UseGameSessionReturn {
   const [showComplete, setShowComplete] = useState(false);
-  const [settings, setSettings] = useState({ highContrast: false });
+  const [settings, setSettings] = useState<SaveData["settings"]>({ fastMode: false, highContrast: false });
 
   useEffect(() => {
     const save = loadSave();
@@ -74,7 +102,7 @@ export function useGameSession(level: LevelData) {
   }, [resetBoard]);
 
   const handleSelectTile = useCallback(
-    (type: import("~/engine").TileType | null) => {
+    (type: TileType | null) => {
       selectTile(type);
     },
     [selectTile]
