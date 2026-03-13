@@ -3,8 +3,12 @@
  *
  * These are consumed by both the RainbowArc presentation component
  * (SVG viewBox) and the useRainbowEasterEgg hook (hit-detection math).
- * Placed in the engine layer so both hooks and components can import
- * without violating the architecture DAG.
+ *
+ * ⚠️  DAG-BYPASS — This file is **not** domain logic. It lives in the engine
+ * layer solely so both hooks and components can import the same constants
+ * without violating the architecture DAG (engine → hooks → components).
+ * Without this placement, the two consuming layers would need duplicated
+ * literals or a separate shared-constants package.
  */
 
 /** SVG viewBox width for the rainbow arc. */
