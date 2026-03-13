@@ -1,12 +1,6 @@
 import { useState, useCallback } from "react";
-import type {
-  GameState,
-  LevelData,
-  TileType,
-  Rotation,
-} from "~/engine/types";
-import { posKey } from "~/engine/utils";
-import { simulateTraversal } from "~/engine/traversal";
+import type { GameState, LevelData, TileType, Rotation } from "~/engine";
+import { posKey, simulateTraversal } from "~/engine";
 
 function createInitialState(level: LevelData): GameState {
   return {

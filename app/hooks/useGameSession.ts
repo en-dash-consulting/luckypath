@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { getLevelById, levels, worlds } from "~/engine/levels";
 import { useGameState } from "~/hooks/useGameState";
 import { completeLevel, loadSave } from "~/lib/persistence";
-import { posKey } from "~/engine/utils";
-import type { LevelData } from "~/engine/types";
+import type { LevelData } from "~/engine";
+import { posKey } from "~/engine";
 
 export function useGameSession(level: LevelData) {
   const [showComplete, setShowComplete] = useState(false);

@@ -1,4 +1,5 @@
-import { type LevelData, NORTH, EAST, SOUTH, WEST } from "./types";
+import type { LevelData } from "./types";
+import { NORTH, EAST, SOUTH, WEST } from "./types";
 
 export const levels: LevelData[] = [
   // === World 1: Meadow Start ===

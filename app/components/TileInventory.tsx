@@ -1,6 +1,6 @@
-import type { TileType, Rotation } from "~/engine/types";
-import { NORTH, EAST, SOUTH, WEST } from "~/engine/types";
-import { getConnection } from "~/engine/traversal";
+import type { TileType, Rotation } from "~/engine";
+import { NORTH, EAST, SOUTH, WEST, getConnection } from "~/engine";
+import { getEdgePoint } from "./board-utils";
 
 interface TileInventoryProps {
   remaining: { straight: number; curve: number };
@@ -117,18 +117,8 @@ export function TilePreview({ type, size, selected }: { type: TileType; size: nu
 
   const [sideA, sideB] = getConnection(type, 0 as Rotation);
 
-  const getEdge = (side: number): [number, number] => {
-    switch (side) {
-      case NORTH: return [half, pad];
-      case SOUTH: return [half, size - pad];
-      case EAST: return [size - pad, half];
-      case WEST: return [pad, half];
-      default: return [half, half];
-    }
-  };
-
-  const [ax, ay] = getEdge(sideA);
-  const [bx, by] = getEdge(sideB);
+  const [ax, ay] = getEdgePoint(sideA, 0, 0, size, pad);
+  const [bx, by] = getEdgePoint(sideB, 0, 0, size, pad);
 
   const arrowSize = 5;
   const getArrow = (side: number, ex: number, ey: number): string => {
