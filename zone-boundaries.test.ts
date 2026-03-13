@@ -1,15 +1,20 @@
 /**
- * Zone-boundary ESLint rule verification.
+ * Global architecture DAG enforcement tests.
  *
- * Co-located with eslint.config.ts because this file tests the eslint config
- * — it verifies that the architecture DAG enforcement rules are correctly
- * wired, not engine logic itself.
+ * This file guards the entire 4-layer dependency DAG:
+ *   engine → hooks → components → routes
+ *
+ * Its scope is global architecture enforcement — it validates that every
+ * layer boundary in the project is correctly wired in the ESLint config,
+ * not just a single zone's internals. It lives in build-infrastructure
+ * alongside eslint.config.ts because it is the runtime verification
+ * counterpart to that static rule definition.
  *
  * The ESLint config in eslint.config.ts is the sole enforcement mechanism
- * for the architecture DAG (engine → hooks → components → routes).
- * A misconfigured rule silently degrades to no enforcement, so these tests
- * verify that the rules are correctly set up by checking that ESLint reports
- * errors for known-bad imports and passes for known-good ones.
+ * for the architecture DAG. A misconfigured rule silently degrades to no
+ * enforcement, so these tests verify that the rules are correctly set up
+ * by checking that ESLint reports errors for known-bad imports and passes
+ * for known-good ones.
  *
  * The config-validation tests below also confirm that the eslint config
  * itself is syntactically valid and that the no-restricted-paths zones
