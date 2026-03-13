@@ -1,19 +1,18 @@
 /**
  * world-selection-ui zone — route handler for the level-select screen.
  *
- * Layer: routes (top of the dependency DAG: engine → hooks → components → routes).
- * This file is a route handler that sits ABOVE hooks in the dependency hierarchy.
- * It consumes hooks but hooks must never import from routes.
+ * This route consumes two supplier zones:
+ *   1. hooks       (useWorldSession, useRainbowEasterEgg)
+ *   2. components  (WorldGrid, RainbowArc)
  *
- * Following the same orchestration-only pattern as home.tsx — all presentation
- * (SVG, grid, layout) is delegated to dedicated components (WorldGrid, RainbowArc).
+ * Engine access is mediated entirely through hooks so there is a single
+ * abstraction path: engine → hooks → routes.  Both hooks compose `useSave()`
+ * internally, so this route is a pure consumer of hook return values — it
+ * never forwards persistence functions between hooks.
  *
- * Supplier zones:
- *   - hooks      (useWorldSession, useRainbowEasterEgg)
- *   - components (WorldGrid, RainbowArc)
- *
- * Engine access is mediated entirely through hooks (useWorldSession) so there
- * is a single abstraction path: engine → hooks → routes.
+ * Current import budget:
+ *   components  — 2 symbols
+ *   hooks       — 2 symbols
  */
 import { Link } from "react-router";
 import { useRainbowEasterEgg } from "~/hooks/useRainbowEasterEgg";
