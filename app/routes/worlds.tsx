@@ -9,7 +9,7 @@
  * (SVG, grid, layout) is delegated to dedicated components (WorldGrid, RainbowArc).
  *
  * Supplier zones:
- *   - engine     (worlds, getLevelsForWorld)
+ *   - engine     (getAllWorlds, getLevelsForWorld)
  *   - hooks      (useWorldSession, useRainbowEasterEgg)
  *   - components (WorldGrid, RainbowArc)
  *
@@ -18,7 +18,7 @@
  * with its hook dependencies in sourcevision zone detection.
  */
 import { Link } from "react-router";
-import { worlds, getLevelsForWorld } from "~/engine";
+import { getAllWorlds, getLevelsForWorld } from "~/engine";
 import { useRainbowEasterEgg } from "~/hooks/useRainbowEasterEgg";
 import { useWorldSession } from "~/hooks/useWorldSession";
 import { WorldGrid } from "~/components/WorldGrid";
@@ -53,7 +53,7 @@ export default function Worlds() {
 
         {/* Worlds */}
         <div className="flex flex-col gap-6">
-          {worlds.map((world) => {
+          {getAllWorlds().map((world) => {
             const worldLevels = getLevelsForWorld(world.id);
             const anyUnlocked = worldLevels.some((l) => isLevelUnlocked(l.id));
             const worldForceUnlocked = save.unlockedWorlds.includes(world.id);

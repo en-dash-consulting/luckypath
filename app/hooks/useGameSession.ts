@@ -3,7 +3,7 @@ import { useGameState } from "~/hooks/useGameState";
 import { completeLevel, loadSave } from "~/lib/persistence";
 import type { SaveData } from "~/lib/persistence";
 import type { GameState, LevelData, TileType } from "~/engine";
-import { levels, worlds, isCellForbidden, posKey } from "~/engine";
+import { getWorldById, getNextLevel, isCellForbidden, posKey } from "~/engine";
 import type { WorldData } from "~/engine";
 
 /**
@@ -60,7 +60,7 @@ export function useGameSession(level: LevelData, options: UseGameSessionOptions 
   const gameState = useGameState(level);
   const { state, selectTile, toggleRemoveMode, placeTile, rotateTile, removeTile, runSimulation, resetBoard } = gameState;
 
-  const world = worlds.find((w) => w.id === level.worldId);
+  const world = getWorldById(level.worldId);
   const tilesUsed = state.placedTiles.size;
 
   const clovers = useMemo(() => {
@@ -125,20 +125,18 @@ export function useGameSession(level: LevelData, options: UseGameSessionOptions 
     [selectTile]
   );
 
-  const currentIdx = levels.findIndex((l) => l.id === level.id);
   const nextLevel = useMemo(() => {
-    if (currentIdx < 0 || currentIdx >= levels.length - 1) return null;
-    const candidate = levels[currentIdx + 1];
+    const candidate = getNextLevel(level.id);
+    if (!candidate) return null;
     // Guard: don't offer a next level whose world is locked
-    const save = loadSave();
-    if (
-      candidate.worldId !== level.worldId &&
-      !save.unlockedWorlds.includes(candidate.worldId)
-    ) {
-      return null;
+    if (candidate.worldId !== level.worldId) {
+      const save = loadSave();
+      if (!save.unlockedWorlds.includes(candidate.worldId)) {
+        return null;
+      }
     }
     return candidate;
-  }, [currentIdx, level.worldId]);
+  }, [level.id, level.worldId]);
 
   return {
     state,
