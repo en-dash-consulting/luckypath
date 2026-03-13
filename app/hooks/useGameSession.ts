@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { getLevelById, levels, worlds } from "~/engine/levels";
 import { useGameState } from "~/hooks/useGameState";
 import { completeLevel, loadSave } from "~/lib/persistence";
 import type { LevelData } from "~/engine";
-import { posKey } from "~/engine";
+import { levels, worlds, posKey } from "~/engine";
 
 export function useGameSession(level: LevelData) {
   const [showComplete, setShowComplete] = useState(false);
@@ -83,7 +82,7 @@ export function useGameSession(level: LevelData) {
   }, [resetBoard]);
 
   const handleSelectTile = useCallback(
-    (type: import("~/engine/types").TileType | null) => {
+    (type: import("~/engine").TileType | null) => {
       selectTile(type);
     },
     [selectTile]

@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { levels, worlds, getLevelsForWorld } from "~/engine/levels";
+import { levels, worlds, getLevelsForWorld } from "~/engine";
 import { loadSave, saveSave, getDefaultSave } from "~/lib/persistence";
 import { useEffect, useState, useRef, useCallback } from "react";
 import type { SaveData } from "~/lib/persistence";
