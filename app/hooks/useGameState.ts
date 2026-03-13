@@ -2,6 +2,27 @@ import { useState, useCallback } from "react";
 import type { GameState, LevelData, TileType, Rotation } from "~/engine";
 import { posKey, isCellForbidden, simulateTraversal } from "~/engine";
 
+/**
+ * Public contract for useGameState.
+ *
+ * This interface is the explicit boundary between game-state-core and its
+ * consumers (primarily useGameSession in game-session-persistence). Defining
+ * it here ensures that schema changes to the hook's return value are caught
+ * at compile time and don't silently break downstream zones.
+ */
+export interface UseGameStateReturn {
+  state: GameState;
+  selectTile: (type: TileType | null) => void;
+  toggleRemoveMode: () => void;
+  placeTile: (row: number, col: number) => void;
+  rotateTile: (row: number, col: number) => void;
+  moveTile: (fromRow: number, fromCol: number, toRow: number, toCol: number) => void;
+  removeTile: (row: number, col: number) => void;
+  runSimulation: () => void;
+  resetBoard: () => void;
+  resetForLevel: (newLevel: LevelData) => void;
+}
+
 function createInitialState(level: LevelData): GameState {
   return {
     placedTiles: new Map(),
@@ -15,7 +36,7 @@ function createInitialState(level: LevelData): GameState {
   };
 }
 
-export function useGameState(level: LevelData) {
+export function useGameState(level: LevelData): UseGameStateReturn {
   const [state, setState] = useState<GameState>(() =>
     createInitialState(level)
   );
