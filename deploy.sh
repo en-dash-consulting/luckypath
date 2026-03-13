@@ -1,4 +1,21 @@
 #!/usr/bin/env bash
+#
+# deploy.sh — Build and deploy Lucky Path to Google Cloud Run.
+#
+# Prerequisites:
+#   - gcloud CLI installed and authenticated (`gcloud auth login`)
+#   - Docker daemon running (Cloud Run source deploy builds a container)
+#   - Sufficient IAM permissions on the the target GCP project
+#     (roles/run.admin, roles/iam.serviceAccountUser)
+#
+# Usage:
+#   ./deploy.sh
+#
+# This script builds the app from source using the project Dockerfile,
+# pushes the image to Artifact Registry, and deploys it as a Cloud Run
+# service. No arguments are required — project, region, and resource
+# limits are configured below.
+#
 set -euo pipefail
 
 PROJECT_ID="${GCP_PROJECT_ID:?Set GCP_PROJECT_ID env var}"
