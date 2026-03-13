@@ -60,6 +60,9 @@ export {
   PROGRESS_TOLERANCE,
 } from "./rainbow-constants";
 
+// Scoring
+export { calculateClovers } from "./scoring";
+
 // Levels & worlds
 export {
   getLevelById,

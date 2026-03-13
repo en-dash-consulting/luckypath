@@ -4,7 +4,7 @@ import { useSave } from "~/hooks/useSave";
 import { completeLevelUpdater } from "~/services/persistence";
 import type { SaveData } from "~/services/persistence";
 import type { GameState, LevelData, TileType, WorldData } from "~/engine";
-import { getWorldById, getNextLevel, isCellForbidden, posKey } from "~/engine";
+import { getWorldById, getNextLevel, isCellForbidden, posKey, calculateClovers } from "~/engine";
 
 /**
  * Public contract for useGameSession.
@@ -51,9 +51,7 @@ export function useGameSession(level: LevelData): UseGameSessionReturn {
 
   const clovers = useMemo(() => {
     if (state.phase !== "success") return 0;
-    if (tilesUsed <= level.par) return 3;
-    if (tilesUsed <= level.par + 1) return 2;
-    return 1;
+    return calculateClovers(tilesUsed, level.par);
   }, [state.phase, tilesUsed, level.par]);
 
   useEffect(() => {
