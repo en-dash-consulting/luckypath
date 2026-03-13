@@ -50,7 +50,15 @@ export type { Biome, BiomeTheme, BiomeCanvasColors } from "./biome-theme";
 export { BIOME_THEMES, getBiomeCanvasColors } from "./biome-theme";
 
 // Rainbow easter-egg geometry
-export { SVG_WIDTH, SVG_HEIGHT, ARC_CENTER_Y_RATIO } from "./rainbow-constants";
+export {
+  SVG_WIDTH,
+  SVG_HEIGHT,
+  ARC_CENTER_Y_RATIO,
+  ARC_MAX_R_RATIO,
+  ARC_MIN_R_RATIO,
+  REVEAL_THRESHOLD,
+  PROGRESS_TOLERANCE,
+} from "./rainbow-constants";
 
 // Levels & worlds
 export {

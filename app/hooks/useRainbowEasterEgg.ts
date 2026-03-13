@@ -1,6 +1,14 @@
 import { useState, useRef, useCallback } from "react";
 import type React from "react";
-import { getAllLevelIds, getAllWorldIds, ARC_CENTER_Y_RATIO } from "~/engine";
+import {
+  getAllLevelIds,
+  getAllWorldIds,
+  ARC_CENTER_Y_RATIO,
+  ARC_MAX_R_RATIO,
+  ARC_MIN_R_RATIO,
+  REVEAL_THRESHOLD,
+  PROGRESS_TOLERANCE,
+} from "~/engine";
 import type { SaveData } from "~/services/persistence";
 
 /** Return type for useRainbowEasterEgg — makes the persistence mutation visible. */
@@ -54,8 +62,8 @@ export function useRainbowEasterEgg(
       const dy = -(e.clientY - cy);
 
       const dist = Math.sqrt(dx * dx + dy * dy);
-      const maxR = rect.width * 0.48;
-      const minR = rect.width * 0.12;
+      const maxR = rect.width * ARC_MAX_R_RATIO;
+      const minR = rect.width * ARC_MIN_R_RATIO;
       if (dist < minR || dist > maxR) return;
 
       let angle = Math.atan2(dy, dx);
@@ -64,11 +72,11 @@ export function useRainbowEasterEgg(
 
       const t = 1 - angle / Math.PI;
 
-      if (t > maxProgress.current - 0.05) {
+      if (t > maxProgress.current - PROGRESS_TOLERANCE) {
         maxProgress.current = Math.max(maxProgress.current, t);
         setProgress(maxProgress.current);
 
-        if (maxProgress.current > 0.9) {
+        if (maxProgress.current > REVEAL_THRESHOLD) {
           setPotRevealed(true);
           setProgress(1);
         }
