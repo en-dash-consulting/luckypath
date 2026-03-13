@@ -37,7 +37,7 @@ export { posKey, isCellForbidden, getEdgePoint } from "./utils";
 
 // Biome themes
 export type { Biome, BiomeTheme, BiomeCanvasColors } from "./biome-theme";
-export { BIOME_THEMES } from "./biome-theme";
+export { BIOME_THEMES, getBiomeCanvasColors } from "./biome-theme";
 
 // Levels & worlds
 export { levels, getLevelById, getLevelsForWorld, worlds } from "./levels";

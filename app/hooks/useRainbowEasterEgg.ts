@@ -11,15 +11,38 @@ export const SVG_HEIGHT = 140;
 /** Vertical center of the arc as a ratio of SVG_HEIGHT (used for hit-detection). */
 export const ARC_CENTER_Y_RATIO = 0.78;
 
+/** Return type for useRainbowEasterEgg — makes the persistence mutation visible. */
+export interface UseRainbowEasterEggReturn {
+  rainbowRef: React.RefObject<SVGSVGElement | null>;
+  progress: number;
+  potRevealed: boolean;
+  unlocked: boolean;
+  handleRainbowMove: (e: React.MouseEvent<SVGSVGElement>) => void;
+  /**
+   * Click handler for the pot of gold.
+   *
+   * Side-effect: writes to localStorage via saveSave() to unlock all levels
+   * and worlds, then invokes the onSaveChanged callback so the caller can
+   * react to the updated save state.
+   */
+  handlePotClick: () => void;
+  handleRainbowLeave: () => void;
+}
+
 /**
  * Encapsulates the rainbow-tracing easter egg interaction.
  *
  * The user traces along a rainbow arc SVG; once progress exceeds 90 %,
  * a pot of gold is revealed. Clicking the pot unlocks all levels.
  *
+ * Side-effects:
+ *   - `handlePotClick` writes to localStorage via `saveSave()` to persist
+ *     unlocked levels/worlds, then invokes the provided `onSaveChanged`
+ *     callback so callers can refresh their save state.
+ *
  * Returns state and event handlers that should be wired to the SVG element.
  */
-export function useRainbowEasterEgg(onSaveChanged: (save: SaveData) => void) {
+export function useRainbowEasterEgg(onSaveChanged: (save: SaveData) => void): UseRainbowEasterEggReturn {
   const [progress, setProgress] = useState(0);
   const [potRevealed, setPotRevealed] = useState(false);
   const [unlocked, setUnlocked] = useState(false);

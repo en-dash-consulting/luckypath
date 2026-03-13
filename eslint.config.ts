@@ -9,6 +9,15 @@ export default tseslint.config(
     plugins: {
       "import-x": importX,
     },
+    settings: {
+      // Enable TypeScript path alias resolution (~/*)
+      // Without this, import-x rules silently skip unresolvable paths.
+      "import-x/resolver": {
+        typescript: {
+          alwaysTryTypes: true,
+        },
+      },
+    },
     rules: {
       // Prevent circular imports between zones
       "import-x/no-cycle": ["error", { maxDepth: 3 }],

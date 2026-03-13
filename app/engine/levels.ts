@@ -317,9 +317,16 @@ function makeWorld(id: number, biome: Biome): WorldData {
   return { id, biome, name: theme.displayName, color: theme.accentColor };
 }
 
-export const worlds: WorldData[] = [
-  makeWorld(1, "meadow"),
-  makeWorld(2, "mushroom"),
-  makeWorld(3, "rainbow"),
-  makeWorld(4, "grove"),
-];
+/**
+ * Build the worlds list from BIOME_THEMES keys to guarantee exhaustiveness.
+ *
+ * Every biome in BIOME_THEMES gets a world entry — adding a new key to
+ * BIOME_THEMES automatically includes it here, so there is no silent
+ * two-step operation.
+ */
+function buildWorlds(): WorldData[] {
+  const biomes = Object.keys(BIOME_THEMES) as Biome[];
+  return biomes.map((biome, idx) => makeWorld(idx + 1, biome));
+}
+
+export const worlds: WorldData[] = buildWorlds();
