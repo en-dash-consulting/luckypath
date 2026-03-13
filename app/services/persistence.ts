@@ -45,15 +45,26 @@ export function saveSave(data: SaveData): void {
   localStorage.setItem(SAVE_KEY, JSON.stringify(data));
 }
 
-export function completeLevel(
+/**
+ * Pure updater — returns a new SaveData with the level completion recorded.
+ * Keeps the best (highest) clover count for the level.
+ *
+ * Designed to be used with useSave's `updateSave`:
+ *   updateSave(save => completeLevelUpdater(save, levelId, clovers))
+ */
+export function completeLevelUpdater(
+  save: SaveData,
   levelId: string,
   clovers: number
 ): SaveData {
-  const save = loadSave();
   const existing = save.completedLevels[levelId] || 0;
-  save.completedLevels[levelId] = Math.max(existing, clovers);
-  saveSave(save);
-  return save;
+  return {
+    ...save,
+    completedLevels: {
+      ...save.completedLevels,
+      [levelId]: Math.max(existing, clovers),
+    },
+  };
 }
 
 /**

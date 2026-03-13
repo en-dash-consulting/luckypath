@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGameState } from "~/hooks/useGameState";
 import { useSave } from "~/hooks/useSave";
-import { completeLevel } from "~/services/persistence";
+import { completeLevelUpdater } from "~/services/persistence";
 import type { SaveData } from "~/services/persistence";
 import type { GameState, LevelData, TileType, WorldData } from "~/engine";
 import { getWorldById, getNextLevel, isCellForbidden, posKey } from "~/engine";
@@ -16,10 +16,9 @@ import { getWorldById, getNextLevel, isCellForbidden, posKey } from "~/engine";
  * surface is caught at compile time rather than silently propagating.
  *
  * Side-effects:
- *   - When `state.phase` transitions to `"success"`, `completeLevel()`
- *     is called internally to persist the completion and clover count
- *     to localStorage. If `onLevelCompleted` is provided via options,
- *     it fires after persistence so callers can react.
+ *   - When `state.phase` transitions to `"success"`, the level completion
+ *     and clover count are persisted via `updateSave`, keeping React state
+ *     and localStorage in sync through the single reactive write path.
  */
 export interface UseGameSessionReturn {
   state: GameState;
@@ -39,19 +38,9 @@ export interface UseGameSessionReturn {
   moveTile: (fromRow: number, fromCol: number, toRow: number, toCol: number) => void;
 }
 
-export interface UseGameSessionOptions {
-  /**
-   * Optional callback invoked after a level is persisted as complete.
-   * This makes the internal completeLevel() write side-effect observable
-   * and testable without mocking localStorage.
-   */
-  onLevelCompleted?: (levelId: string, clovers: number) => void;
-}
-
-export function useGameSession(level: LevelData, options: UseGameSessionOptions = {}): UseGameSessionReturn {
-  const { onLevelCompleted } = options;
+export function useGameSession(level: LevelData): UseGameSessionReturn {
   const [showComplete, setShowComplete] = useState(false);
-  const { save } = useSave();
+  const { save, updateSave } = useSave();
 
   const gameState = useGameState(level);
   const { state, selectTile, toggleRemoveMode, placeTile, rotateTile, removeTile, runSimulation, resetBoard } = gameState;
@@ -69,14 +58,13 @@ export function useGameSession(level: LevelData, options: UseGameSessionOptions 
 
   useEffect(() => {
     if (state.phase === "success") {
-      completeLevel(level.id, clovers);
-      onLevelCompleted?.(level.id, clovers);
+      updateSave((current) => completeLevelUpdater(current, level.id, clovers));
       const timer = setTimeout(() => setShowComplete(true), 1500);
       return () => clearTimeout(timer);
     } else {
       setShowComplete(false);
     }
-  }, [state.phase, level.id, clovers, onLevelCompleted]);
+  }, [state.phase, level.id, clovers, updateSave]);
 
   const handleCellClick = useCallback(
     (row: number, col: number) => {

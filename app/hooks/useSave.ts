@@ -13,7 +13,6 @@ import type { SaveData } from "~/services/persistence";
 export interface UseSaveReturn {
   save: SaveData;
   setSave: React.Dispatch<React.SetStateAction<SaveData>>;
-  refreshSave: () => void;
   updateSave: (updater: (current: SaveData) => SaveData) => void;
 }
 
@@ -45,14 +44,5 @@ export function useSave(): UseSaveReturn {
     [],
   );
 
-  /**
-   * Re-read save from storage into React state.
-   * Use when an external call (e.g. `completeLevel`) wrote to storage
-   * outside of `updateSave`.
-   */
-  const refreshSave = useCallback(() => {
-    setSave(loadSave());
-  }, []);
-
-  return { save, setSave, refreshSave, updateSave } as const;
+  return { save, setSave, updateSave } as const;
 }
