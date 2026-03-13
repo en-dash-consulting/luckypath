@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGameState } from "~/hooks/useGameState";
-import { completeLevel, loadSave } from "~/lib/persistence";
+import { useSave } from "~/hooks/useSave";
+import { completeLevel } from "~/lib/persistence";
 import type { SaveData } from "~/lib/persistence";
-import type { GameState, LevelData, TileType } from "~/engine";
+import type { GameState, LevelData, TileType, WorldData } from "~/engine";
 import { getWorldById, getNextLevel, isCellForbidden, posKey } from "~/engine";
-import type { WorldData } from "~/engine";
 
 /**
  * Public contract for useGameSession.
@@ -50,12 +50,7 @@ export interface UseGameSessionOptions {
 export function useGameSession(level: LevelData, options: UseGameSessionOptions = {}): UseGameSessionReturn {
   const { onLevelCompleted } = options;
   const [showComplete, setShowComplete] = useState(false);
-  const [settings, setSettings] = useState<SaveData["settings"]>({ fastMode: false, highContrast: false });
-
-  useEffect(() => {
-    const save = loadSave();
-    setSettings(save.settings);
-  }, []);
+  const { save } = useSave();
 
   const gameState = useGameState(level);
   const { state, selectTile, toggleRemoveMode, placeTile, rotateTile, removeTile, runSimulation, resetBoard } = gameState;
@@ -130,17 +125,16 @@ export function useGameSession(level: LevelData, options: UseGameSessionOptions 
     if (!candidate) return null;
     // Guard: don't offer a next level whose world is locked
     if (candidate.worldId !== level.worldId) {
-      const save = loadSave();
       if (!save.unlockedWorlds.includes(candidate.worldId)) {
         return null;
       }
     }
     return candidate;
-  }, [level.id, level.worldId]);
+  }, [level.id, level.worldId, save.unlockedWorlds]);
 
   return {
     state,
-    settings,
+    settings: save.settings,
     world,
     tilesUsed,
     clovers,

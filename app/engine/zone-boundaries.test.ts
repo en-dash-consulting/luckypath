@@ -114,4 +114,12 @@ describe("zone-boundary ESLint rules", () => {
     );
     expect(rules).not.toContain("import-x/no-restricted-paths");
   });
+
+  it("blocks routes from importing engine (barrel or deep)", () => {
+    const rules = lintTempFile(
+      "app/routes/_zone_test_tmp.ts",
+      `import { getLevelById } from "~/engine";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
 });

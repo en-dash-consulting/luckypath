@@ -1,15 +1,8 @@
 import { useState, useRef, useCallback } from "react";
 import type React from "react";
 import { getAllLevelIds, getAllWorldIds } from "~/engine";
-import { loadSave, saveSave } from "~/lib/persistence";
 import type { SaveData } from "~/lib/persistence";
-
-/** SVG viewBox dimensions for the rainbow arc — shared with worlds.tsx. */
-export const SVG_WIDTH = 320;
-export const SVG_HEIGHT = 140;
-
-/** Vertical center of the arc as a ratio of SVG_HEIGHT (used for hit-detection). */
-export const ARC_CENTER_Y_RATIO = 0.78;
+import { ARC_CENTER_Y_RATIO } from "~/lib/rainbow-constants";
 
 /** Return type for useRainbowEasterEgg — makes the persistence mutation visible. */
 export interface UseRainbowEasterEggReturn {
@@ -21,9 +14,8 @@ export interface UseRainbowEasterEggReturn {
   /**
    * Click handler for the pot of gold.
    *
-   * Side-effect: writes to localStorage via saveSave() to unlock all levels
-   * and worlds, then invokes the onSaveChanged callback so the caller can
-   * react to the updated save state.
+   * Side-effect: delegates to the caller's `updateSave` to unlock all levels
+   * and worlds. The persistence write is handled by `useSave`.
    */
   handlePotClick: () => void;
   handleRainbowLeave: () => void;
@@ -36,13 +28,15 @@ export interface UseRainbowEasterEggReturn {
  * a pot of gold is revealed. Clicking the pot unlocks all levels.
  *
  * Side-effects:
- *   - `handlePotClick` writes to localStorage via `saveSave()` to persist
- *     unlocked levels/worlds, then invokes the provided `onSaveChanged`
- *     callback so callers can refresh their save state.
+ *   - `handlePotClick` delegates to the caller's `updateSave` to persist
+ *     unlocked levels/worlds. This keeps all persistence writes flowing
+ *     through the `useSave` coordinator.
  *
  * Returns state and event handlers that should be wired to the SVG element.
  */
-export function useRainbowEasterEgg(onSaveChanged: (save: SaveData) => void): UseRainbowEasterEggReturn {
+export function useRainbowEasterEgg(
+  updateSave: (updater: (current: SaveData) => SaveData) => void,
+): UseRainbowEasterEggReturn {
   const [progress, setProgress] = useState(0);
   const [potRevealed, setPotRevealed] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
@@ -88,13 +82,15 @@ export function useRainbowEasterEgg(onSaveChanged: (save: SaveData) => void): Us
     if (unlocked) return;
     setUnlocked(true);
 
-    const freshSave = loadSave();
-    // Grant access to all levels without fabricating completion scores
-    freshSave.unlockedLevels = getAllLevelIds();
-    freshSave.unlockedWorlds = getAllWorldIds();
-    saveSave(freshSave);
-    onSaveChanged({ ...freshSave });
-  }, [unlocked, onSaveChanged]);
+    // Grant access to all levels without fabricating completion scores.
+    // Delegates read-modify-write to the caller's updateSave so persistence
+    // initialisation stays in the useSave coordinator.
+    updateSave((current) => ({
+      ...current,
+      unlockedLevels: getAllLevelIds(),
+      unlockedWorlds: getAllWorldIds(),
+    }));
+  }, [unlocked, updateSave]);
 
   const handleRainbowLeave = useCallback(() => {
     if (!potRevealed) {
