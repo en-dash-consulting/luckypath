@@ -11,6 +11,24 @@ export type Rotation = 0 | 1 | 2 | 3; // 0=0°, 1=90°, 2=180°, 3=270° clockwi
 
 export type TileType = "straight" | "curve";
 
+/**
+ * Canonical tile-type registry — the single source of truth for tile metadata.
+ *
+ * Both TileInventory (desktop) and MobileInventory (mobile) derive their
+ * local tile lists from this registry to prevent drift when tile types change.
+ */
+export interface TileTypeDef {
+  type: TileType;
+  label: string;
+  /** Key into the inventory counts object. */
+  invKey: "straight" | "curve";
+}
+
+export const TILE_TYPE_DEFS: TileTypeDef[] = [
+  { type: "straight", label: "Straight", invKey: "straight" },
+  { type: "curve", label: "Curve", invKey: "curve" },
+];
+
 export interface Position {
   row: number;
   col: number;

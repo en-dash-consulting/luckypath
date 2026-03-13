@@ -1,5 +1,5 @@
 import type { TileType, Rotation } from "~/engine";
-import { NORTH, EAST, SOUTH, WEST, getConnection } from "~/engine";
+import { NORTH, EAST, SOUTH, WEST, getConnection, TILE_TYPE_DEFS } from "~/engine";
 import { getEdgePoint } from "./board-utils";
 
 interface TileInventoryProps {
@@ -10,15 +10,6 @@ interface TileInventoryProps {
   removeMode?: boolean;
   onToggleRemoveMode?: () => void;
 }
-
-const TILE_DEFS: {
-  type: TileType;
-  label: string;
-  invKey: keyof TileInventoryProps["remaining"];
-}[] = [
-  { type: "straight", label: "Straight", invKey: "straight" },
-  { type: "curve", label: "Curve", invKey: "curve" },
-];
 
 export function TileInventory({
   remaining,
@@ -31,7 +22,7 @@ export function TileInventory({
   return (
     <div className="bg-white/90 backdrop-blur-sm rounded-r-2xl shadow-lg border border-l-0 border-gray-200 py-3 px-3 flex flex-col gap-2.5 -ml-3 mt-4">
       {/* Tile pieces */}
-      {TILE_DEFS.map(({ type, label, invKey }) => {
+      {TILE_TYPE_DEFS.map(({ type, label, invKey }) => {
         const count = remaining[invKey];
         const isSelected = selectedType === type && !removeMode;
         const isEmpty = count <= 0;

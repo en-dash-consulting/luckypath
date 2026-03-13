@@ -7,16 +7,21 @@ import { TileInventory } from "~/components/TileInventory";
 import { MobileInventory } from "~/components/MobileInventory";
 import { GameHUD } from "~/components/GameHUD";
 import { LevelComplete } from "~/components/LevelComplete";
-import { useState } from "react";
 
+/**
+ * Play route — single source of truth for levelId is useParams().
+ *
+ * The URL param is the only authority. Navigating to a new level URL
+ * triggers a full remount via the key={levelId} prop, which resets
+ * all game state cleanly.
+ */
 export default function Play() {
   const { levelId } = useParams();
   const navigate = useNavigate();
-  const [currentLevelId, setCurrentLevelId] = useState(levelId);
 
   const level = useMemo(
-    () => getLevelById(currentLevelId || ""),
-    [currentLevelId]
+    () => getLevelById(levelId || ""),
+    [levelId]
   );
 
   if (!level) {
@@ -35,15 +40,13 @@ export default function Play() {
     );
   }
 
-  return <PlayLevel key={currentLevelId} level={level} onChangeLevel={setCurrentLevelId} />;
+  return <PlayLevel key={levelId} level={level} />;
 }
 
 function PlayLevel({
   level,
-  onChangeLevel,
 }: {
   level: NonNullable<ReturnType<typeof getLevelById>>;
-  onChangeLevel: (id: string) => void;
 }) {
   const navigate = useNavigate();
 
@@ -131,7 +134,6 @@ function PlayLevel({
           hasNextLevel={!!nextLevel}
           onNext={() => {
             if (nextLevel) {
-              onChangeLevel(nextLevel.id);
               navigate(`/play/${nextLevel.id}`, { replace: true });
             }
           }}
@@ -142,4 +144,3 @@ function PlayLevel({
     </div>
   );
 }
-

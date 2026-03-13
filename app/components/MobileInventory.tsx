@@ -1,4 +1,5 @@
 import type { TileType } from "~/engine";
+import { TILE_TYPE_DEFS } from "~/engine";
 import { TilePreview } from "./TileInventory";
 
 interface MobileInventoryProps {
@@ -10,11 +11,6 @@ interface MobileInventoryProps {
   onToggleRemoveMode?: () => void;
 }
 
-const TILES: { type: TileType; key: "straight" | "curve" }[] = [
-  { type: "straight", key: "straight" },
-  { type: "curve", key: "curve" },
-];
-
 export function MobileInventory({
   remaining,
   selectedType,
@@ -25,8 +21,8 @@ export function MobileInventory({
 }: MobileInventoryProps) {
   return (
     <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 py-2 px-3 flex items-center gap-3 mt-2">
-      {TILES.map(({ type, key }) => {
-        const count = remaining[key];
+      {TILE_TYPE_DEFS.map(({ type, invKey }) => {
+        const count = remaining[invKey];
         const isSelected = selectedType === type && !removeMode;
         const isEmpty = count <= 0;
         const available = !disabled && !isEmpty;
