@@ -1,6 +1,10 @@
 /**
  * Zone-boundary ESLint rule verification.
  *
+ * Co-located with eslint.config.ts because this file tests the eslint config
+ * — it verifies that the architecture DAG enforcement rules are correctly
+ * wired, not engine logic itself.
+ *
  * The ESLint config in eslint.config.ts is the sole enforcement mechanism
  * for the architecture DAG (engine → hooks → components → routes).
  * A misconfigured rule silently degrades to no enforcement, so these tests
@@ -17,7 +21,7 @@ import { writeFileSync, unlinkSync, existsSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { resolve } from "node:path";
 
-const ROOT = resolve(import.meta.dirname, "../..");
+const ROOT = resolve(import.meta.dirname);
 const TEMP_FILES: string[] = [];
 
 /**
@@ -66,7 +70,7 @@ afterEach(() => {
 describe("eslint config validation", () => {
   it("loads without error and contains non-empty no-restricted-paths zones", async () => {
     // Dynamically import the ESLint config to verify it's syntactically valid
-    const configModule = await import("../../eslint.config");
+    const configModule = await import("./eslint.config");
     const configs = configModule.default;
 
     expect(Array.isArray(configs)).toBe(true);
