@@ -1,15 +1,7 @@
-import type { TileType } from "~/engine";
 import { TILE_TYPE_DEFS } from "~/engine";
 import { TilePreview } from "./TilePreview";
-
-interface TileInventoryProps {
-  remaining: { straight: number; curve: number };
-  selectedType: TileType | null;
-  onSelect: (type: TileType | null) => void;
-  disabled?: boolean;
-  removeMode?: boolean;
-  onToggleRemoveMode?: () => void;
-}
+import type { InventoryProps } from "./inventory-shared";
+import { getTileButtonState, handleTileButtonClick } from "./inventory-shared";
 
 export function TileInventory({
   remaining,
@@ -18,43 +10,36 @@ export function TileInventory({
   disabled,
   removeMode,
   onToggleRemoveMode,
-}: TileInventoryProps) {
+}: InventoryProps) {
   return (
     <div className="bg-white/90 backdrop-blur-sm rounded-r-2xl shadow-lg border border-l-0 border-gray-200 py-3 px-3 flex flex-col gap-2.5 -ml-3 mt-4">
       {/* Tile pieces */}
-      {TILE_TYPE_DEFS.map(({ type, label, invKey }) => {
-        const count = remaining[invKey];
-        const isSelected = selectedType === type && !removeMode;
-        const isEmpty = count <= 0;
-        const available = !disabled && !isEmpty;
+      {TILE_TYPE_DEFS.map(({ type, invKey }) => {
+        const btn = getTileButtonState(remaining, invKey, selectedType, type, removeMode, disabled);
 
         return (
           <button
             key={type}
-            onClick={() => {
-              if (!available) return;
-              if (onToggleRemoveMode && removeMode) onToggleRemoveMode();
-              onSelect(isSelected ? null : type);
-            }}
-            disabled={!available}
+            onClick={() => handleTileButtonClick(btn, type, removeMode, onToggleRemoveMode, onSelect)}
+            disabled={!btn.available}
             className={`
               relative flex flex-col items-center gap-1
               p-2 rounded-xl transition-all duration-150 select-none
-              ${isSelected
+              ${btn.isSelected
                 ? "bg-teal-100 ring-2 ring-teal-500 shadow-md scale-105"
-                : isEmpty
+                : btn.isEmpty
                   ? "opacity-30 cursor-not-allowed"
                   : "hover:bg-teal-50 hover:scale-105 cursor-pointer"
               }
             `}
           >
-            <TilePreview type={type} size={64} selected={isSelected} />
+            <TilePreview type={type} size={64} selected={btn.isSelected} />
 
             {/* Count display */}
             <span className={`text-lg font-bold tabular-nums ${
-              isSelected ? "text-teal-700" : "text-gray-500"
+              btn.isSelected ? "text-teal-700" : "text-gray-500"
             }`}>
-              {count}
+              {btn.count}
             </span>
           </button>
         );

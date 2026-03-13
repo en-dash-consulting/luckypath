@@ -65,6 +65,7 @@ function PlayLevel({
     settings,
     world,
     tilesUsed,
+    tilesRemaining,
     clovers,
     showComplete,
     nextLevel,
@@ -84,7 +85,7 @@ function PlayLevel({
         worldName={world?.name || ""}
         phase={state.phase}
         failReason={state.failReason}
-        tilesRemaining={state.remainingInventory.straight + state.remainingInventory.curve}
+        tilesRemaining={tilesRemaining}
         onRun={handleRun}
         onReset={handleReset}
         onBack={() => navigate("/worlds")}

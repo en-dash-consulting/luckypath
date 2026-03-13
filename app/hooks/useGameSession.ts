@@ -26,6 +26,7 @@ export interface UseGameSessionReturn {
   settings: SaveData["settings"];
   world: WorldData | undefined;
   tilesUsed: number;
+  tilesRemaining: number;
   clovers: number;
   showComplete: boolean;
   nextLevel: LevelData | null;
@@ -57,6 +58,7 @@ export function useGameSession(level: LevelData, options: UseGameSessionOptions 
 
   const world = getWorldById(level.worldId);
   const tilesUsed = state.placedTiles.size;
+  const tilesRemaining = state.remainingInventory.straight + state.remainingInventory.curve;
 
   const clovers = useMemo(() => {
     if (state.phase !== "success") return 0;
@@ -137,6 +139,7 @@ export function useGameSession(level: LevelData, options: UseGameSessionOptions 
     settings: save.settings,
     world,
     tilesUsed,
+    tilesRemaining,
     clovers,
     showComplete,
     nextLevel,
