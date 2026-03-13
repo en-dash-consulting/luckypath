@@ -2,8 +2,8 @@
  * Shared board rendering constants used by GameBoard and canvas-drawing.
  *
  * Centralising these values ensures the board rendering components
- * stay visually consistent. This module is internal to the
- * game-board-rendering zone.
+ * stay visually consistent. This module belongs to the components layer
+ * (app/components/) and is consumed exclusively within that layer.
  */
 /** Pixel size of one board cell. */
 export const CELL_SIZE = 80;
