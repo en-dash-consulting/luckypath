@@ -192,6 +192,28 @@ describe("zone-boundary ESLint rules", () => {
     expect(rules).toContain("import-x/no-restricted-paths");
   });
 
+  // ── Hooks-as-bridge tests ──────────────────────────────────────────
+  // The hooks layer is the sole permitted bridge from engine to routes.
+  // These tests explicitly verify the bridge pattern is intact:
+  //   routes → hooks (allowed) → engine (allowed)
+  //   routes → engine (blocked)
+
+  it("allows routes importing from hooks (bridge pattern)", () => {
+    const rules = lintTempFile(
+      "app/routes/_zone_test_tmp.ts",
+      `import { useWorldSession } from "~/hooks/useWorldSession";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+
+  it("allows routes importing from hooks barrel (bridge pattern)", () => {
+    const rules = lintTempFile(
+      "app/routes/_zone_test_tmp.ts",
+      `import { useGameSession } from "~/hooks";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+
   it("allows hooks importing from geometry (valid DAG direction)", () => {
     const rules = lintTempFile(
       "app/hooks/_zone_test_tmp.ts",
