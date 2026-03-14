@@ -91,11 +91,54 @@ describe("eslint config validation", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const restrictedPaths = (ruleConfig as any).rules[
       "import-x/no-restricted-paths"
-    ] as [string, { zones: unknown[] }];
+    ] as [string, { zones: Array<{ target: string; from: string }> }];
     expect(restrictedPaths).toBeDefined();
     expect(restrictedPaths[0]).toBe("error");
     expect(Array.isArray(restrictedPaths[1].zones)).toBe(true);
     expect(restrictedPaths[1].zones.length).toBeGreaterThan(0);
+  });
+
+  it("contains exactly the expected zone boundary rules", async () => {
+    const configModule = await import("./eslint.config");
+    const configs = configModule.default;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ruleConfig = configs.find((c: any) =>
+      c.rules?.["import-x/no-restricted-paths"],
+    );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const zones = ((ruleConfig as any).rules[
+      "import-x/no-restricted-paths"
+    ] as [string, { zones: Array<{ target: string; from: string }> }])[1].zones;
+
+    // Every zone pair in the DAG must be present. If a rule is accidentally
+    // removed, this test will fail with the exact missing pair.
+    const expectedZonePairs: Array<{ target: string; from: string }> = [
+      // Engine barrel enforcement — no deep imports
+      { target: "./app/components/**", from: "./app/engine/!(index).ts" },
+      { target: "./app/hooks/**",     from: "./app/engine/!(index).ts" },
+      // Routes cannot access engine at all (must go through hooks)
+      { target: "./app/routes/**",    from: "./app/engine/**" },
+      // Hooks must not import from routes or components
+      { target: "./app/hooks/**",     from: "./app/routes/**" },
+      { target: "./app/hooks/**",     from: "./app/components/**" },
+      // Components must not import from routes
+      { target: "./app/components/**", from: "./app/routes/**" },
+      // Geometry is a foundation layer — must not import upward
+      { target: "./app/geometry/**",  from: "./app/engine/**" },
+      { target: "./app/geometry/**",  from: "./app/hooks/**" },
+      { target: "./app/geometry/**",  from: "./app/components/**" },
+      { target: "./app/geometry/**",  from: "./app/routes/**" },
+    ];
+
+    // Assert exact count — catches both additions and removals
+    expect(zones).toHaveLength(expectedZonePairs.length);
+
+    // Assert every expected pair is present
+    const actualPairs = zones.map((z) => ({ target: z.target, from: z.from }));
+    for (const expected of expectedZonePairs) {
+      expect(actualPairs).toContainEqual(expected);
+    }
   });
 });
 
