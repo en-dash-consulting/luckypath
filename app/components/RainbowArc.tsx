@@ -6,7 +6,7 @@
  * SVG, and animation logic lives here.
  */
 import type React from "react";
-import { SVG_WIDTH, SVG_HEIGHT } from "~/engine";
+import { SVG_WIDTH, SVG_HEIGHT } from "~/geometry/rainbow-arc";
 
 const RAINBOW_COLORS = [
   "#ef4444",

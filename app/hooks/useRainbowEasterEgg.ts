@@ -1,14 +1,11 @@
 import { useState, useRef, useCallback } from "react";
 import type React from "react";
+import { getAllLevelIds, getAllWorldIds } from "~/engine";
 import {
-  getAllLevelIds,
-  getAllWorldIds,
-  ARC_CENTER_Y_RATIO,
-  ARC_MAX_R_RATIO,
-  ARC_MIN_R_RATIO,
+  computeArcProgress,
   REVEAL_THRESHOLD,
   PROGRESS_TOLERANCE,
-} from "~/engine";
+} from "~/geometry/rainbow-arc";
 import { useSave } from "~/hooks/useSave";
 
 /** Return type for useRainbowEasterEgg. */
@@ -53,22 +50,12 @@ export function useRainbowEasterEgg(): UseRainbowEasterEggReturn {
       const svg = rainbowRef.current;
       if (!svg || potRevealed) return;
 
-      const rect = svg.getBoundingClientRect();
-      const cx = rect.left + rect.width * 0.5;
-      const cy = rect.top + rect.height * ARC_CENTER_Y_RATIO;
-      const dx = e.clientX - cx;
-      const dy = -(e.clientY - cy);
-
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const maxR = rect.width * ARC_MAX_R_RATIO;
-      const minR = rect.width * ARC_MIN_R_RATIO;
-      if (dist < minR || dist > maxR) return;
-
-      let angle = Math.atan2(dy, dx);
-      if (angle < 0) angle += Math.PI * 2;
-      if (angle > Math.PI) return;
-
-      const t = 1 - angle / Math.PI;
+      const t = computeArcProgress(
+        e.clientX,
+        e.clientY,
+        svg.getBoundingClientRect(),
+      );
+      if (t === null) return;
 
       if (t > maxProgress.current - PROGRESS_TOLERANCE) {
         maxProgress.current = Math.max(maxProgress.current, t);
