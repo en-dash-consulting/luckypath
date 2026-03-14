@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGameState } from "~/hooks/useGameState";
 import { useSave } from "~/hooks/useSave";
-import { completeLevelUpdater } from "~/services/persistence";
 import type { SaveData } from "~/services/persistence";
 import type { GameState, LevelData, TileType, WorldData } from "~/engine";
 import { getWorldById, getNextLevel, isCellForbidden, posKey, calculateClovers } from "~/engine";
@@ -78,7 +77,7 @@ export interface UseGameSessionReturn {
 
 export function useGameSession(level: LevelData): UseGameSessionReturn {
   const [showComplete, setShowComplete] = useState(false);
-  const { save, updateSave } = useSave();
+  const { save, completeLevel } = useSave();
 
   const gameState = useGameState(level);
   const { state, selectTile, toggleRemoveMode, placeTile, rotateTile, removeTile, runSimulation, resetBoard } = gameState;
@@ -94,13 +93,13 @@ export function useGameSession(level: LevelData): UseGameSessionReturn {
 
   useEffect(() => {
     if (state.phase === "success") {
-      updateSave((current) => completeLevelUpdater(current, level.id, clovers));
+      completeLevel(level.id, clovers);
       const timer = setTimeout(() => setShowComplete(true), 1500);
       return () => clearTimeout(timer);
     } else {
       setShowComplete(false);
     }
-  }, [state.phase, level.id, clovers, updateSave]);
+  }, [state.phase, level.id, clovers, completeLevel]);
 
   const handleCellClick = useCallback(
     (row: number, col: number) => {

@@ -40,7 +40,7 @@
 
 import { useState, useCallback } from "react";
 import type React from "react";
-import { loadSave, getDefaultSave, saveSave } from "~/services/persistence";
+import { loadSave, getDefaultSave, saveSave, completeLevelUpdater } from "~/services/persistence";
 import type { SaveData } from "~/services/persistence";
 
 /**
@@ -54,6 +54,8 @@ export interface UseSaveReturn {
   save: SaveData;
   setSave: React.Dispatch<React.SetStateAction<SaveData>>;
   updateSave: (updater: (current: SaveData) => SaveData) => void;
+  /** Persist a level completion, keeping the best clover count. */
+  completeLevel: (levelId: string, clovers: number) => void;
 }
 
 /**
@@ -84,5 +86,12 @@ export function useSave(): UseSaveReturn {
     [],
   );
 
-  return { save, setSave, updateSave } as const;
+  const completeLevel = useCallback(
+    (levelId: string, clovers: number) => {
+      updateSave((current) => completeLevelUpdater(current, levelId, clovers));
+    },
+    [updateSave],
+  );
+
+  return { save, setSave, updateSave, completeLevel } as const;
 }
