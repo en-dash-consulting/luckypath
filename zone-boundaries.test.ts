@@ -203,7 +203,7 @@ describe("zone-boundary ESLint rules", () => {
   it("allows components importing from geometry (valid DAG direction)", () => {
     const rules = lintTempFile(
       "app/components/_zone_test_tmp.ts",
-      `import { SVG_WIDTH } from "~/geometry/rainbow-arc";\n`
+      `import { computeArcProgress } from "~/geometry/rainbow-arc";\n`
     );
     expect(rules).not.toContain("import-x/no-restricted-paths");
   });

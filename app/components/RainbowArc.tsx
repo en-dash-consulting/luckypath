@@ -6,7 +6,12 @@
  * SVG, and animation logic lives here.
  */
 import type React from "react";
-import { SVG_WIDTH, SVG_HEIGHT } from "~/geometry/rainbow-arc";
+
+/** SVG viewBox width for the rainbow arc. */
+const SVG_WIDTH = 320;
+
+/** SVG viewBox height for the rainbow arc. */
+const SVG_HEIGHT = 140;
 
 const RAINBOW_COLORS = [
   "#ef4444",
