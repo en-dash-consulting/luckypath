@@ -164,6 +164,26 @@ describe("zone-boundary ESLint rules", () => {
     expect(rules).not.toContain("import-x/no-restricted-paths");
   });
 
+  it("allows components importing from peer component utilities", () => {
+    // GameBoard.tsx imports board-utils and canvas-drawing — same-layer
+    // imports within app/components/ are valid and not a reverse dependency.
+    const rules = lintTempFile(
+      "app/components/_zone_test_tmp.ts",
+      `import { CELL_SIZE } from "./board-utils";\nimport { drawTile } from "./canvas-drawing";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+
+  it("allows components importing engine barrel (valid DAG direction)", () => {
+    // Components like GameBoard.tsx import types and utils from the engine
+    // barrel — this is the expected downward dependency direction.
+    const rules = lintTempFile(
+      "app/components/_zone_test_tmp.ts",
+      `import { posKey, getBiomeCanvasColors } from "~/engine";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+
   it("blocks routes from importing engine (barrel or deep)", () => {
     const rules = lintTempFile(
       "app/routes/_zone_test_tmp.ts",
