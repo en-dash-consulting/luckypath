@@ -1,8 +1,8 @@
 /**
  * Global architecture DAG enforcement tests.
  *
- * This file guards the entire 4-layer dependency DAG:
- *   engine → hooks → components → routes
+ * This file guards the entire 5-layer dependency DAG:
+ *   geometry → engine → hooks → components → routes
  *
  * Its scope is global architecture enforcement — it validates that every
  * layer boundary in the project is correctly wired in the ESLint config,
@@ -188,6 +188,38 @@ describe("zone-boundary ESLint rules", () => {
     const rules = lintTempFile(
       "app/routes/_zone_test_tmp.ts",
       `import { getLevelById } from "~/engine";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  it("allows hooks importing from geometry (valid DAG direction)", () => {
+    const rules = lintTempFile(
+      "app/hooks/_zone_test_tmp.ts",
+      `import { computeArcProgress } from "~/geometry/rainbow-arc";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+
+  it("allows components importing from geometry (valid DAG direction)", () => {
+    const rules = lintTempFile(
+      "app/components/_zone_test_tmp.ts",
+      `import { SVG_WIDTH } from "~/geometry/rainbow-arc";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+
+  it("blocks geometry from importing engine (foundation layer cannot depend upward)", () => {
+    const rules = lintTempFile(
+      "app/geometry/_zone_test_tmp.ts",
+      `import { posKey } from "~/engine";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  it("blocks geometry from importing components (foundation layer cannot depend upward)", () => {
+    const rules = lintTempFile(
+      "app/geometry/_zone_test_tmp.ts",
+      `import { GameBoard } from "~/components/GameBoard";\n`
     );
     expect(rules).toContain("import-x/no-restricted-paths");
   });

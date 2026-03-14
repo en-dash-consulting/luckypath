@@ -4,7 +4,7 @@
  * This file is the ONE AND ONLY mechanism that enforces the architecture
  * layer boundary at import time:
  *
- *   engine → hooks → components → routes
+ *   geometry → engine → hooks → components → routes
  *
  * The `import-x/no-restricted-paths` rules below are what actually prevent
  * illegal cross-zone imports. Other documentation of the DAG (JSDoc comments
@@ -80,6 +80,27 @@ export default tseslint.config(
               target: "./app/components/**",
               from: "./app/routes/**",
               message: "Components must not import from routes (violates layer boundary: engine → hooks → components → routes).",
+            },
+            // Layer enforcement — geometry is a foundation layer, must not import upward
+            {
+              target: "./app/geometry/**",
+              from: "./app/engine/**",
+              message: "Geometry must not import from engine (geometry is a foundation layer below engine).",
+            },
+            {
+              target: "./app/geometry/**",
+              from: "./app/hooks/**",
+              message: "Geometry must not import from hooks (geometry is a foundation layer below hooks).",
+            },
+            {
+              target: "./app/geometry/**",
+              from: "./app/components/**",
+              message: "Geometry must not import from components (geometry is a foundation layer below components).",
+            },
+            {
+              target: "./app/geometry/**",
+              from: "./app/routes/**",
+              message: "Geometry must not import from routes (geometry is a foundation layer below routes).",
             },
           ],
         },
