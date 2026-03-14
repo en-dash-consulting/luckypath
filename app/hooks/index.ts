@@ -26,7 +26,7 @@ export type { UseGameSessionReturn } from "./useGameSession";
 export { useLevelById } from "./useLevelById";
 
 // Shared persistence primitive — composed internally by other hooks
-export { useSave } from "./useSave";
+export { useSave, SaveProvider } from "./useSave";
 export type { UseSaveReturn } from "./useSave";
 
 // Re-exported types so routes can import domain types through hooks

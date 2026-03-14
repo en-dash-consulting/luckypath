@@ -7,20 +7,30 @@
  *
  * Engine access is mediated entirely through hooks so there is a single
  * abstraction path: engine → hooks → routes.  Both hooks compose `useSave()`
- * internally, so this route is a pure consumer of hook return values — it
- * never forwards persistence functions between hooks.
+ * internally via `SaveProvider`, sharing a single save-state instance so
+ * mutations in one hook (e.g. rainbow easter egg unlock) are immediately
+ * visible to the other without depending on render propagation order.
  *
  * Current import budget:
  *   components  — 2 symbols
- *   hooks       — 2 symbols
+ *   hooks       — 3 symbols (SaveProvider + 2 hooks)
  */
 import { Link } from "react-router";
 import { useRainbowEasterEgg } from "~/hooks/useRainbowEasterEgg";
 import { useWorldSession } from "~/hooks/useWorldSession";
+import { SaveProvider } from "~/hooks/useSave";
 import { WorldGrid } from "~/components/WorldGrid";
 import { RainbowArc } from "~/components/RainbowArc";
 
 export default function Worlds() {
+  return (
+    <SaveProvider>
+      <WorldsContent />
+    </SaveProvider>
+  );
+}
+
+function WorldsContent() {
   const { save, worlds, isLevelUnlocked, getClovers, getLevels } = useWorldSession();
 
   const {

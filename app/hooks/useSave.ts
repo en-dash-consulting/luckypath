@@ -32,13 +32,28 @@
  * - A single initialization path means future concerns (schema migration,
  *   cross-tab sync, error telemetry) propagate automatically.
  *
- * Routes and components should never pass persistence functions between
- * hooks. If a route needs data from two hooks that both call `useSave()`,
- * each hook manages its own instance — React state deduplication keeps
- * this safe in practice.
+ * ## Shared Save Context
+ *
+ * When multiple hooks that call `useSave()` are mounted in the same route
+ * (e.g. `useWorldSession` + `useRainbowEasterEgg` in worlds.tsx), wrap
+ * them in a `<SaveProvider>` so they share a single state instance.
+ * Without the provider, each `useSave()` call creates its own `useState`,
+ * and save mutations in one hook are not visible to the other until the
+ * next render cycle.
+ *
+ * ```
+ * // Route with multiple save-consuming hooks:
+ * <SaveProvider>
+ *   <MyComponent />   // hooks inside share the same SaveData
+ * </SaveProvider>
+ * ```
+ *
+ * `useSave()` checks for a surrounding `SaveProvider` and returns the
+ * shared instance when present. When no provider exists, it falls back
+ * to creating its own state — backward compatible with single-hook routes.
  */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, createContext, useContext, createElement } from "react";
 import type React from "react";
 import { loadSave, getDefaultSave, saveSave, completeLevelUpdater } from "~/services/persistence";
 import type { SaveData } from "~/services/persistence";
@@ -58,9 +73,25 @@ export interface UseSaveReturn {
   completeLevel: (levelId: string, clovers: number) => void;
 }
 
+/** @internal Sentinel value — context is `null` when no provider wraps the tree. */
+const SaveContext = createContext<UseSaveReturn | null>(null);
+
+/**
+ * Provider that shares a single save-state instance across all `useSave()`
+ * consumers in its subtree. Use in routes where multiple hooks compose
+ * `useSave()` independently (e.g. worlds.tsx).
+ */
+export function SaveProvider({ children }: { children: React.ReactNode }) {
+  const value = useSaveInternal();
+  return createElement(SaveContext.Provider, { value }, children);
+}
+
 /**
  * Centralized save-data primitive — the single initialization coordinator
  * for all hooks that need access to persisted save state.
+ *
+ * When wrapped in a `<SaveProvider>`, returns the shared context instance.
+ * Otherwise creates its own state (backward compatible).
  *
  * SSR-safe: falls back to `getDefaultSave()` on the server.
  *
@@ -68,6 +99,13 @@ export interface UseSaveReturn {
  * this is the ONE place to add it instead of patching every consumer.
  */
 export function useSave(): UseSaveReturn {
+  const ctx = useContext(SaveContext);
+  if (ctx !== null) return ctx;
+  return useSaveInternal();
+}
+
+/** Standalone save state — used by SaveProvider and as fallback. */
+function useSaveInternal(): UseSaveReturn {
   const [save, setSave] = useState<SaveData>(() =>
     typeof window !== "undefined" ? loadSave() : getDefaultSave()
   );
