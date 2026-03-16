@@ -1,8 +1,8 @@
 /**
  * Global architecture DAG enforcement tests.
  *
- * This file guards the entire 5-layer dependency DAG:
- *   geometry → engine → hooks → components → routes
+ * This file guards the entire 6-layer dependency DAG:
+ *   geometry → engine → services → hooks → components → routes
  *
  * Its scope is global architecture enforcement — it validates that every
  * layer boundary in the project is correctly wired in the ESLint config,
@@ -120,6 +120,8 @@ describe("eslint config validation", () => {
       // Hooks barrel enforcement — no deep imports from outside the hooks zone
       { target: "./app/routes/**",    from: "./app/hooks/!(index).ts" },
       { target: "./app/components/**", from: "./app/hooks/!(index).ts" },
+      // Engine must not import from services
+      { target: "./app/engine/**",    from: "./app/services/**" },
       // Routes cannot access engine at all (must go through hooks)
       { target: "./app/routes/**",    from: "./app/engine/**" },
       // Routes cannot access services directly (must go through hooks)
@@ -325,6 +327,14 @@ describe("zone-boundary ESLint rules", () => {
     expect(rules).toContain("import-x/no-restricted-paths");
   });
 
+  it("blocks engine from importing services (services is above engine)", () => {
+    const rules = lintTempFile(
+      "app/engine/_zone_test_tmp.ts",
+      `import { loadSave } from "~/services/persistence";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
   // ── Services zone boundary tests ────────────────────────────────────
   // Services sits between engine and hooks in the DAG. Only hooks may
   // import from services; services must not import upward.
@@ -367,6 +377,14 @@ describe("zone-boundary ESLint rules", () => {
       `import Worlds from "~/routes/worlds";\n`
     );
     expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  it("allows services importing from engine (valid DAG direction)", () => {
+    const rules = lintTempFile(
+      "app/services/_zone_test_tmp.ts",
+      `import { posKey } from "~/engine";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
   });
 
   // ── Hooks-internal imports (same-zone, not barrel-enforced) ─────────

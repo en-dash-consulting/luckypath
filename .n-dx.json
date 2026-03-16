@@ -15,6 +15,7 @@
       "eslint.config.ts": "build-infrastructure",
       "zone-boundaries.test.ts": "build-infrastructure",
       "app/services/persistence.ts": "persistence",
+      "app/services/persistence.test.ts": "persistence",
       "app/services/index.ts": "persistence"
     },
     "metricNotes": {
