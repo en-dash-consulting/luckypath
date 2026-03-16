@@ -5,7 +5,7 @@
 # Prerequisites:
 #   - gcloud CLI installed and authenticated (`gcloud auth login`)
 #   - Docker daemon running (Cloud Run source deploy builds a container)
-#   - Sufficient IAM permissions on the the target GCP project
+#   - Sufficient IAM permissions on the target GCP project
 #     (roles/run.admin, roles/iam.serviceAccountUser)
 #
 # Usage:
