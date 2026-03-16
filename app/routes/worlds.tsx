@@ -16,9 +16,7 @@
  *   hooks       — 3 symbols (SaveProvider + 2 hooks)
  */
 import { Link } from "react-router";
-import { useRainbowEasterEgg } from "~/hooks/useRainbowEasterEgg";
-import { useWorldSession } from "~/hooks/useWorldSession";
-import { SaveProvider } from "~/hooks/useSave";
+import { useRainbowEasterEgg, useWorldSession, SaveProvider } from "~/hooks";
 import { WorldGrid } from "~/components/WorldGrid";
 import { RainbowArc } from "~/components/RainbowArc";
 
