@@ -1,17 +1,23 @@
 /**
- * Hooks barrel — public API for the hooks adapter layer.
+ * Hooks barrel — public API for React runtime state (stateful layer).
  *
- * This barrel formalizes the hooks zone as a first-class architectural layer,
- * matching the engine barrel pattern (engine/index.ts). All route access to
- * engine data flows through hooks in this layer, enforced by ESLint rules in
- * eslint.config.ts and validated by zone-boundaries.test.ts.
+ * CONTRACT: This barrel exports React hooks, context providers, and the
+ * runtime state they manage. It is the ONLY layer that bridges the pure
+ * engine (~/engine) into React's stateful world. The engine barrel exports
+ * pure functions and types; this barrel wraps them with React lifecycle,
+ * context, and side-effect management.
  *
- * DAG position:  geometry → engine → **hooks** → components → routes
+ *   ~/engine  →  types, pure functions, constants  (stateless)
+ *   ~/hooks   →  React hooks, providers, state      (stateful, imports ~/engine)
  *
- * External consumers (routes & components) must import from this barrel — not
- * from individual hook files.  This is enforced by ESLint boundary rules in
- * eslint.config.ts and validated by zone-boundaries.test.ts.
- * Intra-zone imports (hook → hook) may use direct paths to avoid circular refs.
+ * DAG position:  geometry → engine → services → **hooks** → components → routes
+ *
+ * Layer access rules (enforced by ESLint in eslint.config.ts):
+ *   - Routes & components must import from this barrel — not from individual
+ *     hook files. Enforced by ESLint and validated by zone-boundaries.test.ts.
+ *   - Routes must NOT import from ~/engine directly; this barrel re-exports
+ *     any engine types that routes need (e.g., SaveData, WorldData).
+ *   - Intra-zone imports (hook → hook) may use direct paths to avoid circular refs.
  */
 
 // Route-facing hooks — bridge engine data to routes
