@@ -37,5 +37,8 @@ export { useSave, SaveProvider } from "./useSave";
 export type { UseSaveReturn } from "./useSave";
 
 // Re-exported types so routes can import domain types through hooks
-// without reaching into engine directly
-export type { SaveData, WorldData } from "./useWorldSession";
+// without reaching into engine or services directly.
+// SaveData is imported directly from services (not transitively via useWorldSession)
+// to make the intentional exposure self-documenting and immune to hook refactors.
+export type { SaveData } from "~/services";
+export type { WorldData } from "./useWorldSession";

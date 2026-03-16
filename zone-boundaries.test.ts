@@ -26,7 +26,7 @@
  * to match (and vice versa).
  */
 import { describe, it, expect, afterEach } from "vitest";
-import { writeFileSync, unlinkSync, existsSync } from "node:fs";
+import { writeFileSync, unlinkSync, existsSync, readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { resolve } from "node:path";
 
@@ -127,8 +127,11 @@ describe("eslint config validation", () => {
       // Components barrel enforcement — no deep imports from outside the components zone
       { target: "./app/routes/**",    from: "./app/components/!(index).tsx" },
       { target: "./app/routes/**",    from: "./app/components/!(index).ts" },
-      // Engine must not import from services
+      // Engine must not import from services, hooks, components, or routes
       { target: "./app/engine/**",    from: "./app/services/**" },
+      { target: "./app/engine/**",    from: "./app/hooks/**" },
+      { target: "./app/engine/**",    from: "./app/components/**" },
+      { target: "./app/engine/**",    from: "./app/routes/**" },
       // Routes cannot access engine at all (must go through hooks)
       { target: "./app/routes/**",    from: "./app/engine/**" },
       // Routes cannot access services directly (must go through hooks)
@@ -358,6 +361,30 @@ describe("zone-boundary ESLint rules", () => {
     expect(rules).toContain("import-x/no-restricted-paths");
   });
 
+  it("blocks engine from importing hooks (hooks is above engine)", () => {
+    const rules = lintTempFile(
+      "app/engine/_zone_test_tmp.ts",
+      `import { useSave } from "~/hooks";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  it("blocks engine from importing components (components is above engine)", () => {
+    const rules = lintTempFile(
+      "app/engine/_zone_test_tmp.ts",
+      `import { GameBoard } from "~/components";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  it("blocks engine from importing routes (routes is above engine)", () => {
+    const rules = lintTempFile(
+      "app/engine/_zone_test_tmp.ts",
+      `import Worlds from "~/routes/worlds";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
   // ── Services zone boundary tests ────────────────────────────────────
   // Services sits between engine and hooks in the DAG. Only hooks may
   // import from services; services must not import upward.
@@ -420,5 +447,128 @@ describe("zone-boundary ESLint rules", () => {
       `import { useSave } from "~/hooks/useSave";\n`
     );
     expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+});
+
+/**
+ * Meta-test: enforcement model consistency.
+ *
+ * The architecture DAG is enforced by three independent systems:
+ *   1. eslint.config.ts — import-x/no-restricted-paths zones
+ *   2. scripts/check-layers.sh — grep-based forbidden edge checks
+ *   3. zone-boundaries.test.ts — expectedZonePairs list (above)
+ *
+ * A new layer boundary added to one system must appear in all three.
+ * This test extracts the forbidden layer edges from each system and
+ * asserts they cover exactly the same set — so drift is caught immediately.
+ */
+describe("enforcement model consistency", () => {
+  /**
+   * Extract forbidden layer edges from ESLint config zones.
+   * Barrel enforcement rules (using !(index) patterns) are excluded —
+   * they are an additional concern on top of the layer DAG.
+   * Returns edges as "importer → source" strings, e.g. "routes → engine".
+   */
+  function extractEslintLayerEdges(
+    zones: Array<{ target: string; from: string }>
+  ): Set<string> {
+    const edges = new Set<string>();
+    for (const zone of zones) {
+      const from = zone.from as string;
+      // Skip barrel enforcement rules (they use !(index) globs)
+      if (from.includes("!(index)")) continue;
+      const importerLayer = zone.target.match(/\.\/app\/(\w+)\//)?.[1];
+      const sourceLayer = from.match(/\.\/app\/(\w+)\//)?.[1];
+      if (importerLayer && sourceLayer) {
+        edges.add(`${importerLayer} → ${sourceLayer}`);
+      }
+    }
+    return edges;
+  }
+
+  /**
+   * Parse check-layers.sh and extract forbidden edges from check_no_import calls.
+   * Each call has the form: check_no_import "dir" "pattern" "label"
+   * The pattern contains ~/layer references for each forbidden import target.
+   */
+  function extractShellEdges(): Set<string> {
+    const script = readFileSync(
+      resolve(ROOT, "scripts/check-layers.sh"),
+      "utf-8"
+    );
+    const edges = new Set<string>();
+    for (const line of script.split("\n")) {
+      const dirMatch = line.match(/^check_no_import\s+"(\w+)"/);
+      if (!dirMatch) continue;
+      const importerLayer = dirMatch[1];
+      for (const target of line.matchAll(/~\/(\w+)/g)) {
+        edges.add(`${importerLayer} → ${target[1]}`);
+      }
+    }
+    return edges;
+  }
+
+  /**
+   * Extract forbidden layer edges from the expectedZonePairs list in this file.
+   * We re-derive them the same way as extractEslintLayerEdges to stay DRY.
+   */
+  function extractTestFileEdges(
+    expectedPairs: Array<{ target: string; from: string }>
+  ): Set<string> {
+    return extractEslintLayerEdges(expectedPairs);
+  }
+
+  it("all three enforcement systems cover the same set of forbidden layer edges", async () => {
+    // 1. ESLint config zones
+    const configModule = await import("./eslint.config");
+    const configs = configModule.default;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ruleConfig = configs.find((c: any) =>
+      c.rules?.["import-x/no-restricted-paths"],
+    );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const zones = ((ruleConfig as any).rules[
+      "import-x/no-restricted-paths"
+    ] as [string, { zones: Array<{ target: string; from: string }> }])[1].zones;
+
+    const eslintEdges = extractEslintLayerEdges(zones);
+
+    // 2. check-layers.sh forbidden edges
+    const shellEdges = extractShellEdges();
+
+    // 3. expectedZonePairs from the test above (inline copy to keep the
+    //    meta-test self-contained — the "contains exactly the expected zone
+    //    boundary rules" test above already asserts these match the ESLint
+    //    config, so any drift here is also caught).
+    const expectedZonePairs: Array<{ target: string; from: string }> = [
+      { target: "./app/engine/**",    from: "./app/services/**" },
+      { target: "./app/engine/**",    from: "./app/hooks/**" },
+      { target: "./app/engine/**",    from: "./app/components/**" },
+      { target: "./app/engine/**",    from: "./app/routes/**" },
+      { target: "./app/routes/**",    from: "./app/engine/**" },
+      { target: "./app/routes/**",    from: "./app/services/**" },
+      { target: "./app/components/**", from: "./app/services/**" },
+      { target: "./app/hooks/**",     from: "./app/routes/**" },
+      { target: "./app/hooks/**",     from: "./app/components/**" },
+      { target: "./app/components/**", from: "./app/routes/**" },
+      { target: "./app/services/**",  from: "./app/hooks/**" },
+      { target: "./app/services/**",  from: "./app/components/**" },
+      { target: "./app/services/**",  from: "./app/routes/**" },
+      { target: "./app/geometry/**",  from: "./app/engine/**" },
+      { target: "./app/geometry/**",  from: "./app/hooks/**" },
+      { target: "./app/geometry/**",  from: "./app/components/**" },
+      { target: "./app/geometry/**",  from: "./app/routes/**" },
+      { target: "./app/geometry/**",  from: "./app/services/**" },
+    ];
+    const testFileEdges = extractTestFileEdges(expectedZonePairs);
+
+    // Sort for deterministic comparison and helpful diffs
+    const sortedEslint = [...eslintEdges].sort();
+    const sortedShell  = [...shellEdges].sort();
+    const sortedTest   = [...testFileEdges].sort();
+
+    // Assert pairwise equality — any mismatch shows exactly which edge drifted
+    expect(sortedEslint).toEqual(sortedShell);
+    expect(sortedEslint).toEqual(sortedTest);
   });
 });

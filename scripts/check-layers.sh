@@ -45,8 +45,8 @@ check_no_import "services" "from ['\"]~/hooks|from ['\"]~/components|from ['\"]~
 # hooks must not import from components or routes
 check_no_import "hooks" "from ['\"]~/components|from ['\"]~/routes" "components/routes"
 
-# components must not import from routes
-check_no_import "components" "from ['\"]~/routes" "routes"
+# components must not import from routes or services
+check_no_import "components" "from ['\"]~/routes|from ['\"]~/services" "routes/services"
 
 # routes must not import from engine or services (must go through hooks)
 check_no_import "routes" "from ['\"]~/engine|from ['\"]~/services" "engine/services (must go through hooks)"

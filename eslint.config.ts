@@ -98,11 +98,26 @@ export default tseslint.config(
               from: "./app/services/**",
               message: "Components must not import directly from services (persistence logic should be accessed through hooks).",
             },
-            // Layer enforcement — engine must not import from services
+            // Layer enforcement — engine must not import from services, hooks, components, or routes
             {
               target: "./app/engine/**",
               from: "./app/services/**",
               message: "Engine must not import from services (services is above engine in the DAG).",
+            },
+            {
+              target: "./app/engine/**",
+              from: "./app/hooks/**",
+              message: "Engine must not import from hooks (hooks is above engine in the DAG).",
+            },
+            {
+              target: "./app/engine/**",
+              from: "./app/components/**",
+              message: "Engine must not import from components (components is above engine in the DAG).",
+            },
+            {
+              target: "./app/engine/**",
+              from: "./app/routes/**",
+              message: "Engine must not import from routes (routes is above engine in the DAG).",
             },
             // Layer enforcement — hooks must not import from routes or components
             {
