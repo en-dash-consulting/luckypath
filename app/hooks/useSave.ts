@@ -32,19 +32,37 @@
  * - A single initialization path means future concerns (schema migration,
  *   cross-tab sync, error telemetry) propagate automatically.
  *
- * ## Shared Save Context
+ * ## SaveProvider: Mandatory vs Optional
  *
- * When multiple hooks that call `useSave()` are mounted in the same route
- * (e.g. `useWorldSession` + `useRainbowEasterEgg` in worlds.tsx), wrap
- * them in a `<SaveProvider>` so they share a single state instance.
- * Without the provider, each `useSave()` call creates its own `useState`,
- * and save mutations in one hook are not visible to the other until the
- * next render cycle.
+ * | Scenario                                        | SaveProvider | Why                                          |
+ * |-------------------------------------------------|--------------|----------------------------------------------|
+ * | Single hook calls `useSave()` in the subtree    | **Optional** | No sibling to diverge from; standalone is fine. |
+ * | Multiple sibling hooks call `useSave()` in the  | **Required** | Without it each hook gets its own `useState`;   |
+ * |   same subtree (e.g. `useWorldSession` +        |              | mutations in one are invisible to the other     |
+ * |   `useRainbowEasterEgg` in worlds.tsx)           |              | until the next render cycle (silent divergence).|
+ * | Parent already wrapped in `<SaveProvider>`       | **Omit**     | Nesting providers is redundant — the outer one  |
+ * |                                                  |              | already shares state to the whole subtree.      |
+ *
+ * **TL;DR:** Count the number of _independent_ `useSave()` compositions
+ * that will mount as siblings. If the answer is ≥ 2, wrap them in a
+ * single `<SaveProvider>`. If it's 1, skip the provider — adding one is
+ * harmless but unnecessary. A runtime dev-mode warning fires when
+ * multiple standalone instances are detected (see `__standaloneInstanceCount`).
  *
  * ```
- * // Route with multiple save-consuming hooks:
+ * // ✅ Multiple save-consuming hooks — provider required
  * <SaveProvider>
  *   <MyComponent />   // hooks inside share the same SaveData
+ * </SaveProvider>
+ *
+ * // ✅ Single save-consuming hook — provider optional
+ * <MySimpleComponent />
+ *
+ * // ❌ Redundant nesting — outer provider already covers the subtree
+ * <SaveProvider>
+ *   <SaveProvider>
+ *     <MyComponent />
+ *   </SaveProvider>
  * </SaveProvider>
  * ```
  *
