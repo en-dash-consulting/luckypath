@@ -1,12 +1,27 @@
 /**
- * Rainbow arc hit-detection constants and utilities.
+ * Rainbow arc geometry constants and hit-detection utilities.
  *
  * This module lives in app/geometry/ — a shared layer below both hooks and
  * components — so both can import without a DAG bypass.
  *
- * Only hit-detection parameters and logic belong here. SVG viewBox dimensions
- * (SVG_WIDTH, SVG_HEIGHT) are presentation concerns owned by RainbowArc.tsx.
+ * Arc coordinate-space constants (SVG_WIDTH, SVG_HEIGHT, ARC_CX, ARC_BASELINE)
+ * live here as the single source of truth. RainbowArc.tsx imports them for
+ * rendering; hooks import the hit-detection helpers.
  */
+
+/* ── Arc coordinate-space constants ──────────────────────────────── */
+
+/** SVG viewBox width for the rainbow arc. */
+export const SVG_WIDTH = 320;
+
+/** SVG viewBox height for the rainbow arc. */
+export const SVG_HEIGHT = 140;
+
+/** Horizontal center of the arc (derived from SVG_WIDTH). */
+export const ARC_CX = SVG_WIDTH / 2; // 160
+
+/** Vertical baseline of the arc (derived from SVG_HEIGHT). */
+export const ARC_BASELINE = SVG_HEIGHT - 10; // 130
 
 /* ── Hit-detection & progress parameters ─────────────────────────── */
 

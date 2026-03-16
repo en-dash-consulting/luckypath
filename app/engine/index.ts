@@ -92,8 +92,12 @@ export {
 } from "./levels";
 export type { WorldData } from "./levels";
 
-// Geometry (rainbow-arc hit-detection)
+// Geometry (rainbow-arc constants & hit-detection)
 export {
+  SVG_WIDTH,
+  SVG_HEIGHT,
+  ARC_CX,
+  ARC_BASELINE,
   computeArcProgress,
   REVEAL_THRESHOLD,
   PROGRESS_TOLERANCE,
