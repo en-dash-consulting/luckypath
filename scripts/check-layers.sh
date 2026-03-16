@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 #
 # Enforce the architectural layering DAG:
-#   engine → hooks → components → routes
+#   geometry → engine → services → hooks → components → routes
 #
 # Forbidden import directions (reverse edges):
-#   - engine/ must NOT import from hooks/, components/, or routes/
-#   - hooks/ must NOT import from components/ or routes/
+#   - geometry/ must NOT import from any upper layer
+#   - engine/   must NOT import from services/, hooks/, components/, or routes/
+#   - services/ must NOT import from hooks/, components/, or routes/
+#   - hooks/    must NOT import from components/ or routes/
 #   - components/ must NOT import from routes/
+#   - routes/   must NOT import from engine/ or services/ (must go through hooks)
+#
+# This script is the quick-check counterpart to zone-boundaries.test.ts.
+# Both enforce the same 6-layer DAG — if you change one, update the other.
 #
 # Run: npm run check-layers
 
@@ -27,8 +33,14 @@ check_no_import() {
   done < <(find "app/$dir" -name '*.ts' -o -name '*.tsx' 2>/dev/null)
 }
 
-# engine must not import from hooks, components, or routes
-check_no_import "engine" "from ['\"]~/hooks|from ['\"]~/components|from ['\"]~/routes" "hooks/components/routes"
+# geometry must not import from any upper layer
+check_no_import "geometry" "from ['\"]~/engine|from ['\"]~/services|from ['\"]~/hooks|from ['\"]~/components|from ['\"]~/routes" "engine/services/hooks/components/routes"
+
+# engine must not import from services, hooks, components, or routes
+check_no_import "engine" "from ['\"]~/services|from ['\"]~/hooks|from ['\"]~/components|from ['\"]~/routes" "services/hooks/components/routes"
+
+# services must not import from hooks, components, or routes
+check_no_import "services" "from ['\"]~/hooks|from ['\"]~/components|from ['\"]~/routes" "hooks/components/routes"
 
 # hooks must not import from components or routes
 check_no_import "hooks" "from ['\"]~/components|from ['\"]~/routes" "components/routes"
@@ -36,10 +48,13 @@ check_no_import "hooks" "from ['\"]~/components|from ['\"]~/routes" "components/
 # components must not import from routes
 check_no_import "components" "from ['\"]~/routes" "routes"
 
+# routes must not import from engine or services (must go through hooks)
+check_no_import "routes" "from ['\"]~/engine|from ['\"]~/services" "engine/services (must go through hooks)"
+
 if [ "$ERRORS" -gt 0 ]; then
   echo ""
   echo "Found $ERRORS layer violation(s). Fix the imports above."
   exit 1
 else
-  echo "Layer boundaries OK (engine → hooks → components → routes)"
+  echo "Layer boundaries OK (geometry → engine → services → hooks → components → routes)"
 fi

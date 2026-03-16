@@ -20,6 +20,10 @@
  * itself is syntactically valid and that the no-restricted-paths zones
  * array is non-empty — a misconfigured or accidentally emptied array
  * fails silently with no CI signal otherwise.
+ *
+ * SYNC NOTE: scripts/check-layers.sh enforces the same 6-layer DAG at
+ * the shell level. If you change the DAG here, update check-layers.sh
+ * to match (and vice versa).
  */
 import { describe, it, expect, afterEach } from "vitest";
 import { writeFileSync, unlinkSync, existsSync } from "node:fs";
