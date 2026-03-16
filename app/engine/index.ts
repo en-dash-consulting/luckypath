@@ -63,3 +63,10 @@ export {
   getAllWorldIds,
 } from "./levels";
 export type { WorldData } from "./levels";
+
+// Geometry (rainbow-arc hit-detection)
+export {
+  computeArcProgress,
+  REVEAL_THRESHOLD,
+  PROGRESS_TOLERANCE,
+} from "../geometry/rainbow-arc";

@@ -1,11 +1,12 @@
 import { useState, useRef, useCallback } from "react";
 import type React from "react";
-import { getAllLevelIds, getAllWorldIds } from "~/engine";
 import {
+  getAllLevelIds,
+  getAllWorldIds,
   computeArcProgress,
   REVEAL_THRESHOLD,
   PROGRESS_TOLERANCE,
-} from "~/geometry/rainbow-arc";
+} from "~/engine";
 import { useSave } from "~/hooks/useSave";
 
 /** Return type for useRainbowEasterEgg. */
