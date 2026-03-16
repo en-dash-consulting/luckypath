@@ -1,0 +1,305 @@
+{
+  "components": [
+    {
+      "file": "app/components/GameBoard.tsx",
+      "name": "GameBoard",
+      "kind": "function",
+      "line": 26,
+      "isDefaultExport": false,
+      "conventionExports": []
+    },
+    {
+      "file": "app/components/GameHUD.tsx",
+      "name": "GameHUD",
+      "kind": "function",
+      "line": 12,
+      "isDefaultExport": false,
+      "conventionExports": []
+    },
+    {
+      "file": "app/components/LevelComplete.tsx",
+      "name": "LevelComplete",
+      "kind": "function",
+      "line": 12,
+      "isDefaultExport": false,
+      "conventionExports": []
+    },
+    {
+      "file": "app/components/MobileInventory.tsx",
+      "name": "MobileInventory",
+      "kind": "function",
+      "line": 6,
+      "isDefaultExport": false,
+      "conventionExports": []
+    },
+    {
+      "file": "app/components/RainbowArc.tsx",
+      "name": "RainbowArc",
+      "kind": "function",
+      "line": 30,
+      "isDefaultExport": false,
+      "conventionExports": []
+    },
+    {
+      "file": "app/components/TileInventory.tsx",
+      "name": "TileInventory",
+      "kind": "function",
+      "line": 6,
+      "isDefaultExport": false,
+      "conventionExports": []
+    },
+    {
+      "file": "app/components/TilePreview.tsx",
+      "name": "TilePreview",
+      "kind": "function",
+      "line": 14,
+      "isDefaultExport": false,
+      "conventionExports": []
+    },
+    {
+      "file": "app/components/WorldGrid.tsx",
+      "name": "WorldGrid",
+      "kind": "function",
+      "line": 19,
+      "isDefaultExport": false,
+      "conventionExports": []
+    },
+    {
+      "file": "app/root.tsx",
+      "name": "App",
+      "kind": "function",
+      "line": 64,
+      "isDefaultExport": true,
+      "conventionExports": []
+    },
+    {
+      "file": "app/root.tsx",
+      "name": "ErrorBoundary",
+      "kind": "function",
+      "line": 87,
+      "isDefaultExport": false,
+      "conventionExports": []
+    },
+    {
+      "file": "app/root.tsx",
+      "name": "Layout",
+      "kind": "function",
+      "line": 27,
+      "isDefaultExport": false,
+      "conventionExports": []
+    },
+    {
+      "file": "app/routes/home.tsx",
+      "name": "Home",
+      "kind": "function",
+      "line": 11,
+      "isDefaultExport": true,
+      "conventionExports": [
+        "meta"
+      ]
+    },
+    {
+      "file": "app/routes/play.tsx",
+      "name": "Play",
+      "kind": "function",
+      "line": 26,
+      "isDefaultExport": true,
+      "conventionExports": []
+    },
+    {
+      "file": "app/routes/play.tsx",
+      "name": "PlayLevel",
+      "kind": "function",
+      "line": 51,
+      "isDefaultExport": false,
+      "conventionExports": []
+    },
+    {
+      "file": "app/routes/worlds.tsx",
+      "name": "Worlds",
+      "kind": "function",
+      "line": 22,
+      "isDefaultExport": true,
+      "conventionExports": []
+    },
+    {
+      "file": "app/routes/worlds.tsx",
+      "name": "WorldsContent",
+      "kind": "function",
+      "line": 30,
+      "isDefaultExport": false,
+      "conventionExports": []
+    }
+  ],
+  "usageEdges": [
+    {
+      "from": "app/components/MobileInventory.tsx",
+      "to": "app/components/TilePreview.tsx",
+      "componentName": "TilePreview",
+      "usageCount": 1
+    },
+    {
+      "from": "app/components/TileInventory.tsx",
+      "to": "app/components/TilePreview.tsx",
+      "componentName": "TilePreview",
+      "usageCount": 1
+    },
+    {
+      "from": "app/routes/play.tsx",
+      "to": "app/components/index.ts",
+      "componentName": "GameBoard",
+      "usageCount": 1
+    },
+    {
+      "from": "app/routes/play.tsx",
+      "to": "app/components/index.ts",
+      "componentName": "GameHUD",
+      "usageCount": 1
+    },
+    {
+      "from": "app/routes/play.tsx",
+      "to": "app/components/index.ts",
+      "componentName": "LevelComplete",
+      "usageCount": 1
+    },
+    {
+      "from": "app/routes/play.tsx",
+      "to": "app/components/index.ts",
+      "componentName": "MobileInventory",
+      "usageCount": 1
+    },
+    {
+      "from": "app/routes/play.tsx",
+      "to": "app/components/index.ts",
+      "componentName": "TileInventory",
+      "usageCount": 1
+    },
+    {
+      "from": "app/routes/worlds.tsx",
+      "to": "app/components/index.ts",
+      "componentName": "RainbowArc",
+      "usageCount": 1
+    },
+    {
+      "from": "app/routes/worlds.tsx",
+      "to": "app/components/index.ts",
+      "componentName": "WorldGrid",
+      "usageCount": 1
+    },
+    {
+      "from": "app/routes/worlds.tsx",
+      "to": "app/hooks/index.ts",
+      "componentName": "SaveProvider",
+      "usageCount": 1
+    }
+  ],
+  "routeModules": [
+    {
+      "file": "app/routes/home.tsx",
+      "routePattern": "/",
+      "exports": [
+        "meta",
+        "default"
+      ],
+      "parentLayout": null,
+      "isLayout": false,
+      "isIndex": true
+    },
+    {
+      "file": "app/routes/play.tsx",
+      "routePattern": "/play/:levelId",
+      "exports": [
+        "default"
+      ],
+      "parentLayout": null,
+      "isLayout": false,
+      "isIndex": false
+    },
+    {
+      "file": "app/routes/worlds.tsx",
+      "routePattern": "/worlds",
+      "exports": [
+        "default"
+      ],
+      "parentLayout": null,
+      "isLayout": false,
+      "isIndex": false
+    }
+  ],
+  "routeTree": [
+    {
+      "file": "app/routes/home.tsx",
+      "routePattern": "/",
+      "children": []
+    },
+    {
+      "file": "app/routes/play.tsx",
+      "routePattern": "/play/:levelId",
+      "children": []
+    },
+    {
+      "file": "app/routes/worlds.tsx",
+      "routePattern": "/worlds",
+      "children": []
+    }
+  ],
+  "serverRoutes": [],
+  "summary": {
+    "totalComponents": 16,
+    "totalRouteModules": 3,
+    "totalUsageEdges": 10,
+    "totalServerRoutes": 0,
+    "routeConventions": {
+      "meta": 1,
+      "default": 3
+    },
+    "mostUsedComponents": [
+      {
+        "name": "TilePreview",
+        "file": "app/components/TilePreview.tsx",
+        "usageCount": 2
+      },
+      {
+        "name": "GameHUD",
+        "file": "app/components/index.ts",
+        "usageCount": 1
+      },
+      {
+        "name": "GameBoard",
+        "file": "app/components/index.ts",
+        "usageCount": 1
+      },
+      {
+        "name": "TileInventory",
+        "file": "app/components/index.ts",
+        "usageCount": 1
+      },
+      {
+        "name": "MobileInventory",
+        "file": "app/components/index.ts",
+        "usageCount": 1
+      },
+      {
+        "name": "LevelComplete",
+        "file": "app/components/index.ts",
+        "usageCount": 1
+      },
+      {
+        "name": "SaveProvider",
+        "file": "app/hooks/index.ts",
+        "usageCount": 1
+      },
+      {
+        "name": "WorldGrid",
+        "file": "app/components/index.ts",
+        "usageCount": 1
+      },
+      {
+        "name": "RainbowArc",
+        "file": "app/components/index.ts",
+        "usageCount": 1
+      }
+    ],
+    "layoutDepth": 1
+  }
+}

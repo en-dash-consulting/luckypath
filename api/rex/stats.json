@@ -1,0 +1,14 @@
+{
+  "title": "luckypath",
+  "stats": {
+    "total": 53,
+    "completed": 53,
+    "inProgress": 0,
+    "pending": 0,
+    "failing": 0,
+    "deferred": 0,
+    "blocked": 0,
+    "deleted": 0
+  },
+  "percentComplete": 100
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0.0",
+  "toolVersion": "0.1.0",
+  "analyzedAt": "2026-03-16T04:04:03.553Z",
+  "gitSha": "9de0d8c07d4b0e1cfcef686b95a313641f7b532a",
+  "gitBranch": "feature/selfheal0313",
+  "targetPath": "/Users/nick/development/endash/luckypath",
+  "modules": {
+    "inventory": {
+      "status": "complete",
+      "startedAt": "2026-03-16T03:49:37.313Z",
+      "completedAt": "2026-03-16T03:49:37.331Z"
+    },
+    "imports": {
+      "status": "complete",
+      "startedAt": "2026-03-16T03:49:37.332Z",
+      "completedAt": "2026-03-16T03:49:37.390Z"
+    },
+    "classifications": {
+      "status": "complete",
+      "startedAt": "2026-03-16T03:49:37.391Z",
+      "completedAt": "2026-03-16T03:49:57.245Z"
+    },
+    "zones": {
+      "status": "complete",
+      "startedAt": "2026-03-16T03:49:57.245Z",
+      "completedAt": "2026-03-16T04:04:03.442Z"
+    },
+    "components": {
+      "status": "complete",
+      "startedAt": "2026-03-16T04:04:03.444Z",
+      "completedAt": "2026-03-16T04:04:03.485Z"
+    },
+    "callgraph": {
+      "status": "complete",
+      "startedAt": "2026-03-16T04:04:03.485Z",
+      "completedAt": "2026-03-16T04:04:03.553Z"
+    }
+  },
+  "zoneOutputs": true,
+  "tokenUsage": {
+    "calls": 9,
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "vendor": "claude",
+    "model": "claude-sonnet-4-6"
+  }
+}

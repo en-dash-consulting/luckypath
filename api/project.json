@@ -1,0 +1,12 @@
+{
+  "name": "luckypath",
+  "description": null,
+  "version": null,
+  "git": {
+    "branch": "main",
+    "sha": "f41bfbf",
+    "remoteUrl": "git@github.com:en-dash-consulting/luckypath.git",
+    "repoName": "luckypath"
+  },
+  "nameSource": "prd"
+}

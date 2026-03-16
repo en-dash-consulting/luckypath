@@ -1,0 +1,13 @@
+{
+  "overall": 67,
+  "dimensions": {
+    "depth": 0,
+    "balance": 72,
+    "granularity": 70,
+    "completeness": 74,
+    "staleness": 100
+  },
+  "suggestions": [
+    "36 items at root level should be moved under a parent epic."
+  ]
+}

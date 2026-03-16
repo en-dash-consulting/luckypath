@@ -1,0 +1,477 @@
+{
+  "tasks": [
+    {
+      "taskId": "dcad0487-742f-45cd-94ba-06dd1be5468f",
+      "taskTitle": "Fix suggestion in project-infrastructure: Add a zone-boundaries assertion that all route files registered in react-router.",
+      "input": 112,
+      "output": 348,
+      "runs": 1
+    },
+    {
+      "taskId": "d71ae32d-7174-42a1-80f6-6c9f87ea95cf",
+      "taskTitle": "Fix suggestion in global: Add a meta-test that asserts all three enforcement models (eslint.config.ts rest (+3 more)",
+      "input": 230,
+      "output": 572,
+      "runs": 1
+    },
+    {
+      "taskId": "7043e297-0608-4b49-be3b-8d15a32b9c75",
+      "taskTitle": "Fix suggestion in game-engine: `__standaloneInstanceCount` in useSave.ts is a mutable `let` export marked `@int",
+      "input": 219,
+      "output": 295,
+      "runs": 1
+    },
+    {
+      "taskId": "785e9e2c-c4a9-4972-b13f-1df87bec0288",
+      "taskTitle": "Fix suggestion in components: Create app/components/index.ts barrel and add an ESLint no-restricted-paths rule",
+      "input": 59,
+      "output": 374,
+      "runs": 1
+    },
+    {
+      "taskId": "3810eddd-932e-4bcc-a4fb-6df0e636c1bf",
+      "taskTitle": "Fix relationship in project-infrastructure: The check-layers.sh (scripts zone) and zone-boundaries.test.ts (project-infrastr",
+      "input": 62,
+      "output": 639,
+      "runs": 1
+    },
+    {
+      "taskId": "75479c05-267a-4466-8d81-80f54428ca66",
+      "taskTitle": "Fix relationship in game-ui-routes: RainbowArc.tsx duplicates arc geometry constants that conceptually belong in geo",
+      "input": 60,
+      "output": 641,
+      "runs": 1
+    },
+    {
+      "taskId": "c9f73106-0865-4a22-9336-72f831b2aea3",
+      "taskTitle": "Fix pattern in game-engine: Undocumented implicit contract: ~/hooks barrel is consumed for runtime state, ~/",
+      "input": 48,
+      "output": 440,
+      "runs": 1
+    },
+    {
+      "taskId": "701b5bbe-ed64-4d21-8566-bb5779e58868",
+      "taskTitle": "Fix observation in game-ui-routes: Cohesion of 0.57 is below 0.6 but not critically low; monitor as the route count",
+      "input": 49,
+      "output": 292,
+      "runs": 1
+    },
+    {
+      "taskId": "bc08dca6-4f79-4fa4-8b96-6a83d1e8cefc",
+      "taskTitle": "Fix anti-pattern in game-ui-routes: Mixing route handlers and pure presentational components in a single zone forces",
+      "input": 150,
+      "output": 293,
+      "runs": 1
+    },
+    {
+      "taskId": "4a330197-2a13-4ea0-8344-59b39df946d1",
+      "taskTitle": "Fix anti-pattern in game-engine: Pure game logic (app/engine/) and React integration layer (app/hooks/) are merge (+1 more)",
+      "input": 74,
+      "output": 713,
+      "runs": 1
+    },
+    {
+      "taskId": "8c81abb2-7324-434e-b0be-3ea942755954",
+      "taskTitle": "Fix suggestion in world-navigation: worlds.tsx imports hooks by direct file path while the hooks barrel exists preci",
+      "input": 3378,
+      "output": 6525,
+      "runs": 19
+    },
+    {
+      "taskId": "43f1b5f3-e806-4f00-b147-895863121bc1",
+      "taskTitle": "Fix suggestion in root: The services/persistence.ts file is a production dependency of the hooks layer b",
+      "input": 125,
+      "output": 859,
+      "runs": 1
+    },
+    {
+      "taskId": "99970ae0-c9dc-4e50-b9a4-2004cf409def",
+      "taskTitle": "Fix suggestion in global: All five behavioral contracts (SaveProvider wrapping, useSave internalization, U (+2 more)",
+      "input": 198,
+      "output": 457,
+      "runs": 1
+    },
+    {
+      "taskId": "755e7dac-1973-4286-8ec1-72241ba695fa",
+      "taskTitle": "Fix suggestion in game-engine: The SaveProvider mandatory-vs-optional rule (required when multiple sibling hook",
+      "input": 30,
+      "output": 179,
+      "runs": 1
+    },
+    {
+      "taskId": "09deac52-a236-45be-8957-09c05d3a7133",
+      "taskTitle": "Fix suggestion in engine: The pure updater functions in useGameState.ts (createInitialState, selectTileUpd",
+      "input": 82,
+      "output": 496,
+      "runs": 1
+    },
+    {
+      "taskId": "ec9bb73e-cba1-4e1b-b991-5aeb0a55b98a",
+      "taskTitle": "Fix suggestion in build-infrastructure: Add a zone-boundary test asserting that route files do not import directly from ",
+      "input": 732,
+      "output": 447,
+      "runs": 1
+    },
+    {
+      "taskId": "b7150731-cafc-4d0a-b645-b0581c0ff1c9",
+      "taskTitle": "Fix suggestion in architectural-governance: The SaveProvider wrapping requirement (multi-hook routes must wrap in SaveProvid",
+      "input": 75,
+      "output": 574,
+      "runs": 1
+    },
+    {
+      "taskId": "fd0f868f-f750-47bc-b6e7-57df57c3c7ae",
+      "taskTitle": "Fix relationship in world-navigation: home.tsx and RainbowArc.tsx carry zero outbound engine imports, while worlds.tsx",
+      "input": 57,
+      "output": 387,
+      "runs": 1
+    },
+    {
+      "taskId": "0c4cf2a6-8173-4abe-836d-5e45ccf36020",
+      "taskTitle": "Fix relationship in arc-geometry: useRainbowEasterEgg imports directly from ~/geometry/rainbow-arc rather than re-",
+      "input": 47,
+      "output": 337,
+      "runs": 1
+    },
+    {
+      "taskId": "a0c38ca7-16fc-4852-8a9d-60ba1455f9ea",
+      "taskTitle": "Fix observation in world-navigation: Cohesion of 0.5 is acceptable but the mix of route handlers (worlds.tsx, home.ts",
+      "input": 67,
+      "output": 426,
+      "runs": 1
+    },
+    {
+      "taskId": "c548ff3b-64a4-4d22-b579-7b356c800a89",
+      "taskTitle": "Fix observation in build-infrastructure: deploy.sh sitting alongside framework config files (react-router.config.ts, vite",
+      "input": 59,
+      "output": 380,
+      "runs": 1
+    },
+    {
+      "taskId": "260ee3eb-af3d-4212-9588-2b3cfd94b5e7",
+      "taskTitle": "Fix anti-pattern in world-navigation: worlds.tsx imports hooks directly by file path (e.g. ~/hooks/useRainbowEasterEgg",
+      "input": 49,
+      "output": 465,
+      "runs": 1
+    },
+    {
+      "taskId": "58b9108b-03de-49ce-a989-caf75689ccbc",
+      "taskTitle": "Fix anti-pattern in game-engine: play.tsx is a route handler (157 LOC, imports 7 engine symbols and 5 components)",
+      "input": 285,
+      "output": 1322,
+      "runs": 2
+    },
+    {
+      "taskId": "578916fa-4a93-4030-843e-bd4688b597a6",
+      "taskTitle": "Fix suggestion in global: app/services/ directory and its two files (persistence.ts, persistence.test.ts)  (+1 more)",
+      "input": 4786,
+      "output": 696,
+      "runs": 1
+    },
+    {
+      "taskId": "10ffcad3-961e-463f-adbc-1917fedad236",
+      "taskTitle": "Fix suggestion in game-engine: useGameSession.ts imports completeLevelUpdater directly from ~/services/persiste",
+      "input": 66,
+      "output": 776,
+      "runs": 1
+    },
+    {
+      "taskId": "0bfb368b-f82e-4c82-af38-49ebe3a6d711",
+      "taskTitle": "Fix suggestion in arch-governance: zone-boundaries.test.ts does not assert the number or identity of no-restricted-",
+      "input": 37,
+      "output": 305,
+      "runs": 1
+    },
+    {
+      "taskId": "7f88886e-30f4-4294-9bd0-cf19cb894359",
+      "taskTitle": "Fix relationship in game-engine: Hooks useRainbowEasterEgg and useWorldSession act as the sole permitted bridge f",
+      "input": 248,
+      "output": 875,
+      "runs": 1
+    },
+    {
+      "taskId": "bae062c9-4fec-4fd7-9790-0365bb4661bb",
+      "taskTitle": "Fix pattern in game-engine: SVG layout constants (SVG_WIDTH, SVG_HEIGHT, ARC_*_RATIO) are re-exported throug",
+      "input": 113,
+      "output": 1006,
+      "runs": 2
+    },
+    {
+      "taskId": "b079cd3d-ea38-4207-83ac-4fb8b3c0535f",
+      "taskTitle": "Fix observation in global: Bidirectional coupling: \"game-engine\" ↔ \"world-inventory-ui\" (2+9 crossings) — c",
+      "input": 176,
+      "output": 711,
+      "runs": 1
+    },
+    {
+      "taskId": "426d751e-f7f6-42c3-bb27-9460316883f7",
+      "taskTitle": "Fix observation in game-engine: Two reverse imports (engine → components) create a bidirectional dependency with",
+      "input": 175,
+      "output": 1077,
+      "runs": 2
+    },
+    {
+      "taskId": "0586d602-eb90-4e1e-8904-a3bb15ba02e1",
+      "taskTitle": "Fix anti-pattern in game-engine: board-utils.ts and canvas-drawing.ts are physically located in app/components/ b (+2 more)",
+      "input": 206,
+      "output": 1439,
+      "runs": 1
+    },
+    {
+      "taskId": "a5048f2d-6ff1-4fda-bfa3-ed5658dc7101",
+      "taskTitle": "Fix suggestion in global: Establish a minimum test requirement for the hooks layer mirroring the engine la",
+      "input": 96,
+      "output": 558,
+      "runs": 1
+    },
+    {
+      "taskId": "f1a3bba8-f960-44e0-96d6-164a4ad8520b",
+      "taskTitle": "Fix suggestion in game-engine: rainbow-constants.ts should be relocated out of app/engine/ or annotated with a  (+1 more)",
+      "input": 221,
+      "output": 384,
+      "runs": 1
+    },
+    {
+      "taskId": "fd099b02-d8a6-428e-bb72-bca12882e6e5",
+      "taskTitle": "Fix relationship in game-engine: zone-boundaries.test.ts guards the entire 4-layer DAG (engine → hooks → componen",
+      "input": 127,
+      "output": 1057,
+      "runs": 2
+    },
+    {
+      "taskId": "41fe6fce-e162-4bfd-8488-b09b31386397",
+      "taskTitle": "Fix pattern in code-quality-config: This zone conflates two unrelated architectural guards: eslint.config.ts (static",
+      "input": 4010,
+      "output": 567,
+      "runs": 1
+    },
+    {
+      "taskId": "5a8b9be5-cc54-4461-b3a3-6f2fa7209e69",
+      "taskTitle": "Fix observation in world-ui: High coupling (0.58) — 9 imports target \"game-engine\"",
+      "input": 56,
+      "output": 530,
+      "runs": 1
+    },
+    {
+      "taskId": "cdca3082-0cf6-4ab4-99d4-9531dee0b3aa",
+      "taskTitle": "Fix observation in global: Bidirectional coupling: \"game-engine\" ↔ \"world-ui\" (2+9 crossings) — consider ex",
+      "input": 144,
+      "output": 419,
+      "runs": 1
+    },
+    {
+      "taskId": "6aeb4e76-73d2-44aa-ae3a-e90249be9003",
+      "taskTitle": "Fix observation in game-engine: Contains 47% of project files (25/53) — may be too broad, consider splitting (+1 more)",
+      "input": 55,
+      "output": 375,
+      "runs": 1
+    },
+    {
+      "taskId": "12130ae6-0e11-4cf3-924a-900acabb8ded",
+      "taskTitle": "Fix observation in code-quality-config: The pairing of eslint.config.ts with a single engine test file is an import-grap",
+      "input": 37,
+      "output": 250,
+      "runs": 1
+    },
+    {
+      "taskId": "abbccc3c-9ad4-4fce-a6ca-7497844256d4",
+      "taskTitle": "Fix observation in build-infrastructure: Zone cohesion score of 0 is below the <0.4 warning threshold, but the cause is s",
+      "input": 41,
+      "output": 280,
+      "runs": 1
+    },
+    {
+      "taskId": "cd5e3a38-3dd7-4e68-80dc-052b8ac35ed9",
+      "taskTitle": "Fix anti-pattern in game-engine: board-utils.ts self-describes as 'internal to game-board-rendering zone' in its ",
+      "input": 50,
+      "output": 453,
+      "runs": 1
+    },
+    {
+      "taskId": "f24b3b6d-ae54-4bba-bfd5-c9f308f993be",
+      "taskTitle": "Fix anti-pattern in code-quality-config: The sibling isolation ESLint rule (hooks ↔ components) is only half-tested: zone",
+      "input": 40,
+      "output": 495,
+      "runs": 1
+    },
+    {
+      "taskId": "cd667b79-beba-45e6-8b65-a5912ff3e8d3",
+      "taskTitle": "Fix suggestion in world-navigation: worlds.tsx is the only route that passes a hook's internal function (updateSave ",
+      "input": 84,
+      "output": 612,
+      "runs": 2
+    },
+    {
+      "taskId": "7ef213f7-8251-44a3-bfd2-758b2653cdba",
+      "taskTitle": "Fix suggestion in hooks: useRainbowEasterEgg's dependency-injection pattern for `updateSave` diverges fro",
+      "input": 162,
+      "output": 432,
+      "runs": 1
+    },
+    {
+      "taskId": "1e5cf9f1-1ea2-4879-a566-9a6d777f0a5f",
+      "taskTitle": "Fix suggestion in global: Document an explicit hook composition convention: hooks that need persistence sh (+1 more)",
+      "input": 196,
+      "output": 577,
+      "runs": 1
+    },
+    {
+      "taskId": "30ee9982-9092-410a-bf9c-2abb9c426e6d",
+      "taskTitle": "Fix suggestion in game-state-persistence: The clovers scoring algorithm (useGameSession.ts:61-66) is pure domain logic — t",
+      "input": 41,
+      "output": 382,
+      "runs": 1
+    },
+    {
+      "taskId": "1c24a3d7-2539-41fd-9b3d-152bf3dd5aa6",
+      "taskTitle": "Fix suggestion in game-engine: useRainbowEasterEgg's magic numbers (0.9 threshold, 0.48 maxR, 0.12 minR, 0.05 t",
+      "input": 50,
+      "output": 558,
+      "runs": 1
+    },
+    {
+      "taskId": "6faa713a-1e72-41c5-9d4e-7019d46cc380",
+      "taskTitle": "Fix pattern in game-engine: board-utils.ts acts as a component-layer re-export proxy for engine barrel symbo",
+      "input": 42,
+      "output": 507,
+      "runs": 1
+    },
+    {
+      "taskId": "0b327294-1594-435b-8eb4-9bf14e40dcb3",
+      "taskTitle": "Fix observation in project-infrastructure: Cohesion score of 0 reflects intentional heterogeneity across infrastructure con",
+      "input": 83,
+      "output": 524,
+      "runs": 3
+    },
+    {
+      "taskId": "7db9e4ee-f41a-46f6-9350-5524297d13d6",
+      "taskTitle": "Fix observation in game-state-persistence: completeLevel in persistence.ts writes to localStorage imperatively (outside the",
+      "input": 86,
+      "output": 446,
+      "runs": 1
+    },
+    {
+      "taskId": "c073e2a2-ffca-4621-a2b0-f28062525ac8",
+      "taskTitle": "Fix anti-pattern in game-state-persistence: persistence.ts is a plain data-access module (no React hook APIs used) co-locate",
+      "input": 154,
+      "output": 538,
+      "runs": 1
+    },
+    {
+      "taskId": "300d6df9-da5f-4811-a78e-0e67e4f94675",
+      "taskTitle": "Fix anti-pattern in game-session-ui: TileInventory.tsx and MobileInventory.tsx share an identical props interface and (+1 more)",
+      "input": 66,
+      "output": 931,
+      "runs": 1
+    },
+    {
+      "taskId": "25116689-954e-4f35-af75-3195741880d9",
+      "taskTitle": "Fix anti-pattern in game-engine: GameBoard.tsx embeds ~380 lines of private canvas drawing helpers (drawStart, dr",
+      "input": 62,
+      "output": 461,
+      "runs": 1
+    },
+    {
+      "taskId": "0a39c99b-9455-4f27-b0c3-a52c8150267f",
+      "taskTitle": "Address suggestion issues (5 findings)",
+      "input": 180,
+      "output": 1098,
+      "runs": 1
+    },
+    {
+      "taskId": "17038a05-85d1-4690-a06d-010d096a9a68",
+      "taskTitle": "Address relationship issues (3 findings)",
+      "input": 324,
+      "output": 1338,
+      "runs": 1
+    },
+    {
+      "taskId": "75376717-34fe-4175-8235-ef9f6dfb484f",
+      "taskTitle": "Address pattern issues (1 findings)",
+      "input": 84,
+      "output": 689,
+      "runs": 1
+    },
+    {
+      "taskId": "d3e508e1-69f9-46b5-b724-856f399a29ad",
+      "taskTitle": "Address observation issues (2 findings)",
+      "input": 52,
+      "output": 336,
+      "runs": 1
+    },
+    {
+      "taskId": "72b6a8a6-9ea5-4d37-bbf2-a4038b068d7a",
+      "taskTitle": "Address anti-pattern issues (6 findings)",
+      "input": 270,
+      "output": 1344,
+      "runs": 1
+    },
+    {
+      "taskId": "1bdfab94-34f4-4cce-915a-8412e24e0492",
+      "taskTitle": "Address relationship issues (2 findings)",
+      "input": 2169,
+      "output": 881,
+      "runs": 1
+    },
+    {
+      "taskId": "86b6ef38-4af4-4d42-8e6e-438c3b6ba935",
+      "taskTitle": "Address pattern issues (3 findings)",
+      "input": 80,
+      "output": 577,
+      "runs": 1
+    },
+    {
+      "taskId": "b5b85dbf-c864-4ea8-a061-7ab244592d03",
+      "taskTitle": "Address observation issues (4 findings)",
+      "input": 95,
+      "output": 715,
+      "runs": 1
+    },
+    {
+      "taskId": "5e96ab13-b0cc-4d89-b427-a6fd9da2553e",
+      "taskTitle": "Address anti-pattern issues (8 findings)",
+      "input": 183,
+      "output": 928,
+      "runs": 1
+    },
+    {
+      "taskId": "40ebd43e-0b39-4e1f-bad5-55e9144ec563",
+      "taskTitle": "Address suggestion issues (11 findings)",
+      "input": 246,
+      "output": 1478,
+      "runs": 1
+    },
+    {
+      "taskId": "48c07566-6b38-448d-8d5d-951b749330f2",
+      "taskTitle": "Address suggestion issues (10 findings)",
+      "input": 101,
+      "output": 817,
+      "runs": 1
+    },
+    {
+      "taskId": "8a1ffca2-e126-445d-8c41-fe630ce7a47d",
+      "taskTitle": "Address relationship issues (2 findings)",
+      "input": 75,
+      "output": 819,
+      "runs": 1
+    },
+    {
+      "taskId": "6af60d35-7d1b-4c80-93f3-60b1e7a5a54d",
+      "taskTitle": "Address observation issues (7 findings)",
+      "input": 96,
+      "output": 695,
+      "runs": 1
+    },
+    {
+      "taskId": "d046ec5f-67bb-4e3a-be4e-839bb00c053c",
+      "taskTitle": "Address anti-pattern issues (8 findings)",
+      "input": 6212,
+      "output": 744,
+      "runs": 1
+    }
+  ],
+  "total": {
+    "input": 28124,
+    "output": 48141
+  }
+}

@@ -1,0 +1,90 @@
+/**
+ * Bulk actions bar for PRD items.
+ *
+ * Shows a floating action bar when items are selected, with options
+ * to bulk-update status across multiple items or merge/consolidate them.
+ */
+import { h } from "preact";
+import { useState, useCallback } from "preact/hooks";
+// ── Constants ────────────────────────────────────────────────────────
+const STATUS_OPTIONS = [
+    { value: "pending", label: "Pending", icon: "○" },
+    { value: "in_progress", label: "In Progress", icon: "◐" },
+    { value: "completed", label: "Completed", icon: "●" },
+    { value: "blocked", label: "Blocked", icon: "⊘" },
+    { value: "deferred", label: "Deferred", icon: "◌" },
+    { value: "deleted", label: "Deleted", icon: "✕" },
+];
+// ── Component ────────────────────────────────────────────────────────
+export function BulkActions({ selectedIds, onClearSelection, onActionComplete, onMerge }) {
+    const [applying, setApplying] = useState(false);
+    const [result, setResult] = useState(null);
+    const handleStatusUpdate = useCallback(async (status) => {
+        if (selectedIds.size === 0)
+            return;
+        setApplying(true);
+        setResult(null);
+        try {
+            const res = await fetch("/api/rex/items/bulk", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    ids: [...selectedIds],
+                    updates: { status },
+                }),
+            });
+            if (!res.ok) {
+                const errBody = await res.json().catch(() => ({ error: "Update failed" }));
+                throw new Error(errBody.error || `HTTP ${res.status}`);
+            }
+            const data = await res.json();
+            const successCount = data.results?.filter((r) => r.ok).length ?? 0;
+            setResult(`Updated ${successCount} item${successCount !== 1 ? "s" : ""} to ${status.replace("_", " ")}`);
+            // Brief delay to show result, then refresh
+            setTimeout(() => {
+                setResult(null);
+                onActionComplete();
+                onClearSelection();
+            }, 1500);
+        }
+        catch (err) {
+            setResult(`Error: ${err}`);
+            setTimeout(() => setResult(null), 3000);
+        }
+        finally {
+            setApplying(false);
+        }
+    }, [selectedIds, onActionComplete, onClearSelection]);
+    if (selectedIds.size === 0)
+        return null;
+    const canMerge = selectedIds.size >= 2 && onMerge;
+    return h("div", { class: "rex-bulk-bar" }, 
+    // Selection count
+    h("div", { class: "rex-bulk-count" }, h("span", { class: "rex-bulk-count-num" }, String(selectedIds.size)), h("span", null, ` item${selectedIds.size !== 1 ? "s" : ""} selected`)), 
+    // Status actions
+    result
+        ? h("div", { class: "rex-bulk-result" }, result)
+        : h("div", { class: "rex-bulk-actions" }, h("span", { class: "rex-bulk-label" }, "Set status:"), STATUS_OPTIONS.map((opt) => h("button", {
+            key: opt.value,
+            class: `rex-bulk-action-btn prd-status-${opt.value}`,
+            onClick: () => handleStatusUpdate(opt.value),
+            disabled: applying,
+            title: opt.label,
+        }, h("span", { class: "rex-bulk-action-icon" }, opt.icon), h("span", { class: "rex-bulk-action-label" }, opt.label))), 
+        // Merge button — only when 2+ items selected
+        canMerge
+            ? h("button", {
+                class: "rex-bulk-action-btn rex-bulk-merge-btn",
+                onClick: onMerge,
+                disabled: applying,
+                title: "Merge selected items into one",
+            }, h("span", { class: "rex-bulk-action-icon" }, "\u2A06"), h("span", { class: "rex-bulk-action-label" }, "Merge"))
+            : null), 
+    // Clear selection
+    h("button", {
+        class: "rex-bulk-clear",
+        onClick: onClearSelection,
+        title: "Clear selection",
+    }, "\u00d7"));
+}
+//# sourceMappingURL=bulk-actions.js.map

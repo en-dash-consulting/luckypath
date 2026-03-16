@@ -1,0 +1,1241 @@
+{
+  "edges": [
+    {
+      "from": "app/components/GameBoard.tsx",
+      "to": "app/components/board-utils.ts",
+      "type": "static",
+      "symbols": [
+        "CELL_SIZE",
+        "BOARD_PADDING",
+        "S"
+      ]
+    },
+    {
+      "from": "app/components/GameBoard.tsx",
+      "to": "app/components/canvas-drawing.ts",
+      "type": "static",
+      "symbols": [
+        "drawRoundedRect",
+        "drawStart",
+        "drawGoal",
+        "drawObstacle",
+        "drawTile",
+        "drawRotateHint",
+        "drawLucky",
+        "drawFailIndicator",
+        "drawSuccessSparkles"
+      ]
+    },
+    {
+      "from": "app/components/GameBoard.tsx",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "posKey",
+        "getBiomeCanvasColors"
+      ]
+    },
+    {
+      "from": "app/components/GameBoard.tsx",
+      "to": "app/engine/index.ts",
+      "type": "type",
+      "symbols": [
+        "LevelData",
+        "GameState"
+      ]
+    },
+    {
+      "from": "app/components/MobileInventory.tsx",
+      "to": "app/components/TilePreview.tsx",
+      "type": "static",
+      "symbols": [
+        "TilePreview"
+      ]
+    },
+    {
+      "from": "app/components/MobileInventory.tsx",
+      "to": "app/components/inventory-shared.ts",
+      "type": "static",
+      "symbols": [
+        "getTileButtonState",
+        "handleTileButtonClick"
+      ]
+    },
+    {
+      "from": "app/components/MobileInventory.tsx",
+      "to": "app/components/inventory-shared.ts",
+      "type": "type",
+      "symbols": [
+        "InventoryProps"
+      ]
+    },
+    {
+      "from": "app/components/MobileInventory.tsx",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "TILE_TYPE_DEFS"
+      ]
+    },
+    {
+      "from": "app/components/RainbowArc.tsx",
+      "to": "app/geometry/rainbow-arc.ts",
+      "type": "static",
+      "symbols": [
+        "SVG_WIDTH",
+        "SVG_HEIGHT",
+        "ARC_CX",
+        "ARC_BASELINE"
+      ]
+    },
+    {
+      "from": "app/components/TileInventory.tsx",
+      "to": "app/components/TilePreview.tsx",
+      "type": "static",
+      "symbols": [
+        "TilePreview"
+      ]
+    },
+    {
+      "from": "app/components/TileInventory.tsx",
+      "to": "app/components/inventory-shared.ts",
+      "type": "static",
+      "symbols": [
+        "getTileButtonState",
+        "handleTileButtonClick"
+      ]
+    },
+    {
+      "from": "app/components/TileInventory.tsx",
+      "to": "app/components/inventory-shared.ts",
+      "type": "type",
+      "symbols": [
+        "InventoryProps"
+      ]
+    },
+    {
+      "from": "app/components/TileInventory.tsx",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "TILE_TYPE_DEFS"
+      ]
+    },
+    {
+      "from": "app/components/TilePreview.tsx",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "NORTH",
+        "EAST",
+        "SOUTH",
+        "WEST",
+        "getConnection",
+        "getEdgePoint"
+      ]
+    },
+    {
+      "from": "app/components/TilePreview.tsx",
+      "to": "app/engine/index.ts",
+      "type": "type",
+      "symbols": [
+        "TileType",
+        "Rotation"
+      ]
+    },
+    {
+      "from": "app/components/WorldGrid.tsx",
+      "to": "app/engine/index.ts",
+      "type": "type",
+      "symbols": [
+        "WorldData",
+        "LevelData"
+      ]
+    },
+    {
+      "from": "app/components/canvas-drawing.ts",
+      "to": "app/components/board-utils.ts",
+      "type": "static",
+      "symbols": [
+        "CELL_SIZE",
+        "S"
+      ]
+    },
+    {
+      "from": "app/components/canvas-drawing.ts",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "NORTH",
+        "EAST",
+        "SOUTH",
+        "WEST",
+        "getConnection",
+        "getEdgePoint"
+      ]
+    },
+    {
+      "from": "app/components/canvas-drawing.ts",
+      "to": "app/engine/index.ts",
+      "type": "type",
+      "symbols": [
+        "Direction",
+        "PlacedTile"
+      ]
+    },
+    {
+      "from": "app/components/index.ts",
+      "to": "app/components/GameBoard.tsx",
+      "type": "reexport",
+      "symbols": [
+        "GameBoard"
+      ]
+    },
+    {
+      "from": "app/components/index.ts",
+      "to": "app/components/GameHUD.tsx",
+      "type": "reexport",
+      "symbols": [
+        "GameHUD"
+      ]
+    },
+    {
+      "from": "app/components/index.ts",
+      "to": "app/components/LevelComplete.tsx",
+      "type": "reexport",
+      "symbols": [
+        "LevelComplete"
+      ]
+    },
+    {
+      "from": "app/components/index.ts",
+      "to": "app/components/MobileInventory.tsx",
+      "type": "reexport",
+      "symbols": [
+        "MobileInventory"
+      ]
+    },
+    {
+      "from": "app/components/index.ts",
+      "to": "app/components/RainbowArc.tsx",
+      "type": "reexport",
+      "symbols": [
+        "RainbowArc"
+      ]
+    },
+    {
+      "from": "app/components/index.ts",
+      "to": "app/components/TileInventory.tsx",
+      "type": "reexport",
+      "symbols": [
+        "TileInventory"
+      ]
+    },
+    {
+      "from": "app/components/index.ts",
+      "to": "app/components/TilePreview.tsx",
+      "type": "reexport",
+      "symbols": [
+        "TilePreview"
+      ]
+    },
+    {
+      "from": "app/components/index.ts",
+      "to": "app/components/WorldGrid.tsx",
+      "type": "reexport",
+      "symbols": [
+        "WorldGrid"
+      ]
+    },
+    {
+      "from": "app/components/inventory-shared.ts",
+      "to": "app/engine/index.ts",
+      "type": "type",
+      "symbols": [
+        "TileType"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/engine/biome-theme.ts",
+      "type": "reexport",
+      "symbols": [
+        "BIOME_THEMES",
+        "getBiomeCanvasColors"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/engine/biome-theme.ts",
+      "type": "type",
+      "symbols": [
+        "Biome",
+        "BiomeTheme",
+        "BiomeCanvasColors"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/engine/levels.ts",
+      "type": "reexport",
+      "symbols": [
+        "getLevelById",
+        "getLevelsForWorld",
+        "getAllLevelIds",
+        "getNextLevel",
+        "getAllWorlds",
+        "getWorldById",
+        "getAllWorldIds"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/engine/levels.ts",
+      "type": "type",
+      "symbols": [
+        "WorldData"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/engine/scoring.ts",
+      "type": "reexport",
+      "symbols": [
+        "calculateClovers"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/engine/state-updaters.ts",
+      "type": "reexport",
+      "symbols": [
+        "createInitialState",
+        "selectTileUpdate",
+        "toggleRemoveModeUpdate",
+        "placeTileUpdate",
+        "rotateTileUpdate",
+        "moveTileUpdate",
+        "removeTileUpdate",
+        "runSimulationUpdate"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/engine/traversal.ts",
+      "type": "reexport",
+      "symbols": [
+        "opposite",
+        "getConnection",
+        "getExitSide",
+        "moveInDirection",
+        "simulateTraversal",
+        "TRAVERSAL_MESSAGES"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/engine/traversal.ts",
+      "type": "type",
+      "symbols": [
+        "TraversalResult",
+        "TraversalOutcome"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/engine/types.ts",
+      "type": "reexport",
+      "symbols": [
+        "NORTH",
+        "EAST",
+        "SOUTH",
+        "WEST",
+        "TILE_TYPE_DEFS"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/engine/types.ts",
+      "type": "type",
+      "symbols": [
+        "Direction",
+        "Rotation",
+        "TileType",
+        "Position",
+        "PlacedTile",
+        "LevelCell",
+        "LevelData",
+        "GameState",
+        "TileTypeDef"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/engine/utils.ts",
+      "type": "reexport",
+      "symbols": [
+        "posKey",
+        "isCellForbidden",
+        "getEdgePoint"
+      ]
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/geometry/rainbow-arc.ts",
+      "type": "reexport",
+      "symbols": [
+        "SVG_WIDTH",
+        "SVG_HEIGHT",
+        "ARC_CX",
+        "ARC_BASELINE",
+        "computeArcProgress",
+        "REVEAL_THRESHOLD",
+        "PROGRESS_TOLERANCE"
+      ]
+    },
+    {
+      "from": "app/engine/levels.ts",
+      "to": "app/engine/biome-theme.ts",
+      "type": "static",
+      "symbols": [
+        "BIOME_THEMES"
+      ]
+    },
+    {
+      "from": "app/engine/levels.ts",
+      "to": "app/engine/biome-theme.ts",
+      "type": "type",
+      "symbols": [
+        "Biome"
+      ]
+    },
+    {
+      "from": "app/engine/levels.ts",
+      "to": "app/engine/types.ts",
+      "type": "static",
+      "symbols": [
+        "NORTH",
+        "EAST",
+        "SOUTH",
+        "WEST"
+      ]
+    },
+    {
+      "from": "app/engine/levels.ts",
+      "to": "app/engine/types.ts",
+      "type": "type",
+      "symbols": [
+        "LevelData"
+      ]
+    },
+    {
+      "from": "app/engine/scoring.test.ts",
+      "to": "app/engine/scoring.ts",
+      "type": "static",
+      "symbols": [
+        "calculateClovers"
+      ]
+    },
+    {
+      "from": "app/engine/state-updaters.test.ts",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "EAST",
+        "createInitialState",
+        "selectTileUpdate",
+        "toggleRemoveModeUpdate",
+        "placeTileUpdate",
+        "rotateTileUpdate",
+        "moveTileUpdate",
+        "removeTileUpdate",
+        "runSimulationUpdate"
+      ]
+    },
+    {
+      "from": "app/engine/state-updaters.test.ts",
+      "to": "app/engine/index.ts",
+      "type": "type",
+      "symbols": [
+        "LevelData",
+        "GameState",
+        "Rotation"
+      ]
+    },
+    {
+      "from": "app/engine/state-updaters.ts",
+      "to": "app/engine/traversal.ts",
+      "type": "static",
+      "symbols": [
+        "simulateTraversal"
+      ]
+    },
+    {
+      "from": "app/engine/state-updaters.ts",
+      "to": "app/engine/types.ts",
+      "type": "type",
+      "symbols": [
+        "GameState",
+        "LevelData",
+        "TileType",
+        "Rotation"
+      ]
+    },
+    {
+      "from": "app/engine/state-updaters.ts",
+      "to": "app/engine/utils.ts",
+      "type": "static",
+      "symbols": [
+        "posKey",
+        "isCellForbidden"
+      ]
+    },
+    {
+      "from": "app/engine/traversal.test.ts",
+      "to": "app/engine/traversal.ts",
+      "type": "static",
+      "symbols": [
+        "simulateTraversal",
+        "opposite",
+        "getConnection",
+        "getExitSide"
+      ]
+    },
+    {
+      "from": "app/engine/traversal.test.ts",
+      "to": "app/engine/types.ts",
+      "type": "static",
+      "symbols": [
+        "NORTH",
+        "EAST",
+        "SOUTH",
+        "WEST"
+      ]
+    },
+    {
+      "from": "app/engine/traversal.test.ts",
+      "to": "app/engine/types.ts",
+      "type": "type",
+      "symbols": [
+        "LevelData",
+        "PlacedTile",
+        "Rotation"
+      ]
+    },
+    {
+      "from": "app/engine/traversal.test.ts",
+      "to": "app/engine/utils.ts",
+      "type": "static",
+      "symbols": [
+        "posKey"
+      ]
+    },
+    {
+      "from": "app/engine/traversal.ts",
+      "to": "app/engine/types.ts",
+      "type": "static",
+      "symbols": [
+        "NORTH",
+        "EAST",
+        "SOUTH",
+        "WEST"
+      ]
+    },
+    {
+      "from": "app/engine/traversal.ts",
+      "to": "app/engine/types.ts",
+      "type": "type",
+      "symbols": [
+        "Direction",
+        "Position",
+        "PlacedTile",
+        "TileType",
+        "Rotation",
+        "LevelData"
+      ]
+    },
+    {
+      "from": "app/engine/traversal.ts",
+      "to": "app/engine/utils.ts",
+      "type": "static",
+      "symbols": [
+        "posKey"
+      ]
+    },
+    {
+      "from": "app/engine/types.ts",
+      "to": "app/engine/biome-theme.ts",
+      "type": "type",
+      "symbols": [
+        "Biome"
+      ]
+    },
+    {
+      "from": "app/engine/utils.test.ts",
+      "to": "app/engine/types.ts",
+      "type": "static",
+      "symbols": [
+        "EAST"
+      ]
+    },
+    {
+      "from": "app/engine/utils.test.ts",
+      "to": "app/engine/types.ts",
+      "type": "type",
+      "symbols": [
+        "LevelData"
+      ]
+    },
+    {
+      "from": "app/engine/utils.test.ts",
+      "to": "app/engine/utils.ts",
+      "type": "static",
+      "symbols": [
+        "posKey",
+        "isCellForbidden"
+      ]
+    },
+    {
+      "from": "app/engine/utils.ts",
+      "to": "app/engine/types.ts",
+      "type": "static",
+      "symbols": [
+        "NORTH",
+        "SOUTH",
+        "EAST",
+        "WEST"
+      ]
+    },
+    {
+      "from": "app/engine/utils.ts",
+      "to": "app/engine/types.ts",
+      "type": "type",
+      "symbols": [
+        "Direction",
+        "LevelData"
+      ]
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/hooks/useGameSession.ts",
+      "type": "reexport",
+      "symbols": [
+        "useGameSession"
+      ]
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/hooks/useGameSession.ts",
+      "type": "type",
+      "symbols": [
+        "UseGameSessionReturn"
+      ]
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/hooks/useLevelById.ts",
+      "type": "reexport",
+      "symbols": [
+        "useLevelById"
+      ]
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/hooks/useRainbowEasterEgg.ts",
+      "type": "reexport",
+      "symbols": [
+        "useRainbowEasterEgg"
+      ]
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/hooks/useRainbowEasterEgg.ts",
+      "type": "type",
+      "symbols": [
+        "UseRainbowEasterEggReturn"
+      ]
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/hooks/useSave.ts",
+      "type": "reexport",
+      "symbols": [
+        "useSave",
+        "SaveProvider"
+      ]
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/hooks/useSave.ts",
+      "type": "type",
+      "symbols": [
+        "UseSaveReturn"
+      ]
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/hooks/useWorldSession.ts",
+      "type": "reexport",
+      "symbols": [
+        "useWorldSession"
+      ]
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/hooks/useWorldSession.ts",
+      "type": "type",
+      "symbols": [
+        "UseWorldSessionReturn",
+        "WorldData"
+      ]
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/services/index.ts",
+      "type": "type",
+      "symbols": [
+        "SaveData"
+      ]
+    },
+    {
+      "from": "app/hooks/useGameSession.test.ts",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "EAST"
+      ]
+    },
+    {
+      "from": "app/hooks/useGameSession.test.ts",
+      "to": "app/engine/index.ts",
+      "type": "type",
+      "symbols": [
+        "GameState",
+        "LevelData"
+      ]
+    },
+    {
+      "from": "app/hooks/useGameSession.test.ts",
+      "to": "app/hooks/useGameSession.ts",
+      "type": "static",
+      "symbols": [
+        "resolveCellClickAction",
+        "guardNextLevel"
+      ]
+    },
+    {
+      "from": "app/hooks/useGameSession.ts",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "getWorldById",
+        "getNextLevel",
+        "isCellForbidden",
+        "posKey",
+        "calculateClovers"
+      ]
+    },
+    {
+      "from": "app/hooks/useGameSession.ts",
+      "to": "app/engine/index.ts",
+      "type": "type",
+      "symbols": [
+        "GameState",
+        "LevelData",
+        "TileType",
+        "WorldData"
+      ]
+    },
+    {
+      "from": "app/hooks/useGameSession.ts",
+      "to": "app/hooks/useGameState.ts",
+      "type": "static",
+      "symbols": [
+        "useGameState"
+      ]
+    },
+    {
+      "from": "app/hooks/useGameSession.ts",
+      "to": "app/hooks/useSave.ts",
+      "type": "static",
+      "symbols": [
+        "useSave"
+      ]
+    },
+    {
+      "from": "app/hooks/useGameSession.ts",
+      "to": "app/services/persistence.ts",
+      "type": "type",
+      "symbols": [
+        "SaveData"
+      ]
+    },
+    {
+      "from": "app/hooks/useGameState.ts",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "createInitialState",
+        "selectTileUpdate",
+        "toggleRemoveModeUpdate",
+        "placeTileUpdate",
+        "rotateTileUpdate",
+        "moveTileUpdate",
+        "removeTileUpdate",
+        "runSimulationUpdate"
+      ]
+    },
+    {
+      "from": "app/hooks/useGameState.ts",
+      "to": "app/engine/index.ts",
+      "type": "type",
+      "symbols": [
+        "GameState",
+        "LevelData",
+        "TileType"
+      ]
+    },
+    {
+      "from": "app/hooks/useLevelById.ts",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "getLevelById"
+      ]
+    },
+    {
+      "from": "app/hooks/useLevelById.ts",
+      "to": "app/engine/index.ts",
+      "type": "type",
+      "symbols": [
+        "LevelData"
+      ]
+    },
+    {
+      "from": "app/hooks/useRainbowEasterEgg.ts",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "getAllLevelIds",
+        "getAllWorldIds",
+        "computeArcProgress",
+        "REVEAL_THRESHOLD",
+        "PROGRESS_TOLERANCE"
+      ]
+    },
+    {
+      "from": "app/hooks/useRainbowEasterEgg.ts",
+      "to": "app/hooks/useSave.ts",
+      "type": "static",
+      "symbols": [
+        "useSave"
+      ]
+    },
+    {
+      "from": "app/hooks/useSave.test.ts",
+      "to": "app/hooks/useSave.ts",
+      "type": "static",
+      "symbols": [
+        "useSave",
+        "SaveProvider",
+        "getStandaloneInstanceCount"
+      ]
+    },
+    {
+      "from": "app/hooks/useSave.test.ts",
+      "to": "app/hooks/useSave.ts",
+      "type": "type",
+      "symbols": [
+        "UseSaveReturn"
+      ]
+    },
+    {
+      "from": "app/hooks/useSave.ts",
+      "to": "app/services/persistence.ts",
+      "type": "static",
+      "symbols": [
+        "loadSave",
+        "getDefaultSave",
+        "saveSave",
+        "completeLevelUpdater"
+      ]
+    },
+    {
+      "from": "app/hooks/useSave.ts",
+      "to": "app/services/persistence.ts",
+      "type": "type",
+      "symbols": [
+        "SaveData"
+      ]
+    },
+    {
+      "from": "app/hooks/useWorldSession.ts",
+      "to": "app/engine/index.ts",
+      "type": "static",
+      "symbols": [
+        "getAllLevelIds",
+        "getAllWorlds",
+        "getLevelsForWorld"
+      ]
+    },
+    {
+      "from": "app/hooks/useWorldSession.ts",
+      "to": "app/engine/index.ts",
+      "type": "type",
+      "symbols": [
+        "LevelData",
+        "WorldData"
+      ]
+    },
+    {
+      "from": "app/hooks/useWorldSession.ts",
+      "to": "app/hooks/useSave.ts",
+      "type": "static",
+      "symbols": [
+        "useSave"
+      ]
+    },
+    {
+      "from": "app/hooks/useWorldSession.ts",
+      "to": "app/services/persistence.ts",
+      "type": "static",
+      "symbols": [
+        "isLevelUnlockedWithSave"
+      ]
+    },
+    {
+      "from": "app/hooks/useWorldSession.ts",
+      "to": "app/services/persistence.ts",
+      "type": "type",
+      "symbols": [
+        "SaveData"
+      ]
+    },
+    {
+      "from": "app/root.tsx",
+      "to": "app/app.css",
+      "type": "static",
+      "symbols": [
+        "*"
+      ]
+    },
+    {
+      "from": "app/routes/play.tsx",
+      "to": "app/components/index.ts",
+      "type": "static",
+      "symbols": [
+        "GameBoard",
+        "TileInventory",
+        "MobileInventory",
+        "GameHUD",
+        "LevelComplete"
+      ]
+    },
+    {
+      "from": "app/routes/play.tsx",
+      "to": "app/hooks/index.ts",
+      "type": "static",
+      "symbols": [
+        "useLevelById",
+        "useGameSession"
+      ]
+    },
+    {
+      "from": "app/routes/worlds.tsx",
+      "to": "app/components/index.ts",
+      "type": "static",
+      "symbols": [
+        "WorldGrid",
+        "RainbowArc"
+      ]
+    },
+    {
+      "from": "app/routes/worlds.tsx",
+      "to": "app/hooks/index.ts",
+      "type": "static",
+      "symbols": [
+        "useRainbowEasterEgg",
+        "useWorldSession",
+        "SaveProvider"
+      ]
+    },
+    {
+      "from": "app/services/index.ts",
+      "to": "app/services/persistence.ts",
+      "type": "reexport",
+      "symbols": [
+        "loadSave",
+        "saveSave",
+        "getDefaultSave",
+        "completeLevelUpdater",
+        "isLevelUnlockedWithSave",
+        "isLevelUnlocked"
+      ]
+    },
+    {
+      "from": "app/services/index.ts",
+      "to": "app/services/persistence.ts",
+      "type": "type",
+      "symbols": [
+        "SaveData"
+      ]
+    },
+    {
+      "from": "app/services/persistence.test.ts",
+      "to": "app/services/persistence.ts",
+      "type": "static",
+      "symbols": [
+        "getDefaultSave",
+        "loadSave",
+        "saveSave",
+        "completeLevelUpdater",
+        "isLevelUnlockedWithSave"
+      ]
+    },
+    {
+      "from": "app/services/persistence.test.ts",
+      "to": "app/services/persistence.ts",
+      "type": "type",
+      "symbols": [
+        "SaveData"
+      ]
+    },
+    {
+      "from": "zone-boundaries.test.ts",
+      "to": "eslint.config.ts",
+      "type": "dynamic",
+      "symbols": [
+        "*"
+      ]
+    }
+  ],
+  "external": [
+    {
+      "package": "@eslint/js",
+      "importedBy": [
+        "eslint.config.ts"
+      ],
+      "symbols": [
+        "default"
+      ]
+    },
+    {
+      "package": "@react-router/dev",
+      "importedBy": [
+        "app/routes.ts",
+        "react-router.config.ts",
+        "vite.config.ts"
+      ],
+      "symbols": [
+        "Config",
+        "RouteConfig",
+        "index",
+        "reactRouter",
+        "route"
+      ]
+    },
+    {
+      "package": "@tailwindcss/vite",
+      "importedBy": [
+        "vite.config.ts"
+      ],
+      "symbols": [
+        "default"
+      ]
+    },
+    {
+      "package": "eslint-plugin-import-x",
+      "importedBy": [
+        "eslint.config.ts"
+      ],
+      "symbols": [
+        "default"
+      ]
+    },
+    {
+      "package": "react",
+      "importedBy": [
+        "app/components/GameBoard.tsx",
+        "app/components/RainbowArc.tsx",
+        "app/hooks/useGameSession.ts",
+        "app/hooks/useGameState.ts",
+        "app/hooks/useLevelById.ts",
+        "app/hooks/useRainbowEasterEgg.ts",
+        "app/hooks/useSave.ts",
+        "app/hooks/useWorldSession.ts"
+      ],
+      "symbols": [
+        "createContext",
+        "createElement",
+        "default",
+        "useCallback",
+        "useContext",
+        "useEffect",
+        "useMemo",
+        "useRef",
+        "useState"
+      ]
+    },
+    {
+      "package": "react-router",
+      "importedBy": [
+        "app/components/WorldGrid.tsx",
+        "app/root.tsx",
+        "app/routes/home.tsx",
+        "app/routes/play.tsx",
+        "app/routes/worlds.tsx"
+      ],
+      "symbols": [
+        "Link",
+        "Links",
+        "Meta",
+        "Outlet",
+        "Scripts",
+        "ScrollRestoration",
+        "isRouteErrorResponse",
+        "useNavigate",
+        "useParams"
+      ]
+    },
+    {
+      "package": "typescript-eslint",
+      "importedBy": [
+        "eslint.config.ts"
+      ],
+      "symbols": [
+        "default"
+      ]
+    },
+    {
+      "package": "vite",
+      "importedBy": [
+        "vite.config.ts"
+      ],
+      "symbols": [
+        "defineConfig"
+      ]
+    },
+    {
+      "package": "vite-tsconfig-paths",
+      "importedBy": [
+        "vite.config.ts",
+        "vitest.config.ts"
+      ],
+      "symbols": [
+        "default"
+      ]
+    },
+    {
+      "package": "vitest",
+      "importedBy": [
+        "app/engine/scoring.test.ts",
+        "app/engine/state-updaters.test.ts",
+        "app/engine/traversal.test.ts",
+        "app/engine/utils.test.ts",
+        "app/hooks/useGameSession.test.ts",
+        "app/hooks/useSave.test.ts",
+        "app/services/persistence.test.ts",
+        "vitest.config.ts",
+        "zone-boundaries.test.ts"
+      ],
+      "symbols": [
+        "afterEach",
+        "beforeEach",
+        "defineConfig",
+        "describe",
+        "expect",
+        "it",
+        "vi"
+      ]
+    }
+  ],
+  "summary": {
+    "totalEdges": 106,
+    "totalExternal": 10,
+    "circularCount": 0,
+    "circulars": [],
+    "mostImported": [
+      {
+        "path": "app/engine/index.ts",
+        "count": 12
+      },
+      {
+        "path": "app/engine/types.ts",
+        "count": 6
+      },
+      {
+        "path": "app/engine/utils.ts",
+        "count": 5
+      },
+      {
+        "path": "app/hooks/useSave.ts",
+        "count": 5
+      },
+      {
+        "path": "app/services/persistence.ts",
+        "count": 4
+      },
+      {
+        "path": "app/components/TilePreview.tsx",
+        "count": 3
+      },
+      {
+        "path": "app/engine/traversal.ts",
+        "count": 3
+      },
+      {
+        "path": "app/components/board-utils.ts",
+        "count": 2
+      },
+      {
+        "path": "app/components/index.ts",
+        "count": 2
+      },
+      {
+        "path": "app/components/inventory-shared.ts",
+        "count": 2
+      },
+      {
+        "path": "app/engine/biome-theme.ts",
+        "count": 2
+      },
+      {
+        "path": "app/engine/scoring.ts",
+        "count": 2
+      },
+      {
+        "path": "app/geometry/rainbow-arc.ts",
+        "count": 2
+      },
+      {
+        "path": "app/hooks/index.ts",
+        "count": 2
+      },
+      {
+        "path": "app/hooks/useGameSession.ts",
+        "count": 2
+      },
+      {
+        "path": "app/components/GameBoard.tsx",
+        "count": 1
+      },
+      {
+        "path": "app/components/GameHUD.tsx",
+        "count": 1
+      },
+      {
+        "path": "app/components/MobileInventory.tsx",
+        "count": 1
+      },
+      {
+        "path": "app/components/TileInventory.tsx",
+        "count": 1
+      },
+      {
+        "path": "app/components/canvas-drawing.ts",
+        "count": 1
+      }
+    ],
+    "avgImportsPerFile": 3.12
+  }
+}

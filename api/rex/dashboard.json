@@ -1,0 +1,81 @@
+{
+  "title": "luckypath",
+  "stats": {
+    "total": 53,
+    "completed": 53,
+    "inProgress": 0,
+    "pending": 0,
+    "failing": 0,
+    "deferred": 0,
+    "blocked": 0,
+    "deleted": 0
+  },
+  "percentComplete": 100,
+  "epics": [
+    {
+      "id": "e2d41b76-d657-493d-a04b-7ad574c9db9b",
+      "title": "Code Health: 11 findings across 3 zones",
+      "status": "completed",
+      "priority": "high",
+      "stats": {
+        "total": 8,
+        "completed": 8,
+        "inProgress": 0,
+        "pending": 0,
+        "failing": 0,
+        "deferred": 0,
+        "blocked": 0,
+        "deleted": 0
+      },
+      "percentComplete": 100
+    },
+    {
+      "id": "49f27856-3edc-4a88-bd2d-4cddb04e0477",
+      "title": "Code Health: 15 findings across 8 zones",
+      "status": "completed",
+      "priority": "high",
+      "stats": {
+        "total": 13,
+        "completed": 13,
+        "inProgress": 0,
+        "pending": 0,
+        "failing": 0,
+        "deferred": 0,
+        "blocked": 0,
+        "deleted": 0
+      },
+      "percentComplete": 100
+    },
+    {
+      "id": "deb42c2b-0bd3-45a1-9bc5-f6eb7c9d00b6",
+      "title": "Code Health: 14 findings across 5 zones",
+      "status": "completed",
+      "priority": "high",
+      "stats": {
+        "total": 10,
+        "completed": 10,
+        "inProgress": 0,
+        "pending": 0,
+        "failing": 0,
+        "deferred": 0,
+        "blocked": 0,
+        "deleted": 0
+      },
+      "percentComplete": 100
+    }
+  ],
+  "nextTask": null,
+  "priorities": {
+    "critical": 0,
+    "high": 53,
+    "medium": 0,
+    "low": 0,
+    "unset": 0
+  },
+  "requirements": {
+    "totalRequirements": 0,
+    "itemsWithRequirements": 0,
+    "byCategory": {},
+    "byValidationType": {}
+  }
+}

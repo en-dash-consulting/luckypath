@@ -1,0 +1,666 @@
+{
+  "id": "1857d1b7-f442-4580-93b0-e2bc2843fbd1",
+  "taskId": "c9f73106-0865-4a22-9336-72f831b2aea3",
+  "taskTitle": "Fix pattern in game-engine: Undocumented implicit contract: ~/hooks barrel is consumed for runtime state, ~/",
+  "startedAt": "2026-03-16T03:22:36.048Z",
+  "status": "completed",
+  "turns": 29,
+  "tokenUsage": {
+    "input": 48,
+    "output": 440,
+    "cacheCreationInput": 62267,
+    "cacheReadInput": 742231
+  },
+  "turnTokenUsage": [
+    {
+      "turn": 1,
+      "input": 3,
+      "output": 9,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2446,
+      "cacheReadInput": 8929
+    },
+    {
+      "turn": 2,
+      "input": 3,
+      "output": 9,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2446,
+      "cacheReadInput": 8929
+    },
+    {
+      "turn": 3,
+      "input": 3,
+      "output": 27,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 694,
+      "cacheReadInput": 11375
+    },
+    {
+      "turn": 4,
+      "input": 3,
+      "output": 27,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 694,
+      "cacheReadInput": 11375
+    },
+    {
+      "turn": 5,
+      "input": 3,
+      "output": 27,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 694,
+      "cacheReadInput": 11375
+    },
+    {
+      "turn": 6,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 364,
+      "cacheReadInput": 12069
+    },
+    {
+      "turn": 7,
+      "input": 1,
+      "output": 24,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 146,
+      "cacheReadInput": 12433
+    },
+    {
+      "turn": 8,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 322,
+      "cacheReadInput": 12433
+    },
+    {
+      "turn": 9,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 322,
+      "cacheReadInput": 12433
+    },
+    {
+      "turn": 10,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 322,
+      "cacheReadInput": 12433
+    },
+    {
+      "turn": 11,
+      "input": 1,
+      "output": 24,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 950,
+      "cacheReadInput": 12755
+    },
+    {
+      "turn": 12,
+      "input": 1,
+      "output": 24,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 950,
+      "cacheReadInput": 12755
+    },
+    {
+      "turn": 13,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1788,
+      "cacheReadInput": 13705
+    },
+    {
+      "turn": 14,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1788,
+      "cacheReadInput": 13705
+    },
+    {
+      "turn": 15,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1788,
+      "cacheReadInput": 13705
+    },
+    {
+      "turn": 16,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1788,
+      "cacheReadInput": 13705
+    },
+    {
+      "turn": 17,
+      "input": 1,
+      "output": 12,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 8812,
+      "cacheReadInput": 15493
+    },
+    {
+      "turn": 18,
+      "input": 1,
+      "output": 12,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 8812,
+      "cacheReadInput": 15493
+    },
+    {
+      "turn": 19,
+      "input": 1,
+      "output": 12,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 8812,
+      "cacheReadInput": 15493
+    },
+    {
+      "turn": 20,
+      "input": 1,
+      "output": 12,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 8812,
+      "cacheReadInput": 15493
+    },
+    {
+      "turn": 21,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 989,
+      "cacheReadInput": 24305
+    },
+    {
+      "turn": 22,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 989,
+      "cacheReadInput": 24305
+    },
+    {
+      "turn": 23,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 897,
+      "cacheReadInput": 25294
+    },
+    {
+      "turn": 24,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 680,
+      "cacheReadInput": 26191
+    },
+    {
+      "turn": 25,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 680,
+      "cacheReadInput": 26191
+    },
+    {
+      "turn": 26,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 680,
+      "cacheReadInput": 26191
+    },
+    {
+      "turn": 27,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 414,
+      "cacheReadInput": 26871
+    },
+    {
+      "turn": 28,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 271,
+      "cacheReadInput": 27285
+    },
+    {
+      "turn": 29,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 271,
+      "cacheReadInput": 27285
+    },
+    {
+      "turn": 30,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 271,
+      "cacheReadInput": 27285
+    },
+    {
+      "turn": 31,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 517,
+      "cacheReadInput": 27556
+    },
+    {
+      "turn": 32,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 517,
+      "cacheReadInput": 27556
+    },
+    {
+      "turn": 33,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 517,
+      "cacheReadInput": 27556
+    },
+    {
+      "turn": 34,
+      "input": 1,
+      "output": 24,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 407,
+      "cacheReadInput": 28073
+    },
+    {
+      "turn": 35,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 281,
+      "cacheReadInput": 28480
+    },
+    {
+      "turn": 36,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 281,
+      "cacheReadInput": 28480
+    },
+    {
+      "turn": 37,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 281,
+      "cacheReadInput": 28480
+    },
+    {
+      "turn": 38,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 574,
+      "cacheReadInput": 28761
+    }
+  ],
+  "toolCalls": [
+    {
+      "turn": 2,
+      "tool": "ToolSearch",
+      "input": {
+        "query": "select:mcp__rex__get_next_task,mcp__rex__update_task_status,mcp__rex__append_log",
+        "max_results": 3
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 3,
+      "tool": "Bash",
+      "input": {
+        "command": "cd /home/user/luckypath && cat package.json | head -20",
+        "description": "Check project setup"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 4,
+      "tool": "Glob",
+      "input": {
+        "pattern": "app/hooks/index.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 5,
+      "tool": "Glob",
+      "input": {
+        "pattern": "app/engine/index.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 6,
+      "tool": "Bash",
+      "input": {
+        "command": "ls /home/user/luckypath/",
+        "description": "List project root"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 7,
+      "tool": "Bash",
+      "input": {
+        "command": "ls /Users/nick/development/endash/luckypath/",
+        "description": "List project root"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 8,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/package.json"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 9,
+      "tool": "Glob",
+      "input": {
+        "pattern": "app/hooks/index.ts",
+        "path": "/Users/nick/development/endash/luckypath"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 10,
+      "tool": "Glob",
+      "input": {
+        "pattern": "app/engine/index.ts",
+        "path": "/Users/nick/development/endash/luckypath"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 11,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/hooks/index.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 12,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/engine/index.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 14,
+      "tool": "mcp__rex__update_task_status",
+      "input": {
+        "id": "c9f73106-0865-4a22-9336-72f831b2aea3",
+        "status": "in_progress"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 15,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/eslint.config.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 16,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/zone-boundaries.test.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 19,
+      "tool": "Bash",
+      "input": {
+        "command": "npm run typecheck 2>&1 | tail -5",
+        "description": "Run typecheck"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 20,
+      "tool": "Bash",
+      "input": {
+        "command": "npm run lint 2>&1 | tail -5",
+        "description": "Run lint"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 22,
+      "tool": "Edit",
+      "input": {
+        "replace_all": false,
+        "file_path": "/Users/nick/development/endash/luckypath/app/engine/index.ts",
+        "old_string": "/**\n * Game Engine — public API\n *\n * Import from \"~/engine\" instead of reaching into individual files.\n * This barrel keeps the engine's internal structure decoupled from consumers.\n *\n * ⚠️  HIGH FAN-IN MODULE — imported by 10+ files across 3 zones (game-ui,\n * game-session, routes). Changes to this surface have wide ripple effects.\n *\n * Before modifying exports:\n *   1. Check all consumers (`grep -r 'from \"~/engine\"'`) for the symbol you\n *      are changing — removing or renaming an export WILL break downstream.\n *   2. Prefer additive changes (new exports) over modifications to existing ones.\n *   3. Type-only exports (`export type`) are safe to refactor since they have\n *      no runtime impact.\n */",
+        "new_string": "/**\n * Game Engine — public API (pure functions & types only)\n *\n * Import from \"~/engine\" instead of reaching into individual files.\n * This barrel keeps the engine's internal structure decoupled from consumers.\n *\n * CONTRACT: This barrel exports ONLY pure functions and type definitions.\n * It must never export React hooks, stateful singletons, or anything with\n * side effects. All runtime state management lives in the ~/hooks barrel,\n * which consumes engine exports and wraps them in React-aware hooks.\n *\n *   ~/engine  →  types, pure functions, constants  (stateless)\n *   ~/hooks   →  React hooks, providers, state      (stateful, imports ~/engine)\n *\n * DAG position:  geometry → **engine** → services → hooks → components → routes\n *\n * Layer access rules (enforced by ESLint in eslint.config.ts):\n *   - Components & hooks may import from this barrel (not deep files).\n *   - Routes must NOT import from engine — they access engine data through\n *     the ~/hooks barrel, which re-exports necessary types.\n *\n * ⚠️  HIGH FAN-IN MODULE — imported by 10+ files across 3 zones.\n * Changes to this surface have wide ripple effects.\n *\n * Before modifying exports:\n *   1. Check all consumers (`grep -r 'from \"~/engine\"'`) for the symbol you\n *      are changing — removing or renaming an export WILL break downstream.\n *   2. Prefer additive changes (new exports) over modifications to existing ones.\n *   3. Type-only exports (`export type`) are safe to refactor since they have\n *      no runtime impact.\n *   4. Never add React imports or hook exports here — those belong in ~/hooks.\n */"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 23,
+      "tool": "Edit",
+      "input": {
+        "replace_all": false,
+        "file_path": "/Users/nick/development/endash/luckypath/app/hooks/index.ts",
+        "old_string": "/**\n * Hooks barrel — public API for the hooks adapter layer.\n *\n * This barrel formalizes the hooks zone as a first-class architectural layer,\n * matching the engine barrel pattern (engine/index.ts). All route access to\n * engine data flows through hooks in this layer, enforced by ESLint rules in\n * eslint.config.ts and validated by zone-boundaries.test.ts.\n *\n * DAG position:  geometry → engine → **hooks** → components → routes\n *\n * External consumers (routes & components) must import from this barrel — not\n * from individual hook files.  This is enforced by ESLint boundary rules in\n * eslint.config.ts and validated by zone-boundaries.test.ts.\n * Intra-zone imports (hook → hook) may use direct paths to avoid circular refs.\n */",
+        "new_string": "/**\n * Hooks barrel — public API for React runtime state (stateful layer).\n *\n * CONTRACT: This barrel exports React hooks, context providers, and the\n * runtime state they manage. It is the ONLY layer that bridges the pure\n * engine (~/engine) into React's stateful world. The engine barrel exports\n * pure functions and types; this barrel wraps them with React lifecycle,\n * context, and side-effect management.\n *\n *   ~/engine  →  types, pure functions, constants  (stateless)\n *   ~/hooks   →  React hooks, providers, state      (stateful, imports ~/engine)\n *\n * DAG position:  geometry → engine → services → **hooks** → components → routes\n *\n * Layer access rules (enforced by ESLint in eslint.config.ts):\n *   - Routes & components must import from this barrel — not from individual\n *     hook files. Enforced by ESLint and validated by zone-boundaries.test.ts.\n *   - Routes must NOT import from ~/engine directly; this barrel re-exports\n *     any engine types that routes need (e.g., SaveData, WorldData).\n *   - Intra-zone imports (hook → hook) may use direct paths to avoid circular refs.\n */"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 25,
+      "tool": "Bash",
+      "input": {
+        "command": "npm run typecheck 2>&1 | tail -5",
+        "description": "Run typecheck"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 26,
+      "tool": "Bash",
+      "input": {
+        "command": "npm run lint 2>&1 | tail -5",
+        "description": "Run lint"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 27,
+      "tool": "Bash",
+      "input": {
+        "command": "npm test 2>&1 | tail -20",
+        "description": "Run tests"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 29,
+      "tool": "mcp__rex__update_task_status",
+      "input": {
+        "id": "c9f73106-0865-4a22-9336-72f831b2aea3",
+        "status": "completed",
+        "resolutionType": "code-change",
+        "resolutionDetail": "Added explicit barrel-level JSDoc to both ~/engine/index.ts and ~/hooks/index.ts documenting the stateless/stateful contract between the two barrels, layer access rules, and cross-references to each other."
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 30,
+      "tool": "mcp__rex__append_log",
+      "input": {
+        "event": "task_completed",
+        "itemId": "c9f73106-0865-4a22-9336-72f831b2aea3",
+        "detail": "Documented the implicit contract between ~/engine and ~/hooks barrels. Engine barrel JSDoc now explicitly states it exports ONLY pure functions and types (stateless), and must never export React hooks or stateful code. Hooks barrel JSDoc now explicitly states it's the stateful React bridge layer that wraps engine exports. Both barrels include an aligned summary table showing the contract split. All 145 tests pass, typecheck and lint clean."
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 32,
+      "tool": "Bash",
+      "input": {
+        "command": "git -C /Users/nick/development/endash/luckypath diff --stat",
+        "description": "Check changed files"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 33,
+      "tool": "Bash",
+      "input": {
+        "command": "git -C /Users/nick/development/endash/luckypath log --oneline -5",
+        "description": "Recent commits"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 34,
+      "tool": "Bash",
+      "input": {
+        "command": "git add app/engine/index.ts app/hooks/index.ts && git commit -m \"$(cat <<'EOF'\nDocument engine/hooks barrel contract: stateless vs stateful split\n\nExplicitly document the implicit architectural contract between the\n~/engine and ~/hooks barrels. Engine barrel now states it exports only\npure functions and types (no React, no side effects). Hooks barrel now\nstates it is the stateful React bridge layer. Both include an aligned\nsummary table and cross-references to prevent contract erosion.\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>\nEOF\n)\"",
+        "description": "Commit barrel documentation changes"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 36,
+      "tool": "mcp__rex__update_task_status",
+      "input": {
+        "id": "c9f73106-0865-4a22-9336-72f831b2aea3",
+        "status": "completed",
+        "resolutionType": "code-change",
+        "resolutionDetail": "Added explicit barrel-level JSDoc to both ~/engine/index.ts and ~/hooks/index.ts documenting the stateless/stateful contract."
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 37,
+      "tool": "mcp__rex__append_log",
+      "input": {
+        "event": "task_completed",
+        "itemId": "c9f73106-0865-4a22-9336-72f831b2aea3",
+        "detail": "Documented the implicit engine/hooks barrel contract. Engine barrel JSDoc now explicitly states it exports ONLY pure functions and types (stateless, no React). Hooks barrel JSDoc now explicitly states it's the stateful React bridge layer. Both barrels include aligned summary table and cross-references. All 145 tests pass."
+      },
+      "output": "",
+      "durationMs": 0
+    }
+  ],
+  "model": "sonnet",
+  "lastActivityAt": "2026-03-16T03:25:13.033Z",
+  "summary": "## Summary\n\n**Task:** Fix undocumented implicit contract between `~/hooks` and `~/engine` barrels.\n\n**What was done:** Updated barrel-level JSDoc in both files to explicitly document the stateless/stateful contract:\n\n1. **`app/engine/index.ts`** — Added `CONTRACT:` block stating this barrel exports ONLY pure functions and types (no React, no side effects, no runtime state). Added DAG position, layer access rules, and a rule to never add React imports here.\n\n2. **`app/hooks/index.ts`** — Rewritte",
+  "structuredSummary": {
+    "filesChanged": [],
+    "filesRead": [],
+    "commandsExecuted": [],
+    "testsRun": [],
+    "counts": {
+      "filesRead": 0,
+      "filesChanged": 0,
+      "commandsExecuted": 0,
+      "testsRun": 0,
+      "toolCallsTotal": 28
+    }
+  },
+  "memoryStats": {
+    "peakRssBytes": 125960192,
+    "systemAvailableAtStartBytes": 16982441984,
+    "systemAvailableAtEndBytes": 16879140864,
+    "systemTotalBytes": 68719476736
+  },
+  "finishedAt": "2026-03-16T03:25:13.033Z"
+}

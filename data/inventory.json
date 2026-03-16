@@ -1,0 +1,652 @@
+{
+  "files": [
+    {
+      "path": ".dockerignore",
+      "size": 42,
+      "language": "Other",
+      "lineCount": 4,
+      "hash": "df04863fd942b441bb64efc8f78cdabba10c8cfff41d61a6359408829551e268",
+      "role": "other",
+      "category": "root",
+      "lastModified": 1773254761558
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "size": 515,
+      "language": "YAML",
+      "lineCount": 33,
+      "hash": "3d9bb7b6c32476b50f42d4439c4eb20247c267982a64ccab2e4e4ff8004a09e1",
+      "role": "build",
+      "category": ".github",
+      "lastModified": 1773376694001
+    },
+    {
+      "path": ".github/workflows/deploy.yml",
+      "size": 1008,
+      "language": "YAML",
+      "lineCount": 44,
+      "hash": "f23c4c49320f8ae2f81b8d6b7504648cfaf3889e07d78dbef3dca4dfeaec17f2",
+      "role": "build",
+      "category": ".github",
+      "lastModified": 1773337152689
+    },
+    {
+      "path": ".gitignore",
+      "size": 148,
+      "language": "Other",
+      "lineCount": 14,
+      "hash": "8e4e42421ba481c05570fa5c25708ec941ca93cdc3adf165ac9a68d544b35dd5",
+      "role": "config",
+      "category": "root",
+      "lastModified": 1773275684873
+    },
+    {
+      "path": "Dockerfile",
+      "size": 625,
+      "language": "Dockerfile",
+      "lineCount": 24,
+      "hash": "e58b8b4ab0aa596142a71147922b22a0db5d925eae83f1794d56373b8e02dd7e",
+      "role": "build",
+      "category": "root",
+      "lastModified": 1773260986615
+    },
+    {
+      "path": "README.md",
+      "size": 1087,
+      "language": "Markdown",
+      "lineCount": 39,
+      "hash": "f40fc3504f3e2c6db5c840a77d9a820621565a44dc021c66b39d41cbdff244a6",
+      "role": "docs",
+      "category": "root",
+      "lastModified": 1773283054495
+    },
+    {
+      "path": "app/app.css",
+      "size": 813,
+      "language": "CSS",
+      "lineCount": 42,
+      "hash": "510fdb949d89427e11acb25ea271e9829590af341bfeea6d2f4fd2a0d13d66f8",
+      "role": "other",
+      "category": "app",
+      "lastModified": 1773259849217
+    },
+    {
+      "path": "app/components/GameBoard.tsx",
+      "size": 14679,
+      "language": "TypeScript",
+      "lineCount": 433,
+      "hash": "af1455c95311e8cee6922ef5e82c485a66013c4f6452def3cab48bed77281821",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773378549283
+    },
+    {
+      "path": "app/components/GameHUD.tsx",
+      "size": 2896,
+      "language": "TypeScript",
+      "lineCount": 93,
+      "hash": "f706507e988a5cd00f6f70e7d3d91048f8a0c99b10f21404631f8caf085fbd1b",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773321884185
+    },
+    {
+      "path": "app/components/LevelComplete.tsx",
+      "size": 3084,
+      "language": "TypeScript",
+      "lineCount": 93,
+      "hash": "b5a57763ab47c500608456397ba0e0be91092f934446d3490cee265f60e14616",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773283982222
+    },
+    {
+      "path": "app/components/MobileInventory.tsx",
+      "size": 2464,
+      "language": "TypeScript",
+      "lineCount": 74,
+      "hash": "715c7efce480241d48dcc0b08420794e86a0887547ec0f672b287c146bac84d6",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773377994886
+    },
+    {
+      "path": "app/components/RainbowArc.tsx",
+      "size": 3884,
+      "language": "TypeScript",
+      "lineCount": 118,
+      "hash": "7135057ab52d4cf13b19e61e4bd75da75d3f6b2dd59fa3bb9c3f3a7a1f3a3b37",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773631581430
+    },
+    {
+      "path": "app/components/TileInventory.tsx",
+      "size": 2837,
+      "language": "TypeScript",
+      "lineCount": 83,
+      "hash": "4c3556e1ad8b3a5b2ed95bad9f509d89df6936d96b79c499b576432f7f8d27d2",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773378035988
+    },
+    {
+      "path": "app/components/TilePreview.tsx",
+      "size": 2881,
+      "language": "TypeScript",
+      "lineCount": 62,
+      "hash": "ba6c359703cf68adbb52b479fc000910b5cfb352be20f5a50201c1ff51589c3d",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773376694003
+    },
+    {
+      "path": "app/components/WorldGrid.tsx",
+      "size": 3165,
+      "language": "TypeScript",
+      "lineCount": 93,
+      "hash": "849763c4b90c41891096d6d07e138085ca8bdd84aa6426af4b41d50a862931b3",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773376694004
+    },
+    {
+      "path": "app/components/board-utils.ts",
+      "size": 634,
+      "language": "TypeScript",
+      "lineCount": 19,
+      "hash": "3d82227332f8cbc979d14e80a6ecb88012605f1b26ba9212dd0428cafca2bfa4",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773380047653
+    },
+    {
+      "path": "app/components/canvas-drawing.ts",
+      "size": 10682,
+      "language": "TypeScript",
+      "lineCount": 401,
+      "hash": "c26adf6a6b5822d051e4045b7d9a6e49a88b8194f7e409fa3fecd0de11b1d2a2",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773377781171
+    },
+    {
+      "path": "app/components/index.ts",
+      "size": 1132,
+      "language": "TypeScript",
+      "lineCount": 32,
+      "hash": "4be00e8279a5621d3be97bf39058283a3d003dfd23c65b919e4f3d0c860cbffc",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773631883683
+    },
+    {
+      "path": "app/components/inventory-shared.ts",
+      "size": 1805,
+      "language": "TypeScript",
+      "lineCount": 61,
+      "hash": "b7950e932865df8d1a0d1852b6a53851f1e3fa9f298ee91fbb30d0b4cdcb545c",
+      "role": "source",
+      "category": "components",
+      "lastModified": 1773377974179
+    },
+    {
+      "path": "app/engine/biome-theme.ts",
+      "size": 2141,
+      "language": "TypeScript",
+      "lineCount": 64,
+      "hash": "057c9c927323c1164075574cab28fe73bddaf6049202583f3b2f45a2a3252602",
+      "role": "source",
+      "category": "engine",
+      "lastModified": 1773376694004
+    },
+    {
+      "path": "app/engine/index.ts",
+      "size": 3158,
+      "language": "TypeScript",
+      "lineCount": 104,
+      "hash": "0f3e83eddfaab78f506ae51d41f7ff84686c0bfd421673203ca175495a382009",
+      "role": "source",
+      "category": "engine",
+      "lastModified": 1773631585672
+    },
+    {
+      "path": "app/engine/levels.ts",
+      "size": 8806,
+      "language": "TypeScript",
+      "lineCount": 362,
+      "hash": "eaecb7a0ad6cf80aaa2b08cc8707e7e8b6666361bfe9b257990005469da4ace0",
+      "role": "source",
+      "category": "engine",
+      "lastModified": 1773376694005
+    },
+    {
+      "path": "app/engine/scoring.test.ts",
+      "size": 883,
+      "language": "TypeScript",
+      "lineCount": 30,
+      "hash": "60030e795a5d535acf156ee6515c2a96eced5f5466fb0dd1bd9ff0c3f45c29c9",
+      "role": "test",
+      "category": "engine",
+      "lastModified": 1773378748407
+    },
+    {
+      "path": "app/engine/scoring.ts",
+      "size": 579,
+      "language": "TypeScript",
+      "lineCount": 18,
+      "hash": "bd82fbe5c7f2c0ceb06a9a8d06bcb8c39769a47e43c9dd5b8d47f4c6837e3391",
+      "role": "source",
+      "category": "engine",
+      "lastModified": 1773378745652
+    },
+    {
+      "path": "app/engine/state-updaters.test.ts",
+      "size": 12765,
+      "language": "TypeScript",
+      "lineCount": 354,
+      "hash": "e5e7bffcb7504b6d0d642c41b819ddf1859d2db2109be8e6de327ed69792ff3d",
+      "role": "test",
+      "category": "engine",
+      "lastModified": 1773625691312
+    },
+    {
+      "path": "app/engine/state-updaters.ts",
+      "size": 3824,
+      "language": "TypeScript",
+      "lineCount": 157,
+      "hash": "6cf7030f2a6cae6cc6128a7618033763e0b4efdacab2ae04416a97bb488f74d9",
+      "role": "source",
+      "category": "engine",
+      "lastModified": 1773625539356
+    },
+    {
+      "path": "app/engine/traversal.test.ts",
+      "size": 5525,
+      "language": "TypeScript",
+      "lineCount": 164,
+      "hash": "b03cf404b716afd43ec7b051785c060ffb1c70bc5b49349681cc87cfa3b8de4e",
+      "role": "test",
+      "category": "engine",
+      "lastModified": 1773376694006
+    },
+    {
+      "path": "app/engine/traversal.ts",
+      "size": 4565,
+      "language": "TypeScript",
+      "lineCount": 173,
+      "hash": "133b95e635559e253c2d2f3051dcf23a144067e17ebc38cb7f14bd9831b768eb",
+      "role": "source",
+      "category": "engine",
+      "lastModified": 1773376694006
+    },
+    {
+      "path": "app/engine/types.ts",
+      "size": 1833,
+      "language": "TypeScript",
+      "lineCount": 73,
+      "hash": "2154f95ffbf5a11dd2f6d64692ff7d2696f4d40d47f9f9a574292854a553257b",
+      "role": "source",
+      "category": "engine",
+      "lastModified": 1773376694006
+    },
+    {
+      "path": "app/engine/utils.test.ts",
+      "size": 1501,
+      "language": "TypeScript",
+      "lineCount": 55,
+      "hash": "ca0644dbdd0807bacf666093000f0844ceee3127e4182d4f0869295f0f24d7d9",
+      "role": "test",
+      "category": "engine",
+      "lastModified": 1773376694007
+    },
+    {
+      "path": "app/engine/utils.ts",
+      "size": 1744,
+      "language": "TypeScript",
+      "lineCount": 50,
+      "hash": "b008a967cc8a9ced00e057ef09fc7519a6fc0fbdfd7b6e7a93c887732fdf9607",
+      "role": "source",
+      "category": "engine",
+      "lastModified": 1773376694007
+    },
+    {
+      "path": "app/geometry/rainbow-arc.ts",
+      "size": 2877,
+      "language": "TypeScript",
+      "lineCount": 75,
+      "hash": "37580070ec115f77c82cf286982ea4debd13ecfe4ea5b507d9fa128037ce57eb",
+      "role": "source",
+      "category": "geometry",
+      "lastModified": 1773631575779
+    },
+    {
+      "path": "app/hooks/index.ts",
+      "size": 2157,
+      "language": "TypeScript",
+      "lineCount": 44,
+      "hash": "e996d97b78962fe4b4c5a70bcafd1335245c62dc43d1b3b1bfe7052c6ad8cdf4",
+      "role": "source",
+      "category": "hooks",
+      "lastModified": 1773632277707
+    },
+    {
+      "path": "app/hooks/useGameSession.test.ts",
+      "size": 4420,
+      "language": "TypeScript",
+      "lineCount": 126,
+      "hash": "0527c51466ca30b824130f7ead65eb9fffaa64769c2f1b011bc930963fbfd947",
+      "role": "test",
+      "category": "hooks",
+      "lastModified": 1773381719867
+    },
+    {
+      "path": "app/hooks/useGameSession.ts",
+      "size": 5229,
+      "language": "TypeScript",
+      "lineCount": 161,
+      "hash": "f36b7c081826abebae010bef22428b50ad22c5d3b3afd945c85aecebc65c22db",
+      "role": "source",
+      "category": "hooks",
+      "lastModified": 1773459984759
+    },
+    {
+      "path": "app/hooks/useGameState.ts",
+      "size": 2750,
+      "language": "TypeScript",
+      "lineCount": 99,
+      "hash": "258655e74ae4b9ed96097c1ab3466992b8be7a0a82e58e085dd590ad8f7f2334",
+      "role": "source",
+      "category": "hooks",
+      "lastModified": 1773625570759
+    },
+    {
+      "path": "app/hooks/useLevelById.ts",
+      "size": 448,
+      "language": "TypeScript",
+      "lineCount": 13,
+      "hash": "2661a1baeabe37927e9a6a3af39ce5dede5be1a5e4b1301f08d88bf2261fb08e",
+      "role": "source",
+      "category": "hooks",
+      "lastModified": 1773376694008
+    },
+    {
+      "path": "app/hooks/useRainbowEasterEgg.ts",
+      "size": 2857,
+      "language": "TypeScript",
+      "lineCount": 102,
+      "hash": "4822122d159c7b7bdc087b1d2fe3faaea50cd8a0a751d12023deb958a5d441fb",
+      "role": "source",
+      "category": "hooks",
+      "lastModified": 1773624951806
+    },
+    {
+      "path": "app/hooks/useSave.test.ts",
+      "size": 4017,
+      "language": "TypeScript",
+      "lineCount": 110,
+      "hash": "1b89e3af61abec52c345f714121a0d4c01f33dcab5b8132e1d0aeebcef9dbefb",
+      "role": "test",
+      "category": "hooks",
+      "lastModified": 1773632094128
+    },
+    {
+      "path": "app/hooks/useSave.ts",
+      "size": 7454,
+      "language": "TypeScript",
+      "lineCount": 189,
+      "hash": "78011988020a0834e5e40dea6c8dfe731ca244b181ee9dbdc8b5450bbbc87170",
+      "role": "source",
+      "category": "hooks",
+      "lastModified": 1773632084449
+    },
+    {
+      "path": "app/hooks/useWorldSession.ts",
+      "size": 1978,
+      "language": "TypeScript",
+      "lineCount": 64,
+      "hash": "c12a1912bbf36a268e204054f796eed0ede290d7a2e1384560cdd2d6c2810f55",
+      "role": "source",
+      "category": "hooks",
+      "lastModified": 1773378175404
+    },
+    {
+      "path": "app/root.tsx",
+      "size": 4492,
+      "language": "TypeScript",
+      "lineCount": 114,
+      "hash": "745608f349c02ee8f60b48916aa0da94fe5f0c98dd6a56501a3d0f86cdfc1ac9",
+      "role": "source",
+      "category": "app",
+      "lastModified": 1773376694009
+    },
+    {
+      "path": "app/routes.ts",
+      "size": 231,
+      "language": "TypeScript",
+      "lineCount": 7,
+      "hash": "44804f8f0474c9967716b9225cfec4f87b21a9c6d2b054023c40c26f6b13e091",
+      "role": "source",
+      "category": "app",
+      "lastModified": 1773257573086
+    },
+    {
+      "path": "app/routes/home.tsx",
+      "size": 2421,
+      "language": "TypeScript",
+      "lineCount": 61,
+      "hash": "78ac6ec2136f5445ad00bf94e103e01fc4e31d33bcbdf83bfd3bec067c01fde5",
+      "role": "source",
+      "category": "routes",
+      "lastModified": 1773376694010
+    },
+    {
+      "path": "app/routes/play.tsx",
+      "size": 4600,
+      "language": "TypeScript",
+      "lineCount": 152,
+      "hash": "7624420d5c123b46c69e5d33e6151e362dd80fa260a11f8842b4a92199068d3e",
+      "role": "source",
+      "category": "routes",
+      "lastModified": 1773631899436
+    },
+    {
+      "path": "app/routes/worlds.tsx",
+      "size": 2996,
+      "language": "TypeScript",
+      "lineCount": 91,
+      "hash": "1dd4262c90e866e6f4454ee4365f511336205c5913a277de4028de8dc1269d41",
+      "role": "source",
+      "category": "routes",
+      "lastModified": 1773631898069
+    },
+    {
+      "path": "app/services/index.ts",
+      "size": 855,
+      "language": "TypeScript",
+      "lineCount": 22,
+      "hash": "dcbb1670a64ab48354b04f285d3fff7b5d83ffdcdde7a772500f08de67928b2f",
+      "role": "source",
+      "category": "services",
+      "lastModified": 1773625994248
+    },
+    {
+      "path": "app/services/persistence.test.ts",
+      "size": 6167,
+      "language": "TypeScript",
+      "lineCount": 190,
+      "hash": "944e9305d88afaf349b4a07fd3ea359fd0780e46fb2f90188d65438d76bb9c1d",
+      "role": "test",
+      "category": "services",
+      "lastModified": 1773381779627
+    },
+    {
+      "path": "app/services/persistence.ts",
+      "size": 2618,
+      "language": "TypeScript",
+      "lineCount": 99,
+      "hash": "a7fb4cb4ddc709b310c1ae2c4c4e13f2f7bb57f71623791078f71b1a3d9059fd",
+      "role": "source",
+      "category": "services",
+      "lastModified": 1773378282375
+    },
+    {
+      "path": "eslint.config.ts",
+      "size": 8419,
+      "language": "TypeScript",
+      "lineCount": 198,
+      "hash": "af4e8dcc31ef20990153e174e3f5fd4c3841d1de0cf14a2ec67f57c5486eec19",
+      "role": "config",
+      "category": "root",
+      "lastModified": 1773632445499
+    },
+    {
+      "path": "lucky_path_prd.md",
+      "size": 22005,
+      "language": "Markdown",
+      "lineCount": 620,
+      "hash": "c26ca26957ebcf1d6f9ed5132dc97ef1af0b16b941e045776edba9159c826448",
+      "role": "docs",
+      "category": "root",
+      "lastModified": 1773254406063
+    },
+    {
+      "path": "package-lock.json",
+      "size": 211088,
+      "language": "JSON",
+      "lineCount": 6062,
+      "hash": "9690b03d7c50b50dfd25f25afb979322bb84b33939021d857efb238d6cd38888",
+      "role": "generated",
+      "category": "root",
+      "lastModified": 1773376694012
+    },
+    {
+      "path": "package.json",
+      "size": 1107,
+      "language": "JSON",
+      "lineCount": 40,
+      "hash": "2c0406bdb93fbeb90555fbf6bc83fdb2d8e5f54d897276b542fe26de09273fe4",
+      "role": "config",
+      "category": "root",
+      "lastModified": 1773376694012
+    },
+    {
+      "path": "public/favicon.svg",
+      "size": 732,
+      "language": "SVG",
+      "lineCount": 13,
+      "hash": "3291132fe20351f2c4ed719acc2492c7da6c38101e8f20b47086c59662264d64",
+      "role": "asset",
+      "category": "public",
+      "lastModified": 1773276514530
+    },
+    {
+      "path": "react-router.config.ts",
+      "size": 205,
+      "language": "TypeScript",
+      "lineCount": 7,
+      "hash": "6dc2b02dd57b1b429839b88b47fbcb5ea9d23a6464099e03515e57e5d1207e50",
+      "role": "source",
+      "category": "root",
+      "lastModified": 1773277730503
+    },
+    {
+      "path": "scripts/check-layers.sh",
+      "size": 2448,
+      "language": "Shell",
+      "lineCount": 60,
+      "hash": "44efc04fa969f1a9e180d916336da17b5884eefe471f153e1494269bcaca1757",
+      "role": "build",
+      "category": "scripts",
+      "lastModified": 1773632450286
+    },
+    {
+      "path": "scripts/deploy.sh",
+      "size": 1157,
+      "language": "Shell",
+      "lineCount": 41,
+      "hash": "d850bed72667f763109e23d93c107d7ea0ae3b619ae2d1407ef8cc274c7e05eb",
+      "role": "build",
+      "category": "scripts",
+      "lastModified": 1773624729506
+    },
+    {
+      "path": "tsconfig.json",
+      "size": 605,
+      "language": "JSON",
+      "lineCount": 27,
+      "hash": "3bd0eebed53134457845b088d0a857d2715e962c8046f28b35e02ef44e7a8de5",
+      "role": "config",
+      "category": "root",
+      "lastModified": 1773277730515
+    },
+    {
+      "path": "vite.config.ts",
+      "size": 280,
+      "language": "TypeScript",
+      "lineCount": 8,
+      "hash": "5f9b4767cf7dea722b7c73735d693ce8cf76941a98b6936fe0d2b815803e4379",
+      "role": "config",
+      "category": "root",
+      "lastModified": 1773277730487
+    },
+    {
+      "path": "vitest.config.ts",
+      "size": 237,
+      "language": "TypeScript",
+      "lineCount": 9,
+      "hash": "b647e00e39012f9ff0ec73d8093025d1995b5afb9fe4cf879e94559850e64624",
+      "role": "config",
+      "category": "root",
+      "lastModified": 1773380820178
+    },
+    {
+      "path": "zone-boundaries.test.ts",
+      "size": 25291,
+      "language": "TypeScript",
+      "lineCount": 623,
+      "hash": "757b1e446d098d777628361554cfdc4ef1cade0519c8d33950190f5686f55db0",
+      "role": "test",
+      "category": "root",
+      "lastModified": 1773632651168
+    }
+  ],
+  "summary": {
+    "totalFiles": 61,
+    "totalLines": 12793,
+    "byLanguage": {
+      "Other": 2,
+      "YAML": 2,
+      "Dockerfile": 1,
+      "Markdown": 2,
+      "CSS": 1,
+      "TypeScript": 47,
+      "JSON": 3,
+      "SVG": 1,
+      "Shell": 2
+    },
+    "byRole": {
+      "other": 2,
+      "build": 5,
+      "config": 6,
+      "docs": 2,
+      "source": 36,
+      "test": 8,
+      "generated": 1,
+      "asset": 1
+    },
+    "byCategory": {
+      "root": 13,
+      ".github": 2,
+      "app": 3,
+      "components": 12,
+      "engine": 12,
+      "geometry": 1,
+      "hooks": 9,
+      "routes": 3,
+      "services": 3,
+      "public": 1,
+      "scripts": 2
+    }
+  }
+}

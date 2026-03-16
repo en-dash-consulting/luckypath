@@ -1,0 +1,840 @@
+{
+  "zones": [
+    {
+      "id": "application-shell",
+      "name": "Application Shell",
+      "description": "The React Router entry point, global stylesheet, and route manifest that bootstrap all other zones without importing any of them directly.",
+      "files": [
+        "app/app.css",
+        "app/root.tsx",
+        "app/routes.ts",
+        "app/routes/home.tsx"
+      ],
+      "entryPoints": [],
+      "cohesion": 1,
+      "coupling": 0,
+      "insights": [
+        "High cohesion (1) — files are tightly interconnected",
+        "Perfect cohesion (1.0) and zero coupling confirm this zone is correctly scoped as a pure bootstrapping layer with no upstream dependencies leaking in.",
+        "Zero coupling is framework-mediated: routes.ts references route files as string literals, so the shell never imports game-ui-routes modules — this is a React Router v7 idiom, not discipline that needs manual maintenance.",
+        "Keep this zone minimal — any logic creeping into root.tsx signals it belongs in the engine or components zones.",
+        "Cohesion of 1.0 with 3 files is ideal for an entry-point zone; no refactoring needed here.",
+        "Zero outbound coupling means the shell never short-circuits zone architecture by importing engine internals directly.",
+        "String-literal route registration in routes.ts delivers true zero-coupling without any dependency-inversion machinery — this pattern should be preserved as routes grow.",
+        "home.tsx has no zone-documentation comment, unlike play.tsx ('gameplay-ui zone') and worlds.tsx which carry explicit zone headers — the landing route is the only route with no declared architectural context.",
+        "home.tsx is the only route file without a zone-documentation comment. play.tsx and worlds.tsx both open with a zone header that states their coupling budget and supplier zones. Adding an equivalent comment to home.tsx (even a minimal one noting it has zero hook/component imports) keeps the documentation pattern consistent and makes the route's intentional simplicity explicit rather than ambiguous."
+      ],
+      "riskMetrics": {
+        "cohesion": 1,
+        "coupling": 0,
+        "riskScore": 0,
+        "riskLevel": "healthy",
+        "failsThreshold": false
+      }
+    },
+    {
+      "id": "build-deploy-scripts",
+      "name": "Build & Deploy Scripts",
+      "description": "Standalone shell scripts that enforce architectural layer rules and automate deployment, operating entirely outside the application module graph.",
+      "files": [
+        "scripts/check-layers.sh",
+        "scripts/deploy.sh"
+      ],
+      "entryPoints": [],
+      "cohesion": 0,
+      "coupling": 0,
+      "insights": [
+        "Isolated files — no import edges between 2 files, cohesion is unmeasurable (reported as 0)",
+        "check-layers.sh enforces the DAG layer model at CI time — keep it in sync with any new zones or import rules added to eslint config",
+        "deploy.sh has zero coupling to the rest of the codebase, which is correct; avoid importing or sourcing application config files from it to preserve this isolation",
+        "Both scripts should be tested or linted in CI (e.g., shellcheck) since they are the enforcement mechanism for the rest of the architecture",
+        "Cohesion and coupling are both 0, which is expected and correct for shell tooling that operates outside the JS module graph — no action needed.",
+        "check-layers.sh is the runtime guard for the 6-layer DAG; if new zones are introduced without updating this script, the enforcement gap will be silent until CI catches a violation."
+      ],
+      "riskMetrics": {
+        "cohesion": 0,
+        "coupling": 0,
+        "riskScore": 0.5,
+        "riskLevel": "at-risk",
+        "failsThreshold": false
+      }
+    },
+    {
+      "id": "game-engine",
+      "name": "Game Engine",
+      "description": "The core game loop, state-management hooks, biome theming, canvas rendering, and board utilities that implement all gameplay logic, exposed through dual barrels for types and runtime behavior.",
+      "files": [
+        "app/components/GameBoard.tsx",
+        "app/components/GameHUD.tsx",
+        "app/components/LevelComplete.tsx",
+        "app/components/MobileInventory.tsx",
+        "app/components/TileInventory.tsx",
+        "app/components/TilePreview.tsx",
+        "app/components/WorldGrid.tsx",
+        "app/components/board-utils.ts",
+        "app/components/canvas-drawing.ts",
+        "app/components/index.ts",
+        "app/components/inventory-shared.ts",
+        "app/engine/biome-theme.ts",
+        "app/engine/index.ts",
+        "app/engine/levels.ts",
+        "app/engine/scoring.test.ts",
+        "app/engine/scoring.ts",
+        "app/engine/state-updaters.test.ts",
+        "app/engine/state-updaters.ts",
+        "app/engine/traversal.test.ts",
+        "app/engine/traversal.ts",
+        "app/engine/types.ts",
+        "app/engine/utils.test.ts",
+        "app/engine/utils.ts",
+        "app/hooks/index.ts",
+        "app/hooks/useGameSession.test.ts",
+        "app/hooks/useGameSession.ts",
+        "app/hooks/useGameState.ts",
+        "app/hooks/useLevelById.ts",
+        "app/hooks/useRainbowEasterEgg.ts",
+        "app/hooks/useWorldSession.ts",
+        "app/routes/play.tsx",
+        "app/routes/worlds.tsx"
+      ],
+      "entryPoints": [],
+      "cohesion": 0.92,
+      "coupling": 0.08,
+      "insights": [
+        "High cohesion (0.92) — files are tightly interconnected",
+        "Contains 52% of project files (32/61) — may be too broad, consider splitting",
+        "Exceptional cohesion (0.93) across 31 files confirms the import-graph community detection found a real semantic cluster — the engine is the well-bounded architectural core of the application.",
+        "The hooks/engine barrel split (hooks=runtime behavior, engine=types-only) is a clean interface-segregation pattern, but it is undocumented and relies entirely on consumer discipline; without barrel-level JSDoc or enforced export separation, this contract will erode as the codebase grows.",
+        "app/hooks/ is a separate enforcement layer in check-layers.sh but is folded into game-engine at the zone level — a direct app/engine/* → app/hooks/* import violates the 4-layer DAG but is undetectable by zone-boundaries.test.ts, creating a shared blind spot between the two enforcement systems.",
+        "Low coupling (0.07) confirms engine logic is self-sufficient with no hidden dependencies on route or shell layers.",
+        "Pure game logic (app/engine/) and React integration layer (app/hooks/) are merged into one zone with no sub-boundary — the informal engine/hooks separation is only enforced by check-layers.sh directory patterns, not by zone-boundaries.test.ts.",
+        "`__standaloneInstanceCount` in useSave.ts is a mutable `let` export marked `@internal` by doc comment only — move it to a test-utility module or replace with a read-only getter to prevent test code from mutating production state.",
+        "The hooks barrel (app/hooks/index.ts) is explicitly documented with a machine-readable contract comment: it is the ONLY layer that bridges the pure engine into React's stateful world, and it re-exports SaveData type from services so that routes can access domain types without a direct services import — this formalizes the hooks barrel as an anti-corruption layer, not just a convenience re-export.",
+        "The components barrel (app/components/index.ts) intentionally withholds board-utils, canvas-drawing, and inventory-shared from its public exports, enforcing encapsulation of internal rendering utilities at the barrel level rather than the file-system level — callers outside the zone have no structural path to these files through the barrel.",
+        "The engine barrel (app/engine/index.ts) carries an explicit machine-readable contract comment prohibiting React hooks, stateful singletons, and side-effect-bearing exports — this makes the pure/stateful split between ~/engine and ~/hooks self-documenting and partially refutes the existing insight that the split 'relies entirely on consumer discipline'.",
+        "Hooks barrel re-exports SaveData type from services, acting as a deliberate type facade: routes access persistence domain types through ~/hooks without ever importing ~/services directly — this is a clean anti-corruption layer pattern that should be preserved as the services surface grows.",
+        "Components barrel suppresses board-utils, canvas-drawing, and inventory-shared from its public API — internal rendering details are barrel-private, but there is no ESLint rule preventing a route from importing these files directly via relative path, leaving encapsulation enforced only by convention.",
+        "useGameSession.ts exports resolveCellClickAction and guardNextLevel as plain public exports with no @internal marker or JSDoc annotation — these test helpers are promoted into the hooks barrel's public surface area, creating ambiguity about whether they are part of the stable API or implementation details for tests only.",
+        "useGameSession.ts:4 imports SaveData from '~/services/persistence' directly rather than from the '~/services' barrel — this bypasses the services barrel discipline that every other cross-zone import in the project observes, and creates an inconsistency that is not caught by the current ESLint no-restricted-paths rules because the hooks→services edge is permitted at any depth.",
+        "useSave.ts runtime warning (standaloneInstanceCount > 1) is the sole enforcement mechanism for the SaveProvider composition requirement — there is no static or compile-time check preventing a route that adds a second save-consuming hook from silently diverging save state in production builds where the warning is stripped.",
+        "useGameSession.ts imports SaveData from '~/services/persistence' (deep import) instead of '~/services' (barrel), violating barrel discipline that is consistently observed by every other cross-zone import in the codebase. ESLint permits the edge so this is currently invisible to enforcement.",
+        "resolveCellClickAction and guardNextLevel in useGameSession.ts are exported without @internal markers and are therefore visible as part of the hooks zone's public API surface. They are re-exported through the hooks barrel by virtue of the export being public, creating undocumented API surface that consumers could depend on.",
+        "useGameState.ts exports both the hook function and UseGameStateReturn interface as fully public symbols, but the hooks barrel intentionally omits both from its public API — there is no comment in either useGameState.ts or hooks/index.ts documenting this barrel-private intent, leaving the exported public interface misleading to any developer reading the file in isolation.",
+        "useLevelById.ts is the only hook in the zone without a UseXReturn interface: every other hook (useGameState, useGameSession, useWorldSession, useRainbowEasterEgg, useSave) exports a formal UseXReturn contract. useLevelById returns LevelData | undefined inline; the barrel cannot export a corresponding type export, creating a visible asymmetry in the barrel's export list (line 33 has no companion export type line).",
+        "The SAVE_CONSUMING_HOOKS exhaustiveness guard in useSave.test.ts (lines 91–108) detects consumers by scanning for useSave() call-site text and capturing the hook name via regex /export function (use\\w+)/. This fails silently for hooks exported as arrow functions (export const useX = ...) — if a future hook adopts arrow-function style, it would call useSave() without being detected, leaving SAVE_CONSUMING_HOOKS stale with no test failure.",
+        "useGameState.ts is barrel-private (omitted from hooks/index.ts) but its public exports — useGameState and UseGameStateReturn — carry no documentation of this intent. Add a comment to both useGameState.ts and hooks/index.ts explaining that useGameState is an intra-zone implementation detail composed by useGameSession, not a public hook. This closes the gap between the file-level public surface and the barrel-level encapsulation.",
+        "useLevelById.ts is the only hook without a UseXReturn interface, breaking the established return-type contract pattern used by every other hook in the zone. Adding `export interface UseLevelByIdReturn { level: LevelData | undefined }` would allow the barrel to export the type alongside the hook (matching the export pattern on all other lines in hooks/index.ts) and make the return contract explicit.",
+        "The SAVE_CONSUMING_HOOKS exhaustiveness guard (useSave.test.ts lines 91–108) uses a regex that only detects hooks declared as `export function useX`. A hook declared as `export const useX = () => {}` would call useSave() without triggering detection, silently leaving the guard list stale. Broaden the regex to cover both declaration forms, or replace the text-scan with an import-based approach.",
+        "[call graph] 268 internal calls, 4 outgoing, 0 incoming (cohesion: 0.99, coupling: 0.01)"
+      ],
+      "riskMetrics": {
+        "cohesion": 0.92,
+        "coupling": 0.08,
+        "riskScore": 0.07999999999999999,
+        "riskLevel": "healthy",
+        "failsThreshold": false
+      }
+    },
+    {
+      "id": "game-ui-routes",
+      "name": "Game UI & Routes",
+      "description": "Route handlers and presentational UI components that compose engine output into navigable game screens, consuming the engine zone exclusively through its dual-barrel interface.",
+      "files": [
+        "app/components/RainbowArc.tsx"
+      ],
+      "entryPoints": [
+        "app/components/RainbowArc.tsx"
+      ],
+      "cohesion": 1,
+      "coupling": 0,
+      "insights": [
+        "High cohesion (1) — files are tightly interconnected",
+        "Cohesion of 0.57 reflects the zone mixing two concerns with different change rates: route handlers (navigation, data loading) and pure presentational components (GameHUD, LevelComplete, WorldGrid) — these could be split as the route count grows.",
+        "Clean barrel discipline: game-ui-routes consumes ~/hooks for runtime state and ~/engine for types only, correctly using the engine zone's intended dual-barrel interface.",
+        "RainbowArc.tsx inlines arc geometry constants (SVG_WIDTH, SVG_HEIGHT, RAINBOW_COLORS) that conceptually belong in geometry-primitives, creating silent drift risk if rainbow-arc.ts evolves independently.",
+        "Cohesion of 0.57 is below 0.6; mixing route handlers with pure presentational components pulls the zone in two directions — monitor as route count grows.",
+        "Coupling of 0.43 is elevated but acceptable for a UI/route layer; it should not increase further as features are added.",
+        "RainbowArc.tsx duplicates arc geometry constants from geometry-primitives, creating a silent drift risk if the canonical geometry module evolves independently.",
+        "RainbowArc.tsx imports SVG_WIDTH, SVG_HEIGHT, ARC_CX, ARC_BASELINE directly from ~/geometry/rainbow-arc rather than from ~/engine, even though the engine barrel already re-exports those exact same constants — the direct import is both redundant and bypasses the barrel abstraction, meaning the engine barrel contract is silently violated in the one component it was designed to protect.",
+        "RainbowArc.tsx imports geometry constants via ~/geometry/rainbow-arc (direct) while ~/engine already re-exports those same symbols — replace the direct geometry import with ~/engine to eliminate the undocumented direct game-ui-routes→geometry-primitives coupling edge and restore barrel contract integrity."
+      ],
+      "riskMetrics": {
+        "cohesion": 1,
+        "coupling": 0,
+        "riskScore": 0,
+        "riskLevel": "healthy",
+        "failsThreshold": false
+      }
+    },
+    {
+      "id": "geometry-primitives",
+      "name": "Geometry Primitives",
+      "description": "A single pure-function module providing rainbow arc geometry calculations, isolated with perfect cohesion and zero dependencies on any other zone.",
+      "files": [
+        "app/geometry/rainbow-arc.ts"
+      ],
+      "entryPoints": [
+        "app/geometry/rainbow-arc.ts"
+      ],
+      "cohesion": 1,
+      "coupling": 0,
+      "insights": [
+        "High cohesion (1) — files are tightly interconnected",
+        "Perfect cohesion (1.0) and zero coupling make this zone a textbook utility leaf — trivially reusable and testable in isolation.",
+        "Clean two-hop isolation: geometry-primitives is reachable from game-ui-routes only via the engine barrel, not directly — the intended import path is structurally enforced by the current import graph.",
+        "With one file and one consumer, the zone boundary is justified only if additional geometry utilities (e.g., hex-grid math, viewport transforms) are anticipated; absent that roadmap, the indirection adds enforcement overhead without meaningful blast-radius reduction.",
+        "Single-file zone with cohesion 1.0 is appropriate — rainbow-arc.ts is a stable, pure utility with no reason to be merged into the larger engine zone.",
+        "Zero coupling makes this zone trivially reusable and testable in isolation — no changes needed.",
+        "The engine barrel re-exports geometry symbols (computeArcProgress, REVEAL_THRESHOLD, PROGRESS_TOLERANCE), making new geometry utilities inaccessible to UI-layer consumers until engine/index.ts is manually updated — document this gate in both files.",
+        "geometry-primitives currently has two consumers in the import graph: game-engine (via engine barrel, correct) and game-ui-routes (via RainbowArc direct import, incorrect) — eliminating the direct RainbowArc import would restore geometry-primitives to a single-consumer zone, making the engine barrel the sole and verifiable gate into this zone."
+      ],
+      "riskMetrics": {
+        "cohesion": 1,
+        "coupling": 0,
+        "riskScore": 0,
+        "riskLevel": "healthy",
+        "failsThreshold": false
+      }
+    },
+    {
+      "id": "persistence-save-hook",
+      "name": "Persistence & Save Hook",
+      "description": "Provides the data persistence service and its React hook adapter, forming the primary save/load boundary between the game engine and storage.",
+      "files": [
+        "app/hooks/useSave.test.ts",
+        "app/hooks/useSave.ts",
+        "app/services/index.ts",
+        "app/services/persistence.test.ts",
+        "app/services/persistence.ts"
+      ],
+      "entryPoints": [
+        "app/hooks/useSave.ts",
+        "app/services/index.ts",
+        "app/services/persistence.ts"
+      ],
+      "cohesion": 0.36,
+      "coupling": 0.64,
+      "insights": [
+        "Low cohesion (0.36) — files are loosely related, consider splitting this zone",
+        "The zone bundles a service layer (persistence.ts) with a React hook (useSave.ts) — consider whether these belong in separate zones to reduce cross-concern coupling",
+        "9 inbound imports from the Game Engine make this zone a high-traffic dependency; any interface changes here will ripple broadly",
+        "The services/index.ts barrel entry point is good practice, but ensure the hook is only imported via the hook path, not through the services barrel, to preserve layer boundaries",
+        "Cohesion is 0.36 (below 0.4 threshold): the zone conflates a framework-agnostic service with a React-specific hook, which pulls the cohesion score down and makes the boundary harder to reason about.",
+        "Coupling is 0.64 (above 0.6 threshold): 9 imports from the Game Engine zone make persistence a hot dependency; any API change here risks cascading breakage across the engine.",
+        "Both test files (useSave.test.ts, persistence.test.ts) live alongside their production counterparts, which is good colocation hygiene.",
+        "Consumed exclusively by the engine zone (all 9 inbound imports originate there) — this zone has a single consumer, making it a private implementation detail of the engine rather than a shared service layer",
+        "All 9 inbound imports to this zone come from engine alone — the zone effectively has a 1:1 dependency relationship with engine, which raises the question of whether it needs to be a separate zone at all vs. a sub-package within engine",
+        "useSave.ts imports directly from ~/services/persistence (the implementation file) rather than ~/services (the barrel), bypassing the barrel contract that exists for all other zones — the services barrel is effectively unused by the hooks zone, its primary consumer",
+        "No ESLint no-restricted-paths rule prevents hooks from deep-importing into services/!(index).ts — unlike engine, hooks, and components which all have barrel-protection rules, the services zone has no equivalent inbound barrel-enforcement, making its barrel a facade with no enforcement teeth",
+        "zone-boundaries.test.ts explicitly tests and asserts that hooks→services/persistence direct imports are PERMITTED (the test passes a deep import and expects no lint violation) — this makes the enforcement gap intentional and documented, but it means the services barrel provides zero encapsulation against its only consumer",
+        "useSave.ts, useGameSession.ts, and useWorldSession.ts all import from ~/services/persistence directly rather than ~/services barrel. The services barrel is bypassed by every hook that consumes it, making it a re-export facade that provides no actual access control. This is inconsistent with the barrel-as-contract pattern enforced for engine, hooks, and components zones.",
+        "The services zone is the only non-leaf application zone without an inbound barrel-enforcement ESLint rule. Engine, hooks, and components all have rules that block deep imports from outside the zone; services has no equivalent rule. The asymmetry means a developer can add a new internal services file and it is immediately accessible to hooks via direct path with no lint warning.",
+        "persistence.ts co-locates I/O functions (loadSave, saveSave) with pure domain predicates (completeLevelUpdater, isLevelUnlockedWithSave) in the same file with no internal separation — if the service grows, all changes accumulate in one file with no structural boundary between side-effectful and pure code",
+        "The hook return type naming convention (Use{Name}Return) is followed by 5 hooks in the zone neighbourhood but useLevelById exports no return type interface — it is the only hook not exporting a stable named type, forcing consumers to write ReturnType<typeof useLevelById> instead of importing a declared type",
+        "persistence.ts mixes I/O functions (loadSave, saveSave) with pure updater functions (completeLevelUpdater, isLevelUnlockedWithSave) in a single file. Extracting updaters to persistence-updaters.ts would let pure functions be tested in isolation and make it explicit which imports are side-effectful vs deterministic.",
+        "useLevelById is the only hook that does not export a named return type interface (Use{Name}Return pattern). All other hooks export UseSaveReturn, UseGameSessionReturn, etc. Adding UseLevelByIdReturn restores the pattern and gives consumers a stable import target that survives hook signature refactors.",
+        "[call graph] 53 internal calls, 0 outgoing, 4 incoming (cohesion: 1, coupling: 0)"
+      ],
+      "riskMetrics": {
+        "cohesion": 0.36,
+        "coupling": 0.64,
+        "riskScore": 0.64,
+        "riskLevel": "critical",
+        "failsThreshold": true
+      }
+    },
+    {
+      "id": "project-infrastructure",
+      "name": "Project Infrastructure",
+      "description": "Top-level build tooling, container configuration, linting, and zone-boundary enforcement that govern the entire build and CI pipeline.",
+      "files": [
+        ".dockerignore",
+        ".gitignore",
+        "Dockerfile",
+        "eslint.config.ts",
+        "react-router.config.ts",
+        "vite.config.ts",
+        "vitest.config.ts",
+        "zone-boundaries.test.ts"
+      ],
+      "entryPoints": [],
+      "cohesion": 0,
+      "coupling": 0,
+      "insights": [
+        "Isolated files — no import edges between 8 files, cohesion is unmeasurable (reported as 0)",
+        "zone-boundaries.test.ts colocated with config files elevates architectural constraints to first-class CI concerns — this is a strong positive signal.",
+        "The dual-enforcement pair of check-layers.sh and zone-boundaries.test.ts operates at different granularities (4-layer DAG vs. zone-level DAG); they must stay in sync or they will produce contradictory architectural signals.",
+        "No zone-boundaries assertion validates that route files registered in react-router.config.ts belong to the known game-ui-routes file set — a newly registered route at an unconventional path could bypass all zone enforcement silently.",
+        "Cohesion of 0 is expected for a heterogeneous config zone — isolated config files share no import edges by design, so this is structural, not a quality defect.",
+        "check-layers.sh (scripts zone) and zone-boundaries.test.ts (project-infrastructure) enforce architectural rules at different abstraction levels; updating one without the other can produce contradictory signals.",
+        "react-router.config.ts is the authoritative route registry but has no corresponding zone-boundaries assertion — a route registered at an unconventional path would bypass both ESLint layer rules and zone enforcement silently.",
+        "zone-boundaries.test.ts contains a meta-test that cross-checks all three enforcement artifacts (ESLint config, check-layers.sh, and test expectations) against each other to ensure they cover the same forbidden edges — this triple-consistency check prevents any single enforcement system from silently drifting out of sync with the others.",
+        "Triple enforcement consistency meta-test (ESLint + check-layers.sh + zone-boundaries expectations) is a proactive drift-prevention mechanism; it is only as strong as its own coverage — verify that the meta-test itself is included in CI and cannot be skipped independently of the layer tests.",
+        "useSave.test.ts reads the routes directory via fs.readFileSync (line 65–70) to enforce the SaveProvider wrapping rule — a non-import cross-zone read that bypasses ESLint no-restricted-paths enforcement entirely; the hooks test suite acquires a hidden structural dependency on the routes zone that no static analysis tool currently tracks.",
+        "The hooks barrel contract comment (hooks/index.ts line 13) documents a 7-step DAG: geometry → engine → services → hooks → components → routes — this is more granular than both check-layers.sh (4-layer) and the zone-boundaries system (6-zone); no enforcement mechanism validates this finer-grained contract, making it documentation that can silently drift without any test catching the discrepancy.",
+        "useSave.test.ts reads ../routes via fs.readFileSync to enforce SaveProvider usage (lines 62–89). This non-import cross-zone dependency is invisible to ESLint no-restricted-paths rules. Consider moving this architectural assertion into zone-boundaries.test.ts — which already performs static source scanning at the appropriate abstraction level — so all cross-zone structural rules are co-located and uniformly visible.",
+        "The hooks barrel contract (hooks/index.ts line 13) documents a 7-step DAG that is finer-grained than any enforcement system. Add a meta-assertion to zone-boundaries.test.ts that parses this comment and cross-checks it against the enforced layer sets, or replace the prose comment with a pointer to the authoritative enforcement source to prevent the documented and enforced DAGs from drifting independently.",
+        "[call graph] 38 internal calls, 0 outgoing, 0 incoming (cohesion: 1, coupling: 0)"
+      ],
+      "riskMetrics": {
+        "cohesion": 0,
+        "coupling": 0,
+        "riskScore": 0.5,
+        "riskLevel": "at-risk",
+        "failsThreshold": false
+      }
+    }
+  ],
+  "crossings": [
+    {
+      "from": "app/components/index.ts",
+      "to": "app/components/RainbowArc.tsx",
+      "fromZone": "game-engine",
+      "toZone": "game-ui-routes"
+    },
+    {
+      "from": "app/engine/index.ts",
+      "to": "app/geometry/rainbow-arc.ts",
+      "fromZone": "game-engine",
+      "toZone": "geometry-primitives"
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/hooks/useSave.ts",
+      "fromZone": "game-engine",
+      "toZone": "persistence-save-hook"
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/hooks/useSave.ts",
+      "fromZone": "game-engine",
+      "toZone": "persistence-save-hook"
+    },
+    {
+      "from": "app/hooks/index.ts",
+      "to": "app/services/index.ts",
+      "fromZone": "game-engine",
+      "toZone": "persistence-save-hook"
+    },
+    {
+      "from": "app/hooks/useGameSession.ts",
+      "to": "app/hooks/useSave.ts",
+      "fromZone": "game-engine",
+      "toZone": "persistence-save-hook"
+    },
+    {
+      "from": "app/hooks/useGameSession.ts",
+      "to": "app/services/persistence.ts",
+      "fromZone": "game-engine",
+      "toZone": "persistence-save-hook"
+    },
+    {
+      "from": "app/hooks/useRainbowEasterEgg.ts",
+      "to": "app/hooks/useSave.ts",
+      "fromZone": "game-engine",
+      "toZone": "persistence-save-hook"
+    },
+    {
+      "from": "app/hooks/useWorldSession.ts",
+      "to": "app/hooks/useSave.ts",
+      "fromZone": "game-engine",
+      "toZone": "persistence-save-hook"
+    },
+    {
+      "from": "app/hooks/useWorldSession.ts",
+      "to": "app/services/persistence.ts",
+      "fromZone": "game-engine",
+      "toZone": "persistence-save-hook"
+    },
+    {
+      "from": "app/hooks/useWorldSession.ts",
+      "to": "app/services/persistence.ts",
+      "fromZone": "game-engine",
+      "toZone": "persistence-save-hook"
+    },
+    {
+      "from": "app/components/RainbowArc.tsx",
+      "to": "app/geometry/rainbow-arc.ts",
+      "fromZone": "game-ui-routes",
+      "toZone": "geometry-primitives"
+    }
+  ],
+  "unzoned": [],
+  "insights": [
+    "Size imbalance: largest zone has 32 files vs smallest with 1 — uneven decomposition",
+    "The project enforces architecture at two granularities — zone-level (zone-boundaries.test.ts) and 4-layer DAG (check-layers.sh) — which is a strong dual-enforcement model, but the two systems share a blind spot at the engine/hooks seam where violations pass zone checks while breaking the layer DAG.",
+    "All cross-zone import directions are correct: game-ui-routes → game-engine → geometry-primitives forms a strict acyclic dependency graph with no reverse edges detected.",
+    "game-engine contains both app/components/ engine files and app/hooks/ files while game-ui-routes also contains app/components/ UI files — both zones share the same physical directory, giving developers no file-system signal about which zone a new component belongs to.",
+    "The Game Engine zone drives the majority of cross-zone traffic (9 → services, 1 → components, 1 → geometry), making it the architectural hub; changes to any of those downstream zones should be evaluated against engine compatibility first",
+    "All non-script zones form a clean directional flow: engine consumes geometry, components, and services — no cycles are visible in the cross-zone import graph, which is a strong architectural signal",
+    "The services zone is the only one with both low cohesion and high coupling simultaneously; splitting it into a pure-service zone and a hooks zone would improve both metrics and clarify the React/non-React boundary",
+    "All cross-zone imports flow in a single direction (ui-routes → engine → geometry), confirming the architecture is acyclic with no circular dependencies.",
+    "app/components/ is shared between game-engine and game-ui-routes zones with no file-system distinction — developers adding new components have no structural signal about which zone their file belongs to, risking misplacement.",
+    "The engine barrel acts as a re-export facade for geometry-primitives symbols, silently gating geometry's public surface toward the UI layer — this undocumented intermediary pattern should be made explicit in both barrels.",
+    "The overall zone topology is acyclic and directional, with Project Infrastructure and Build & Deploy Scripts correctly sitting outside the application module graph — the DAG enforcement model appears to be working.",
+    "Game Engine imports from three other zones (services, components, geometry) while no zone imports back into engine, confirming engine is the correct architectural root consumer rather than a shared utility.",
+    "The hooks barrel is the sole zone that bridges stateful React lifecycle (context, effects) with the pure engine layer — all other zones are either fully pure (engine, geometry, services) or fully React-component-based (components, routes); this clean stateful/pure split is architecturally sound and should be the primary criterion for deciding where new code belongs.",
+    "The direct RainbowArc→geometry import (components→geometry cross-zone edge in the reported metrics) creates a hidden second consumer of geometry-primitives that bypasses the engine barrel; removing it would make the engine barrel the single, verifiable entry point into geometry-primitives and close the only irregular edge in the cross-zone import graph.",
+    "The components barrel's internal encapsulation (hiding board-utils, canvas-drawing, inventory-shared) is enforced only by omission from the barrel's exports, not by any ESLint rule — a developer can still bypass it with a relative path import, and no zone-boundaries assertion currently catches this; adding a no-restricted-imports rule for the hidden files would make the encapsulation hard rather than soft.",
+    "engine is the sole consumer of services, the sole consumer of geometry (alongside components), and the sole consumer of components — it is a hub with three downstream spokes and no upstream consumers within the app graph, making it the single most impactful zone to change",
+    "geometry is consumed by two separate zones at different abstraction levels (engine and components) with no coordination contract between them — if geometry's public API changes, both consumers break independently with no shared adapter layer to buffer the impact",
+    "components imports only from geometry and is only imported by engine — this makes components a pure pass-through layer with no independent utility surface, suggesting it may be over-zoned for its current size (1 file)",
+    "The full dependency chain engine→components→geometry and the parallel chain engine→geometry create a diamond dependency on geometry: engine consumes geometry both directly and transitively through components, which means geometry symbol changes could surface in engine via two separate import paths simultaneously",
+    "Four of the six application zones use documented barrel contracts with explicit layer-access rules in JSDoc comments (engine, hooks, components, services) — this documentation-as-contract pattern is consistent and should be extended to the routes layer, which currently has no equivalent contract comment.",
+    "The zone graph forms a diamond shape: engine→components→geometry and engine→geometry converge on the geometry zone from two paths. This is not a cycle but it is a latent interface coordination risk — a geometry API change must be evaluated against both engine's direct use and its indirect use via components.",
+    "engine is the only zone with outbound cross-zone imports (11 total across 3 zones), while all other app zones have at most 1 outbound import — the load imbalance means engine carries disproportionate integration risk and is the hardest zone to refactor safely",
+    "The type-flow chain (geometry → engine → services → hooks → routes) is mediated entirely through barrel re-exports at each boundary — SaveData flows up through three barrels before reaching routes; this is a correct and intentional design, but any break in the re-export chain silently forces consumers to reach deeper into the stack.",
+    "components and services are both leaf zones (no outbound imports to other app zones) consumed exclusively or primarily by engine — neither has an independently testable public surface from outside the engine, which limits their reuse potential and makes engine a mandatory intermediary",
+    "WorldData is re-exported in hooks/index.ts as 'from ./useWorldSession' rather than 'from ~/engine' — this creates a transitive re-export chain that obscures the type's true origin, and means a refactor of useWorldSession that drops its WorldData import would silently remove WorldData from the hooks public API without any direct change to hooks/index.ts.",
+    "The hooks barrel contract comment (hooks/index.ts line 19) states 'Routes must NOT import from ~/engine directly; this barrel re-exports any engine types that routes need' — but SaveData originates in services and WorldData originates in engine, yet both are re-exported inconsistently: SaveData via a direct services barrel re-export (documented and immune to hook refactors) while WorldData is re-exported transitively through a hook file (undocumented and fragile). The two domain types have different re-export stability guarantees with no comment explaining the asymmetry.",
+    "useRainbowEasterEgg.ts imports computeArcProgress, REVEAL_THRESHOLD, and PROGRESS_TOLERANCE from '~/engine' — these are geometry-layer symbols re-exported by the engine barrel, mixing semantically distinct imports (engine functions + geometry constants) in a single import statement. This makes the engine barrel a semantic sink that obscures which concerns a consumer actually depends on.",
+    "The enforcement model has a structural asymmetry: three zones (engine, hooks, components) are protected by inbound no-restricted-paths barrel rules that block deep imports from outside the zone, but services has no such protection. All other barrel contracts are hard-enforced; the services barrel contract is soft and ignored in practice by its sole consumer.",
+    "The services barrel (services/index.ts) re-exports symbols that are never imported via that barrel by any production file — all hook imports reach past it to services/persistence directly. The barrel functions only as a pass-through for type re-exports in hooks/index.ts, not as an access-control boundary. Its presence implies enforcement that does not exist.",
+    "zone-boundaries.test.ts line 403 explicitly validates that hooks may deep-import from services/persistence without a lint violation — this test assertion encodes the enforcement gap as intentional, but it is undocumented as a deliberate design exception vs. an oversight, creating ambiguity for future contributors adding new services files",
+    "The services zone contains domain predicate functions (completeLevelUpdater, isLevelUnlockedWithSave) that depend on engine-owned concepts, while the engine zone contains no corresponding business-rule layer — domain logic is split across two zones with no clear ownership criterion, and the split is not documented in either zone's barrel contract.",
+    "WorldData and SaveData are both re-exported through the hooks barrel for route consumption, but with different stability guarantees: SaveData is re-exported directly from its source barrel (immune to hook refactors) while WorldData is re-exported transitively through a hook file (fragile to useWorldSession internal changes). The asymmetry is undocumented and will silently break if useWorldSession drops its WorldData import.",
+    "The barrel-as-contract pattern is applied inconsistently across zones: engine, hooks, and components have ESLint rules that enforce barrel-only access from outside the zone, but services does not. A developer reading the pattern from three zones will infer it is universal and be surprised when the services barrel provides no encapsulation. The inconsistency should either be closed (add services barrel enforcement) or explicitly documented as intentional in the ESLint config.",
+    "useSave.test.ts creates an invisible cross-zone read dependency (hooks test → routes zone) that bypasses ESLint static analysis — this is the only place in the project where a lower-layer test file reads files from a higher-layer zone, and it is undetectable by any current enforcement mechanism.",
+    "The hooks barrel (index.ts) is the sole place in the codebase where a zone's documented architectural contract (the 7-step DAG comment on line 13) is more precise than the enforcement systems that guard it — check-layers.sh enforces 4 layers and zone-boundaries enforces 6 zones, leaving a gap between what is documented and what is verified.",
+    "Of the six hooks in the zone, five follow the pattern: file exports hook + UseXReturn interface, barrel exports hook + type. useLevelById breaks this pattern at both levels — no interface in the file, no type export in the barrel — creating the only asymmetric entry in the barrel's public API table.",
+    "The components zone uses an implicit naming convention — kebab-case .ts files (board-utils, canvas-drawing, inventory-shared) signal internal utilities while PascalCase .tsx/.ts files signal public components — but this convention is not documented in any barrel comment or CONVENTIONS file, and no ESLint rule prevents a future developer from exporting a kebab-case internal file through the barrel",
+    "worlds.tsx requires SaveProvider wrapping because two sibling hooks (useWorldSession, useRainbowEasterEgg) both compose useSave() internally — if the provider is removed, each hook gets its own useState and save mutations silently diverge. This constraint is derivable only by tracing two levels of hook composition; it is not stated in the route file or its barrel contract, making it a latent footgun for any developer reorganising route structure",
+    "The hook return type naming convention (Use{Name}Return exported from every hook file) is enforced only by social convention — 5 hooks follow it, useLevelById does not, and there is no ESLint rule or TypeScript type-level check that would catch a new hook omitting its return type export",
+    "useRainbowEasterEgg.ts mixes geometry-layer constants (REVEAL_THRESHOLD, PROGRESS_TOLERANCE from rainbow-arc.ts re-exported via engine barrel) with engine-layer functions (computeArcProgress) in a single import statement from ~/engine — the engine barrel silently conflates two distinct abstraction levels for this hook and there is no comment in either barrel explaining that geometry constants are re-exported through engine",
+    "The SaveProvider architectural invariant is currently enforced by two mechanisms at different abstraction levels: a runtime dev-mode warning in useSave.ts and a static fs-scan test in useSave.test.ts. The static test cross-zone reads route files from a hooks-zone test, which is the only instance of this pattern in the project. Consolidating this assertion into zone-boundaries.test.ts (which already does cross-zone static analysis) would unify the two enforcement levels and eliminate the hidden cross-zone read dependency."
+  ],
+  "findings": [
+    {
+      "type": "observation",
+      "pass": 0,
+      "scope": "application-shell",
+      "text": "High cohesion (1) — files are tightly interconnected",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "application-shell",
+      "text": "Cohesion of 1.0 with 3 files is ideal for an entry-point zone; no refactoring needed here.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "application-shell",
+      "text": "String-literal route registration in routes.ts delivers true zero-coupling without any dependency-inversion machinery — this pattern should be preserved as routes grow.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "application-shell",
+      "text": "Zero outbound coupling means the shell never short-circuits zone architecture by importing engine internals directly.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 0,
+      "scope": "build-deploy-scripts",
+      "text": "Isolated files — no import edges between 2 files, cohesion is unmeasurable (reported as 0)",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "build-deploy-scripts",
+      "text": "Cohesion and coupling are both 0, which is expected and correct for shell tooling that operates outside the JS module graph — no action needed.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "build-deploy-scripts",
+      "text": "check-layers.sh is the runtime guard for the 6-layer DAG; if new zones are introduced without updating this script, the enforcement gap will be silent until CI catches a violation.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 0,
+      "scope": "game-engine",
+      "text": "Contains 52% of project files (32/61) — may be too broad, consider splitting",
+      "severity": "warning"
+    },
+    {
+      "type": "observation",
+      "pass": 0,
+      "scope": "game-engine",
+      "text": "High cohesion (0.92) — files are tightly interconnected",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "game-engine",
+      "text": "Low coupling (0.07) confirms engine logic is self-sufficient with no hidden dependencies on route or shell layers.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "game-engine",
+      "text": "Pure game logic (app/engine/) and React integration layer (app/hooks/) are merged into one zone with no sub-boundary — the informal engine/hooks separation is only enforced by check-layers.sh directory patterns, not by zone-boundaries.test.ts.",
+      "severity": "warning"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "game-engine",
+      "text": "`__standaloneInstanceCount` in useSave.ts is a mutable `let` export marked `@internal` by doc comment only — move it to a test-utility module or replace with a read-only getter to prevent test code from mutating production state.",
+      "severity": "warning"
+    },
+    {
+      "type": "observation",
+      "pass": 0,
+      "scope": "game-ui-routes",
+      "text": "High cohesion (1) — files are tightly interconnected",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "game-ui-routes",
+      "text": "Cohesion of 0.57 is below 0.6; mixing route handlers with pure presentational components pulls the zone in two directions — monitor as route count grows.",
+      "severity": "warning"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "game-ui-routes",
+      "text": "Coupling of 0.43 is elevated but acceptable for a UI/route layer; it should not increase further as features are added.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "game-ui-routes",
+      "text": "RainbowArc.tsx duplicates arc geometry constants from geometry-primitives, creating a silent drift risk if the canonical geometry module evolves independently.",
+      "severity": "warning"
+    },
+    {
+      "type": "observation",
+      "pass": 0,
+      "scope": "geometry-primitives",
+      "text": "High cohesion (1) — files are tightly interconnected",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "geometry-primitives",
+      "text": "Single-file zone with cohesion 1.0 is appropriate — rainbow-arc.ts is a stable, pure utility with no reason to be merged into the larger engine zone.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "geometry-primitives",
+      "text": "The engine barrel re-exports geometry symbols (computeArcProgress, REVEAL_THRESHOLD, PROGRESS_TOLERANCE), making new geometry utilities inaccessible to UI-layer consumers until engine/index.ts is manually updated — document this gate in both files.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "geometry-primitives",
+      "text": "Zero coupling makes this zone trivially reusable and testable in isolation — no changes needed.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 0,
+      "scope": "global",
+      "text": "Size imbalance: largest zone has 32 files vs smallest with 1 — uneven decomposition",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 0,
+      "scope": "global",
+      "text": "Fan-in hotspot: app/engine/index.ts receives calls from 10 files — high-impact module, changes may have wide ripple effects",
+      "severity": "warning",
+      "related": [
+        "app/engine/index.ts",
+        "app/components/GameBoard.tsx",
+        "app/components/MobileInventory.tsx",
+        "app/components/TileInventory.tsx"
+      ]
+    },
+    {
+      "type": "observation",
+      "pass": 0,
+      "scope": "persistence-save-hook",
+      "text": "Low cohesion (0.36) — files are loosely related, consider splitting this zone",
+      "severity": "warning"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "persistence-save-hook",
+      "text": "Both test files (useSave.test.ts, persistence.test.ts) live alongside their production counterparts, which is good colocation hygiene.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "persistence-save-hook",
+      "text": "Cohesion is 0.36 (below 0.4 threshold): the zone conflates a framework-agnostic service with a React-specific hook, which pulls the cohesion score down and makes the boundary harder to reason about.",
+      "severity": "warning"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "persistence-save-hook",
+      "text": "Coupling is 0.64 (above 0.6 threshold): 9 imports from the Game Engine zone make persistence a hot dependency; any API change here risks cascading breakage across the engine.",
+      "severity": "warning"
+    },
+    {
+      "type": "observation",
+      "pass": 0,
+      "scope": "project-infrastructure",
+      "text": "Isolated files — no import edges between 8 files, cohesion is unmeasurable (reported as 0)",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "project-infrastructure",
+      "text": "Cohesion of 0 is expected for a heterogeneous config zone — isolated config files share no import edges by design, so this is structural, not a quality defect.",
+      "severity": "info"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "project-infrastructure",
+      "text": "check-layers.sh (scripts zone) and zone-boundaries.test.ts (project-infrastructure) enforce architectural rules at different abstraction levels; updating one without the other can produce contradictory signals.",
+      "severity": "warning"
+    },
+    {
+      "type": "observation",
+      "pass": 1,
+      "scope": "project-infrastructure",
+      "text": "react-router.config.ts is the authoritative route registry but has no corresponding zone-boundaries assertion — a route registered at an unconventional path would bypass both ESLint layer rules and zone enforcement silently.",
+      "severity": "warning"
+    },
+    {
+      "type": "pattern",
+      "pass": 2,
+      "scope": "game-engine",
+      "text": "Components barrel suppresses board-utils, canvas-drawing, and inventory-shared from its public API — internal rendering details are barrel-private, but there is no ESLint rule preventing a route from importing these files directly via relative path, leaving encapsulation enforced only by convention.",
+      "severity": "warning"
+    },
+    {
+      "type": "pattern",
+      "pass": 2,
+      "scope": "game-engine",
+      "text": "Hooks barrel re-exports SaveData type from services, acting as a deliberate type facade: routes access persistence domain types through ~/hooks without ever importing ~/services directly — this is a clean anti-corruption layer pattern that should be preserved as the services surface grows.",
+      "severity": "info"
+    },
+    {
+      "type": "pattern",
+      "pass": 2,
+      "scope": "project-infrastructure",
+      "text": "Triple enforcement consistency meta-test (ESLint + check-layers.sh + zone-boundaries expectations) is a proactive drift-prevention mechanism; it is only as strong as its own coverage — verify that the meta-test itself is included in CI and cannot be skipped independently of the layer tests.",
+      "severity": "info"
+    },
+    {
+      "type": "relationship",
+      "pass": 2,
+      "scope": "game-ui-routes",
+      "text": "RainbowArc.tsx imports geometry constants via ~/geometry/rainbow-arc (direct) while ~/engine already re-exports those same symbols — replace the direct geometry import with ~/engine to eliminate the undocumented direct game-ui-routes→geometry-primitives coupling edge and restore barrel contract integrity.",
+      "severity": "warning"
+    },
+    {
+      "type": "relationship",
+      "pass": 2,
+      "scope": "geometry-primitives",
+      "text": "geometry-primitives currently has two consumers in the import graph: game-engine (via engine barrel, correct) and game-ui-routes (via RainbowArc direct import, incorrect) — eliminating the direct RainbowArc import would restore geometry-primitives to a single-consumer zone, making the engine barrel the sole and verifiable gate into this zone.",
+      "severity": "warning"
+    },
+    {
+      "type": "relationship",
+      "pass": 2,
+      "scope": "persistence-save-hook",
+      "text": "All 9 inbound imports to this zone come from engine alone — the zone effectively has a 1:1 dependency relationship with engine, which raises the question of whether it needs to be a separate zone at all vs. a sub-package within engine",
+      "severity": "warning"
+    },
+    {
+      "type": "anti-pattern",
+      "pass": 3,
+      "scope": "game-engine",
+      "text": "resolveCellClickAction and guardNextLevel in useGameSession.ts are exported without @internal markers and are therefore visible as part of the hooks zone's public API surface. They are re-exported through the hooks barrel by virtue of the export being public, creating undocumented API surface that consumers could depend on.",
+      "severity": "info"
+    },
+    {
+      "type": "anti-pattern",
+      "pass": 3,
+      "scope": "game-engine",
+      "text": "useGameSession.ts imports SaveData from '~/services/persistence' (deep import) instead of '~/services' (barrel), violating barrel discipline that is consistently observed by every other cross-zone import in the codebase. ESLint permits the edge so this is currently invisible to enforcement.",
+      "severity": "warning"
+    },
+    {
+      "type": "anti-pattern",
+      "pass": 3,
+      "scope": "persistence-save-hook",
+      "text": "The services zone is the only non-leaf application zone without an inbound barrel-enforcement ESLint rule. Engine, hooks, and components all have rules that block deep imports from outside the zone; services has no equivalent rule. The asymmetry means a developer can add a new internal services file and it is immediately accessible to hooks via direct path with no lint warning.",
+      "severity": "warning"
+    },
+    {
+      "type": "anti-pattern",
+      "pass": 3,
+      "scope": "persistence-save-hook",
+      "text": "useSave.ts, useGameSession.ts, and useWorldSession.ts all import from ~/services/persistence directly rather than ~/services barrel. The services barrel is bypassed by every hook that consumes it, making it a re-export facade that provides no actual access control. This is inconsistent with the barrel-as-contract pattern enforced for engine, hooks, and components zones.",
+      "severity": "warning"
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "app/routes/worlds.tsx",
+      "text": "Add a comment to worlds.tsx stating that SaveProvider is required because two sibling hooks compose useSave() internally — without it, save state silently forks between hooks. The constraint is two levels of composition deep and will not be obvious to a developer refactoring route layout.",
+      "severity": "warning"
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "application-shell",
+      "text": "home.tsx is the only route file without a zone-documentation comment. play.tsx and worlds.tsx both open with a zone header that states their coupling budget and supplier zones. Adding an equivalent comment to home.tsx (even a minimal one noting it has zero hook/component imports) keeps the documentation pattern consistent and makes the route's intentional simplicity explicit rather than ambiguous.",
+      "severity": "info"
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "components",
+      "text": "Document the kebab-case-means-internal naming convention explicitly in app/components/index.ts so future developers have a structural signal that board-utils.ts, canvas-drawing.ts, and inventory-shared.ts are never eligible for barrel export. Without this, the barrel comment's 'must NOT be exported' instruction has no backing rationale visible at the file-system level.",
+      "severity": "info"
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "engine",
+      "text": "The engine barrel re-exports geometry-layer constants (REVEAL_THRESHOLD, PROGRESS_TOLERANCE) alongside engine-layer functions with no comment distinguishing the two concern levels. Add a barrel comment section marking geometry re-exports as pass-throughs, or consider whether those constants should be consumed from a geometry barrel directly rather than through engine.",
+      "severity": "info"
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "game-engine",
+      "text": "The SAVE_CONSUMING_HOOKS exhaustiveness guard (useSave.test.ts lines 91–108) uses a regex that only detects hooks declared as `export function useX`. A hook declared as `export const useX = () => {}` would call useSave() without triggering detection, silently leaving the guard list stale. Broaden the regex to cover both declaration forms, or replace the text-scan with an import-based approach.",
+      "severity": "warning"
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "game-engine",
+      "text": "useGameState.ts is barrel-private (omitted from hooks/index.ts) but its public exports — useGameState and UseGameStateReturn — carry no documentation of this intent. Add a comment to both useGameState.ts and hooks/index.ts explaining that useGameState is an intra-zone implementation detail composed by useGameSession, not a public hook. This closes the gap between the file-level public surface and the barrel-level encapsulation.",
+      "severity": "info"
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "game-engine",
+      "text": "useLevelById.ts is the only hook without a UseXReturn interface, breaking the established return-type contract pattern used by every other hook in the zone. Adding `export interface UseLevelByIdReturn { level: LevelData | undefined }` would allow the barrel to export the type alongside the hook (matching the export pattern on all other lines in hooks/index.ts) and make the return contract explicit.",
+      "severity": "info"
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "global",
+      "text": "The SaveProvider architectural invariant is currently enforced by two mechanisms at different abstraction levels: a runtime dev-mode warning in useSave.ts and a static fs-scan test in useSave.test.ts. The static test cross-zone reads route files from a hooks-zone test, which is the only instance of this pattern in the project. Consolidating this assertion into zone-boundaries.test.ts (which already does cross-zone static analysis) would unify the two enforcement levels and eliminate the hidden cross-zone read dependency.",
+      "severity": "warning"
+    },
+    {
+      "type": "suggestion",
+      "pass": 0,
+      "scope": "global",
+      "text": "4 potentially unused exports in app/root.tsx have no incoming calls: links, Layout, App, ErrorBoundary",
+      "severity": "info",
+      "related": [
+        "app/root.tsx"
+      ]
+    },
+    {
+      "type": "suggestion",
+      "pass": 0,
+      "scope": "global",
+      "text": "2 potentially unused exports in app/routes/home.tsx have no incoming calls: meta, Home",
+      "severity": "info",
+      "related": [
+        "app/routes/home.tsx"
+      ]
+    },
+    {
+      "type": "suggestion",
+      "pass": 0,
+      "scope": "global",
+      "text": "Potentially unused export: Play in app/routes/play.tsx has no incoming calls — verify if still needed",
+      "severity": "info",
+      "related": [
+        "app/routes/play.tsx"
+      ]
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "persistence-save-hook",
+      "text": "persistence.ts mixes I/O functions (loadSave, saveSave) with pure updater functions (completeLevelUpdater, isLevelUnlockedWithSave) in a single file. Extracting updaters to persistence-updaters.ts would let pure functions be tested in isolation and make it explicit which imports are side-effectful vs deterministic.",
+      "severity": "info"
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "persistence-save-hook",
+      "text": "useLevelById is the only hook that does not export a named return type interface (Use{Name}Return pattern). All other hooks export UseSaveReturn, UseGameSessionReturn, etc. Adding UseLevelByIdReturn restores the pattern and gives consumers a stable import target that survives hook signature refactors.",
+      "severity": "info"
+    },
+    {
+      "type": "suggestion",
+      "pass": 0,
+      "scope": "persistence-save-hook",
+      "text": "Zone \"Persistence & Save Hook\" (persistence-save-hook) has critical risk (score: 0.64, cohesion: 0.36, coupling: 0.64) — requires refactoring before new feature development",
+      "severity": "warning"
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "project-infrastructure",
+      "text": "The hooks barrel contract (hooks/index.ts line 13) documents a 7-step DAG that is finer-grained than any enforcement system. Add a meta-assertion to zone-boundaries.test.ts that parses this comment and cross-checks it against the enforced layer sets, or replace the prose comment with a pointer to the authoritative enforcement source to prevent the documented and enforced DAGs from drifting independently.",
+      "severity": "warning"
+    },
+    {
+      "type": "suggestion",
+      "pass": 4,
+      "scope": "project-infrastructure",
+      "text": "useSave.test.ts reads ../routes via fs.readFileSync to enforce SaveProvider usage (lines 62–89). This non-import cross-zone dependency is invisible to ESLint no-restricted-paths rules. Consider moving this architectural assertion into zone-boundaries.test.ts — which already performs static source scanning at the appropriate abstraction level — so all cross-zone structural rules are co-located and uniformly visible.",
+      "severity": "warning"
+    },
+    {
+      "type": "suggestion",
+      "pass": 0,
+      "scope": "project-infrastructure",
+      "text": "Zone \"Project Infrastructure\" (project-infrastructure) has at-risk risk (score: 0.50, cohesion: 0.00, coupling: 0.00) — approaching architectural risk thresholds",
+      "severity": "info"
+    },
+    {
+      "type": "suggestion",
+      "pass": 0,
+      "scope": "build-deploy-scripts",
+      "text": "Zone \"Build & Deploy Scripts\" (build-deploy-scripts) has at-risk risk (score: 0.50, cohesion: 0.00, coupling: 0.00) — unreliable: zone has only 2 files (minimum 5 for reliable metrics)",
+      "severity": "info"
+    }
+  ],
+  "enrichmentPass": 4,
+  "structureHash": "b58ce5ef1389476b",
+  "zoneContentHashes": {
+    "project-infrastructure": "5795f3592210b3e0",
+    "application-shell": "c8f8edc35e6cb53b",
+    "game-engine": "f5bacc3e83a8a45c",
+    "game-ui-routes": "eb7d32b9c209f8a9",
+    "geometry-primitives": "8898fc9f4c0b2fa1",
+    "persistence-save-hook": "8a174b21cefe3887",
+    "build-deploy-scripts": "18009b1172431bb1"
+  }
+}

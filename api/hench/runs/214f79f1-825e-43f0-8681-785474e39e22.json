@@ -1,0 +1,712 @@
+{
+  "id": "214f79f1-825e-43f0-8681-785474e39e22",
+  "taskId": "41fe6fce-e162-4bfd-8488-b09b31386397",
+  "taskTitle": "Fix pattern in code-quality-config: This zone conflates two unrelated architectural guards: eslint.config.ts (static",
+  "startedAt": "2026-03-13T05:45:15.813Z",
+  "status": "completed",
+  "turns": 30,
+  "tokenUsage": {
+    "input": 4010,
+    "output": 567,
+    "cacheCreationInput": 42856,
+    "cacheReadInput": 884076
+  },
+  "turnTokenUsage": [
+    {
+      "turn": 1,
+      "input": 3,
+      "output": 13,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 3486,
+      "cacheReadInput": 8950
+    },
+    {
+      "turn": 2,
+      "input": 3,
+      "output": 13,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 3486,
+      "cacheReadInput": 8950
+    },
+    {
+      "turn": 3,
+      "input": 3,
+      "output": 33,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 808,
+      "cacheReadInput": 12436
+    },
+    {
+      "turn": 4,
+      "input": 3,
+      "output": 33,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 808,
+      "cacheReadInput": 12436
+    },
+    {
+      "turn": 5,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 553,
+      "cacheReadInput": 13244
+    },
+    {
+      "turn": 6,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 553,
+      "cacheReadInput": 13244
+    },
+    {
+      "turn": 7,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1262,
+      "cacheReadInput": 13797
+    },
+    {
+      "turn": 8,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1262,
+      "cacheReadInput": 13797
+    },
+    {
+      "turn": 9,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1262,
+      "cacheReadInput": 13797
+    },
+    {
+      "turn": 10,
+      "input": 1321,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2693,
+      "cacheReadInput": 15059
+    },
+    {
+      "turn": 11,
+      "input": 1321,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2693,
+      "cacheReadInput": 15059
+    },
+    {
+      "turn": 12,
+      "input": 1321,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2693,
+      "cacheReadInput": 15059
+    },
+    {
+      "turn": 13,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2185,
+      "cacheReadInput": 17752
+    },
+    {
+      "turn": 14,
+      "input": 1,
+      "output": 9,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 287,
+      "cacheReadInput": 19937
+    },
+    {
+      "turn": 15,
+      "input": 1,
+      "output": 9,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 287,
+      "cacheReadInput": 19937
+    },
+    {
+      "turn": 16,
+      "input": 1,
+      "output": 9,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 287,
+      "cacheReadInput": 19937
+    },
+    {
+      "turn": 17,
+      "input": 1,
+      "output": 24,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 451,
+      "cacheReadInput": 20224
+    },
+    {
+      "turn": 18,
+      "input": 1,
+      "output": 24,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 178,
+      "cacheReadInput": 20675
+    },
+    {
+      "turn": 19,
+      "input": 1,
+      "output": 24,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 182,
+      "cacheReadInput": 20853
+    },
+    {
+      "turn": 20,
+      "input": 1,
+      "output": 24,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 357,
+      "cacheReadInput": 20853
+    },
+    {
+      "turn": 21,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 205,
+      "cacheReadInput": 21210
+    },
+    {
+      "turn": 22,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 205,
+      "cacheReadInput": 21210
+    },
+    {
+      "turn": 23,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 205,
+      "cacheReadInput": 21210
+    },
+    {
+      "turn": 24,
+      "input": 1,
+      "output": 2,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2474,
+      "cacheReadInput": 21415
+    },
+    {
+      "turn": 25,
+      "input": 1,
+      "output": 2,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2474,
+      "cacheReadInput": 21415
+    },
+    {
+      "turn": 26,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2116,
+      "cacheReadInput": 23889
+    },
+    {
+      "turn": 27,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2116,
+      "cacheReadInput": 23889
+    },
+    {
+      "turn": 28,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2116,
+      "cacheReadInput": 23889
+    },
+    {
+      "turn": 29,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 438,
+      "cacheReadInput": 26005
+    },
+    {
+      "turn": 30,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1462,
+      "cacheReadInput": 26005
+    },
+    {
+      "turn": 31,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 197,
+      "cacheReadInput": 27467
+    },
+    {
+      "turn": 32,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 197,
+      "cacheReadInput": 27467
+    },
+    {
+      "turn": 33,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 191,
+      "cacheReadInput": 27664
+    },
+    {
+      "turn": 34,
+      "input": 1,
+      "output": 24,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 166,
+      "cacheReadInput": 27855
+    },
+    {
+      "turn": 35,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 113,
+      "cacheReadInput": 28021
+    },
+    {
+      "turn": 36,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 113,
+      "cacheReadInput": 28021
+    },
+    {
+      "turn": 37,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 398,
+      "cacheReadInput": 28134
+    },
+    {
+      "turn": 38,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 398,
+      "cacheReadInput": 28134
+    },
+    {
+      "turn": 39,
+      "input": 1,
+      "output": 24,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 255,
+      "cacheReadInput": 28532
+    },
+    {
+      "turn": 40,
+      "input": 1,
+      "output": 34,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 287,
+      "cacheReadInput": 28787
+    },
+    {
+      "turn": 41,
+      "input": 1,
+      "output": 34,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 287,
+      "cacheReadInput": 28787
+    },
+    {
+      "turn": 42,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 670,
+      "cacheReadInput": 29074
+    }
+  ],
+  "toolCalls": [
+    {
+      "turn": 2,
+      "tool": "ToolSearch",
+      "input": {
+        "query": "select:mcp__rex__get_next_task,mcp__rex__get_item,mcp__rex__update_task_status,mcp__rex__append_log",
+        "max_results": 4
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 3,
+      "tool": "mcp__rex__get_item",
+      "input": {
+        "id": "41fe6fce-e162-4bfd-8488-b09b31386397"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 4,
+      "tool": "Bash",
+      "input": {
+        "command": "cd /home/hench/luckypath && cat .n-dx.json",
+        "description": "Read n-dx config"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 5,
+      "tool": "Bash",
+      "input": {
+        "command": "cat /Users/nick/development/endash/luckypath/.n-dx.json",
+        "description": "Read n-dx config"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 6,
+      "tool": "Bash",
+      "input": {
+        "command": "npm test 2>&1 | tail -30",
+        "description": "Run tests to check current state"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 8,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/engine/zone-boundaries.test.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 9,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/eslint.config.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 11,
+      "tool": "Glob",
+      "input": {
+        "pattern": "**/*.test.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 12,
+      "tool": "Bash",
+      "input": {
+        "command": "ls /Users/nick/development/endash/luckypath/",
+        "description": "List project root files"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 13,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/vitest.config.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 16,
+      "tool": "Bash",
+      "input": {
+        "command": "mv app/engine/zone-boundaries.test.ts ./zone-boundaries.test.ts",
+        "description": "Move test file to project root"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 17,
+      "tool": "Bash",
+      "input": {
+        "command": "mv app/engine/zone-boundaries.test.ts ./zone-boundaries.test.ts",
+        "description": "Move test file to project root"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 18,
+      "tool": "Bash",
+      "input": {
+        "command": "mv app/engine/zone-boundaries.test.ts ./zone-boundaries.test.ts",
+        "description": "Move test file to project root alongside eslint config"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 19,
+      "tool": "Bash",
+      "input": {
+        "command": "cp app/engine/zone-boundaries.test.ts ./zone-boundaries.test.ts && rm app/engine/zone-boundaries.test.ts",
+        "description": "Copy test file to root and remove original"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 20,
+      "tool": "Bash",
+      "input": {
+        "command": "cp /Users/nick/development/endash/luckypath/app/engine/zone-boundaries.test.ts /Users/nick/development/endash/luckypath/zone-boundaries.test.ts",
+        "description": "Copy test file to project root"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 23,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/engine/zone-boundaries.test.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 25,
+      "tool": "Write",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/zone-boundaries.test.ts",
+        "content": "/**\n * Zone-boundary ESLint rule verification.\n *\n * Co-located with eslint.config.ts because this file tests the eslint config\n * — it verifies that the architecture DAG enforcement rules are correctly\n * wired, not engine logic itself.\n *\n * The ESLint config in eslint.config.ts is the sole enforcement mechanism\n * for the architecture DAG (engine → hooks → components → routes).\n * A misconfigured rule silently degrades to no enforcement, so these tests\n * verify that the rules are correctly set up by checking that ESLint reports\n * errors for known-bad imports and passes for known-good ones.\n *\n * The config-validation tests below also confirm that the eslint config\n * itself is syntactically valid and that the no-restricted-paths zones\n * array is non-empty — a misconfigured or accidentally emptied array\n * fails silently with no CI signal otherwise.\n */\nimport { describe, it, expect, afterEach } from \"vitest\";\nimport { writeFileSync, unlinkSync, existsSync } from \"node:fs\";\nimport { execSync } from \"node:child_process\";\nimport { resolve } from \"node:path\";\n\nconst ROOT = resolve(import.meta.dirname);\nconst TEMP_FILES: string[] = [];\n\n/**\n * Write a temporary file at the given project-relative path, lint it,\n * then track it for cleanup. Returns the list of error-level rule IDs.\n */\nfunction lintTempFile(relativePath: string, code: string): string[] {\n  const absPath = resolve(ROOT, relativePath);\n  writeFileSync(absPath, code, \"utf-8\");\n  TEMP_FILES.push(absPath);\n\n  try {\n    execSync(\n      `npx eslint --format json \"${relativePath}\"`,\n      { cwd: ROOT, encoding: \"utf-8\", timeout: 30_000 }\n    );\n    return []; // clean exit = no errors\n  } catch (err: unknown) {\n    // ESLint exits non-zero when it finds errors — expected\n    if (err && typeof err === \"object\" && \"stdout\" in err) {\n      return parseErrorRules((err as { stdout: string }).stdout);\n    }\n    throw err;\n  }\n}\n\nfunction parseErrorRules(jsonOutput: string): string[] {\n  try {\n    const results = JSON.parse(jsonOutput);\n    if (!results[0]?.messages) return [];\n    return results[0].messages\n      .filter((m: { severity: number }) => m.severity === 2)\n      .map((m: { ruleId: string }) => m.ruleId);\n  } catch {\n    return [];\n  }\n}\n\nafterEach(() => {\n  for (const f of TEMP_FILES) {\n    if (existsSync(f)) try { unlinkSync(f); } catch { /* ignore */ }\n  }\n  TEMP_FILES.length = 0;\n});\n\ndescribe(\"eslint config validation\", () => {\n  it(\"loads without error and contains non-empty no-restricted-paths zones\", async () => {\n    // Dynamically import the ESLint config to verify it's syntactically valid\n    const configModule = await import(\"./eslint.config\");\n    const configs = configModule.default;\n\n    expect(Array.isArray(configs)).toBe(true);\n    expect(configs.length).toBeGreaterThan(0);\n\n    // Find the config object containing no-restricted-paths\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    const ruleConfig = configs.find((c: any) =>\n      c.rules?.[\"import-x/no-restricted-paths\"],\n    );\n    expect(ruleConfig).toBeDefined();\n\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    const restrictedPaths = (ruleConfig as any).rules[\n      \"import-x/no-restricted-paths\"\n    ] as [string, { zones: unknown[] }];\n    expect(restrictedPaths).toBeDefined();\n    expect(restrictedPaths[0]).toBe(\"error\");\n    expect(Array.isArray(restrictedPaths[1].zones)).toBe(true);\n    expect(restrictedPaths[1].zones.length).toBeGreaterThan(0);\n  });\n});\n\ndescribe(\"zone-boundary ESLint rules\", () => {\n  it(\"blocks deep engine imports from hooks\", () => {\n    const rules = lintTempFile(\n      \"app/hooks/_zone_test_tmp.ts\",\n      `import { BIOME_THEMES } from \"~/engine/biome-theme\";\\n`\n    );\n    expect(rules).toContain(\"import-x/no-restricted-paths\");\n  });\n\n  it(\"blocks deep engine imports from components\", () => {\n    const rules = lintTempFile(\n      \"app/components/_zone_test_tmp.ts\",\n      `import { posKey } from \"~/engine/utils\";\\n`\n    );\n    expect(rules).toContain(\"import-x/no-restricted-paths\");\n  });\n\n  it(\"blocks deep engine imports from routes\", () => {\n    const rules = lintTempFile(\n      \"app/routes/_zone_test_tmp.ts\",\n      `import { levels } from \"~/engine/levels\";\\n`\n    );\n    expect(rules).toContain(\"import-x/no-restricted-paths\");\n  });\n\n  it(\"blocks hooks importing from routes\", () => {\n    const rules = lintTempFile(\n      \"app/hooks/_zone_test_tmp.ts\",\n      `import Worlds from \"~/routes/worlds\";\\n`\n    );\n    expect(rules).toContain(\"import-x/no-restricted-paths\");\n  });\n\n  it(\"blocks hooks importing from components\", () => {\n    const rules = lintTempFile(\n      \"app/hooks/_zone_test_tmp.ts\",\n      `import { WorldGrid } from \"~/components/WorldGrid\";\\n`\n    );\n    expect(rules).toContain(\"import-x/no-restricted-paths\");\n  });\n\n  it(\"blocks components importing from routes\", () => {\n    const rules = lintTempFile(\n      \"app/components/_zone_test_tmp.ts\",\n      `import Worlds from \"~/routes/worlds\";\\n`\n    );\n    expect(rules).toContain(\"import-x/no-restricted-paths\");\n  });\n\n  it(\"allows components importing from hooks (valid DAG direction)\", () => {\n    const rules = lintTempFile(\n      \"app/components/_zone_test_tmp.ts\",\n      `import { useGameSession } from \"~/hooks/useGameSession\";\\n`\n    );\n    expect(rules).not.toContain(\"import-x/no-restricted-paths\");\n  });\n\n  it(\"allows barrel engine imports from hooks\", () => {\n    const rules = lintTempFile(\n      \"app/hooks/_zone_test_tmp.ts\",\n      `import { BIOME_THEMES } from \"~/engine\";\\n`\n    );\n    expect(rules).not.toContain(\"import-x/no-restricted-paths\");\n  });\n\n  it(\"blocks routes from importing engine (barrel or deep)\", () => {\n    const rules = lintTempFile(\n      \"app/routes/_zone_test_tmp.ts\",\n      `import { getLevelById } from \"~/engine\";\\n`\n    );\n    expect(rules).toContain(\"import-x/no-restricted-paths\");\n  });\n});\n"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 27,
+      "tool": "Edit",
+      "input": {
+        "replace_all": false,
+        "file_path": "/Users/nick/development/endash/luckypath/vitest.config.ts",
+        "old_string": "    include: [\"app/**/*.test.ts\"],",
+        "new_string": "    include: [\"app/**/*.test.ts\", \"zone-boundaries.test.ts\"],"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 28,
+      "tool": "Edit",
+      "input": {
+        "replace_all": false,
+        "file_path": "/Users/nick/development/endash/luckypath/.n-dx.json",
+        "old_string": "      \"app/engine/zone-boundaries.test.ts\": \"game-engine\"",
+        "new_string": "      \"zone-boundaries.test.ts\": \"build-infrastructure\""
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 29,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/.n-dx.json"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 30,
+      "tool": "Edit",
+      "input": {
+        "replace_all": false,
+        "file_path": "/Users/nick/development/endash/luckypath/.n-dx.json",
+        "old_string": "      \"app/engine/zone-boundaries.test.ts\": \"game-engine\"",
+        "new_string": "      \"zone-boundaries.test.ts\": \"build-infrastructure\""
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 32,
+      "tool": "Bash",
+      "input": {
+        "command": "rm /Users/nick/development/endash/luckypath/app/engine/zone-boundaries.test.ts",
+        "description": "Delete old test file location"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 33,
+      "tool": "Bash",
+      "input": {
+        "command": "rm app/engine/zone-boundaries.test.ts",
+        "description": "Delete old test file"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 34,
+      "tool": "Bash",
+      "input": {
+        "command": "git rm app/engine/zone-boundaries.test.ts",
+        "description": "Git-remove old test file"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 36,
+      "tool": "Bash",
+      "input": {
+        "command": "npm test 2>&1",
+        "description": "Run tests",
+        "timeout": 120000
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 38,
+      "tool": "Bash",
+      "input": {
+        "command": "git status",
+        "description": "Check git status"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 39,
+      "tool": "Bash",
+      "input": {
+        "command": "git add zone-boundaries.test.ts .n-dx.json vitest.config.ts && git commit -m \"$(cat <<'EOF'\nMove zone-boundaries.test.ts to project root alongside eslint.config.ts\n\nThe test file verifies eslint config rules, not engine logic — it belongs\nin build-infrastructure, co-located with the config it tests. Updates the\nvitest include pattern and zone override accordingly.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n)\"",
+        "description": "Stage and commit changes"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 40,
+      "tool": "mcp__rex__update_task_status",
+      "input": {
+        "id": "41fe6fce-e162-4bfd-8488-b09b31386397",
+        "status": "completed",
+        "resolutionType": "code-change",
+        "resolutionDetail": "Moved zone-boundaries.test.ts from app/engine/ to project root, co-locating it with the eslint.config.ts it verifies. Updated vitest include pattern and zone override to classify it as build-infrastructure. The code-quality-config zone no longer conflates unrelated files."
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 41,
+      "tool": "mcp__rex__append_log",
+      "input": {
+        "event": "task_completed",
+        "itemId": "41fe6fce-e162-4bfd-8488-b09b31386397",
+        "detail": "**Task:** Fix pattern in code-quality-config — zone conflated eslint config with engine test file.\n\n**Problem:** `zone-boundaries.test.ts` was in `app/engine/` but tests the eslint config (build infrastructure), not engine logic. The previous zone override placed it in `game-engine`, which was incorrect.\n\n**Fix:**\n1. Moved `app/engine/zone-boundaries.test.ts` → `zone-boundaries.test.ts` (project root, alongside `eslint.config.ts`)\n2. Updated `import(\"../../eslint.config\")` → `import(\"./eslint.config\")` and `ROOT` path resolution (no more `../..`)\n3. Updated vitest config to include root-level test file: `[\"app/**/*.test.ts\", \"zone-boundaries.test.ts\"]`\n4. Updated `.n-dx.json` zone override from `app/engine/zone-boundaries.test.ts: game-engine` → `zone-boundaries.test.ts: build-infrastructure`\n\nAll 37 tests pass across 4 test files."
+      },
+      "output": "",
+      "durationMs": 0
+    }
+  ],
+  "model": "sonnet",
+  "lastActivityAt": "2026-03-13T05:47:48.505Z",
+  "summary": "The MCP permissions are pending approval, but the work is complete. Here's a summary:\n\n## Summary\n\n**Task:** Fix pattern in `code-quality-config` — zone conflated two unrelated architectural guards.\n\n**Problem:** `zone-boundaries.test.ts` was located in `app/engine/` but it tests the eslint config (build infrastructure), not engine logic. The prior zone override incorrectly classified it as `game-engine`.\n\n**Changes:**\n1. **Moved** `app/engine/zone-boundaries.test.ts` → `zone-boundaries.test.ts`",
+  "structuredSummary": {
+    "filesChanged": [],
+    "filesRead": [],
+    "commandsExecuted": [],
+    "testsRun": [],
+    "counts": {
+      "filesRead": 0,
+      "filesChanged": 0,
+      "commandsExecuted": 0,
+      "testsRun": 0,
+      "toolCallsTotal": 29
+    }
+  },
+  "memoryStats": {
+    "peakRssBytes": 107200512,
+    "systemAvailableAtStartBytes": 17378803712,
+    "systemAvailableAtEndBytes": 17899847680,
+    "systemTotalBytes": 68719476736
+  },
+  "finishedAt": "2026-03-13T05:47:48.505Z"
+}
