@@ -119,6 +119,8 @@ describe("eslint config validation", () => {
       { target: "./app/hooks/**",     from: "./app/engine/!(index).ts" },
       // Routes cannot access engine at all (must go through hooks)
       { target: "./app/routes/**",    from: "./app/engine/**" },
+      // Routes cannot access services directly (must go through hooks)
+      { target: "./app/routes/**",    from: "./app/services/**" },
       // Hooks must not import from routes or components
       { target: "./app/hooks/**",     from: "./app/routes/**" },
       { target: "./app/hooks/**",     from: "./app/components/**" },
@@ -271,6 +273,14 @@ describe("zone-boundary ESLint rules", () => {
       `import { computeArcProgress } from "~/geometry/rainbow-arc";\n`
     );
     expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+
+  it("blocks routes from importing services directly", () => {
+    const rules = lintTempFile(
+      "app/routes/_zone_test_tmp.ts",
+      `import { persistence } from "~/services/persistence";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
   });
 
   it("blocks geometry from importing engine (foundation layer cannot depend upward)", () => {

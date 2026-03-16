@@ -64,6 +64,12 @@ export default tseslint.config(
               from: "./app/engine/**",
               message: "Routes must access engine through hooks, not directly (engine → hooks → routes).",
             },
+            // Layer enforcement — routes must not import directly from services
+            {
+              target: "./app/routes/**",
+              from: "./app/services/**",
+              message: "Routes must not import directly from services (persistence logic should be accessed through hooks).",
+            },
             // Layer enforcement — hooks must not import from routes or components
             {
               target: "./app/hooks/**",
