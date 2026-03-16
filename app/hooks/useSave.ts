@@ -47,7 +47,7 @@
  * that will mount as siblings. If the answer is ≥ 2, wrap them in a
  * single `<SaveProvider>`. If it's 1, skip the provider — adding one is
  * harmless but unnecessary. A runtime dev-mode warning fires when
- * multiple standalone instances are detected (see `__standaloneInstanceCount`).
+ * multiple standalone instances are detected (see `getStandaloneInstanceCount`).
  *
  * ```
  * // ✅ Multiple save-consuming hooks — provider required
@@ -81,10 +81,16 @@ import type { SaveData } from "~/services/persistence";
  * without a SaveProvider. If more than one is active simultaneously, a dev-mode
  * warning fires — catching the "silent mutation divergence" bug at the point of
  * misuse rather than downstream in an unrelated symptom.
- *
+ */
+let standaloneInstanceCount = 0;
+
+/**
+ * Read-only accessor for the standalone instance count.
  * @internal Exported only for testing.
  */
-export let __standaloneInstanceCount = 0;
+export function getStandaloneInstanceCount(): number {
+  return standaloneInstanceCount;
+}
 
 /**
  * Public contract for useSave.
@@ -145,8 +151,8 @@ function useSaveInternal(fromProvider = false): UseSaveReturn {
   // Runtime invariant: detect multiple standalone instances (no provider).
   useEffect(() => {
     if (fromProvider) return;
-    __standaloneInstanceCount++;
-    if (process.env.NODE_ENV !== "production" && __standaloneInstanceCount > 1) {
+    standaloneInstanceCount++;
+    if (process.env.NODE_ENV !== "production" && standaloneInstanceCount > 1) {
       console.warn(
         "[useSave] Multiple standalone useSave instances detected without a " +
           "<SaveProvider>. Save mutations will silently diverge between hooks. " +
@@ -154,7 +160,7 @@ function useSaveInternal(fromProvider = false): UseSaveReturn {
       );
     }
     return () => {
-      __standaloneInstanceCount--;
+      standaloneInstanceCount--;
     };
   }, [fromProvider]);
 

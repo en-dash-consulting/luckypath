@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { useSave, SaveProvider, __standaloneInstanceCount } from "./useSave";
+import { useSave, SaveProvider, getStandaloneInstanceCount } from "./useSave";
 import type { UseSaveReturn } from "./useSave";
 
 /**
@@ -34,8 +34,9 @@ describe("useSave module exports", () => {
     expect(Object.keys(shape)).toHaveLength(4);
   });
 
-  it("exports __standaloneInstanceCount for runtime invariant tracking", () => {
-    expect(typeof __standaloneInstanceCount).toBe("number");
+  it("exports getStandaloneInstanceCount for runtime invariant tracking", () => {
+    expect(typeof getStandaloneInstanceCount).toBe("function");
+    expect(typeof getStandaloneInstanceCount()).toBe("number");
   });
 });
 
