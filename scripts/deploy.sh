@@ -9,7 +9,7 @@
 #     (roles/run.admin, roles/iam.serviceAccountUser)
 #
 # Usage:
-#   ./deploy.sh
+#   ./scripts/deploy.sh
 #
 # This script builds the app from source using the project Dockerfile,
 # pushes the image to Artifact Registry, and deploys it as a Cloud Run
