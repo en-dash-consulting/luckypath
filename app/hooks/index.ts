@@ -8,9 +8,10 @@
  *
  * DAG position:  geometry → engine → **hooks** → components → routes
  *
- * Consumers (routes) should import from this barrel or from individual hook
- * files — both are valid. The barrel exists to make the hooks layer discoverable
- * as a cohesive unit rather than a scattered collection of files.
+ * External consumers (routes & components) must import from this barrel — not
+ * from individual hook files.  This is enforced by ESLint boundary rules in
+ * eslint.config.ts and validated by zone-boundaries.test.ts.
+ * Intra-zone imports (hook → hook) may use direct paths to avoid circular refs.
  */
 
 // Route-facing hooks — bridge engine data to routes
