@@ -26,7 +26,7 @@
  * to match (and vice versa).
  */
 import { describe, it, expect, afterEach } from "vitest";
-import { writeFileSync, unlinkSync, existsSync, readFileSync } from "node:fs";
+import { writeFileSync, unlinkSync, existsSync, readFileSync, readdirSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { resolve } from "node:path";
 
@@ -570,5 +570,54 @@ describe("enforcement model consistency", () => {
     // Assert pairwise equality — any mismatch shows exactly which edge drifted
     expect(sortedEslint).toEqual(sortedShell);
     expect(sortedEslint).toEqual(sortedTest);
+  });
+});
+
+/**
+ * Route-file coverage assertion.
+ *
+ * React Router uses file-based routing — every file in app/routes/ becomes a
+ * route automatically. If a developer adds a new route file without updating
+ * the zone inventory, that route silently bypasses all zone enforcement.
+ *
+ * This test maintains an explicit allowlist of known route files and asserts
+ * that the filesystem matches. A new route file will fail this test with a
+ * clear message telling the developer to register it in the known set.
+ */
+describe("route-file zone coverage", () => {
+  // The canonical set of route files that are tracked within the
+  // game-ui-routes zone and therefore covered by the architecture DAG
+  // enforcement rules. Update this list when adding new routes.
+  const KNOWN_ROUTE_FILES = new Set([
+    "home.tsx",
+    "play.tsx",
+    "worlds.tsx",
+  ]);
+
+  it("every route file on disk is registered in the known route set", () => {
+    const routesDir = resolve(ROOT, "app/routes");
+    const filesOnDisk = readdirSync(routesDir).filter(
+      (f) => /\.(tsx?|jsx?)$/.test(f) && !f.startsWith("_zone_test_tmp")
+    );
+
+    const unregistered = filesOnDisk.filter((f) => !KNOWN_ROUTE_FILES.has(f));
+    expect(
+      unregistered,
+      `Unregistered route file(s) found: ${unregistered.join(", ")}. ` +
+        "Add them to the KNOWN_ROUTE_FILES set in zone-boundaries.test.ts " +
+        "to confirm they are covered by zone enforcement."
+    ).toHaveLength(0);
+  });
+
+  it("no stale entries in the known route set (all listed files exist on disk)", () => {
+    const routesDir = resolve(ROOT, "app/routes");
+    const filesOnDisk = new Set(readdirSync(routesDir));
+
+    const stale = [...KNOWN_ROUTE_FILES].filter((f) => !filesOnDisk.has(f));
+    expect(
+      stale,
+      `Stale route file(s) in KNOWN_ROUTE_FILES: ${stale.join(", ")}. ` +
+        "Remove them from the set — the file no longer exists on disk."
+    ).toHaveLength(0);
   });
 });
