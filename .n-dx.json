@@ -25,6 +25,7 @@
       "app/hooks/useSave.ts": "react-hooks",
       "app/hooks/useSave.test.ts": "react-hooks",
       "app/hooks/useWorldSession.ts": "react-hooks",
+      "app/routes/home.tsx": "world-navigation",
       "app/services/persistence.ts": "persistence",
       "app/services/persistence.test.ts": "persistence",
       "app/services/index.ts": "persistence"
