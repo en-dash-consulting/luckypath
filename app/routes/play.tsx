@@ -14,11 +14,7 @@
  */
 import { useParams, useNavigate } from "react-router";
 import { useLevelById, useGameSession } from "~/hooks";
-import { GameBoard } from "~/components/GameBoard";
-import { TileInventory } from "~/components/TileInventory";
-import { MobileInventory } from "~/components/MobileInventory";
-import { GameHUD } from "~/components/GameHUD";
-import { LevelComplete } from "~/components/LevelComplete";
+import { GameBoard, TileInventory, MobileInventory, GameHUD, LevelComplete } from "~/components";
 
 /**
  * Play route — single source of truth for levelId is useParams().

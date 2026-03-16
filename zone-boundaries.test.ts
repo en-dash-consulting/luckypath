@@ -124,6 +124,9 @@ describe("eslint config validation", () => {
       // Hooks barrel enforcement — no deep imports from outside the hooks zone
       { target: "./app/routes/**",    from: "./app/hooks/!(index).ts" },
       { target: "./app/components/**", from: "./app/hooks/!(index).ts" },
+      // Components barrel enforcement — no deep imports from outside the components zone
+      { target: "./app/routes/**",    from: "./app/components/!(index).tsx" },
+      { target: "./app/routes/**",    from: "./app/components/!(index).ts" },
       // Engine must not import from services
       { target: "./app/engine/**",    from: "./app/services/**" },
       // Routes cannot access engine at all (must go through hooks)
@@ -229,6 +232,22 @@ describe("zone-boundary ESLint rules", () => {
     const rules = lintTempFile(
       "app/hooks/_zone_test_tmp.ts",
       `import { BIOME_THEMES } from "~/engine";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+
+  it("blocks routes importing from deep component files (must use barrel)", () => {
+    const rules = lintTempFile(
+      "app/routes/_zone_test_tmp.ts",
+      `import { GameBoard } from "~/components/GameBoard";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  it("allows routes importing from components barrel", () => {
+    const rules = lintTempFile(
+      "app/routes/_zone_test_tmp.ts",
+      `import { GameBoard } from "~/components";\n`
     );
     expect(rules).not.toContain("import-x/no-restricted-paths");
   });

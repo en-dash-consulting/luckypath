@@ -69,6 +69,17 @@ export default tseslint.config(
               from: "./app/hooks/!(index).ts",
               message: "Import from ~/hooks barrel instead of individual hook files.",
             },
+            // Components barrel enforcement — no deep imports from outside the components zone
+            {
+              target: "./app/routes/**",
+              from: "./app/components/!(index).tsx",
+              message: "Import from ~/components barrel instead of individual component files.",
+            },
+            {
+              target: "./app/routes/**",
+              from: "./app/components/!(index).ts",
+              message: "Import from ~/components barrel instead of individual component files.",
+            },
             // Layer enforcement — routes must access engine through hooks
             {
               target: "./app/routes/**",

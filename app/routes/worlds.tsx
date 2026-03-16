@@ -17,8 +17,7 @@
  */
 import { Link } from "react-router";
 import { useRainbowEasterEgg, useWorldSession, SaveProvider } from "~/hooks";
-import { WorldGrid } from "~/components/WorldGrid";
-import { RainbowArc } from "~/components/RainbowArc";
+import { WorldGrid, RainbowArc } from "~/components";
 
 export default function Worlds() {
   return (
