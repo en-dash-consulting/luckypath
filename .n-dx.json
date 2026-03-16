@@ -13,7 +13,9 @@
       "app/routes/play.tsx": "gameplay-ui",
       "app/components/TilePreview.tsx": "gameplay-ui",
       "eslint.config.ts": "build-infrastructure",
-      "zone-boundaries.test.ts": "build-infrastructure"
+      "zone-boundaries.test.ts": "build-infrastructure",
+      "app/services/persistence.ts": "persistence",
+      "app/services/index.ts": "persistence"
     },
     "metricNotes": {
       "coupling": "Measures inbound coupling (fan-in) only. A zone with coupling: 0 (e.g. routes) means no other zone imports from it — it does NOT mean the zone has no outbound dependencies. Routes has the highest outbound import count (depends on hooks, components) but this is expected for a leaf layer. Do not interpret low inbound coupling as low overall coupling for leaf zones.",

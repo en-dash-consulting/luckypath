@@ -13,8 +13,7 @@
  *   hooks       — 2 symbols
  */
 import { useParams, useNavigate } from "react-router";
-import { useLevelById } from "~/hooks/useLevelById";
-import { useGameSession } from "~/hooks/useGameSession";
+import { useLevelById, useGameSession } from "~/hooks";
 import { GameBoard } from "~/components/GameBoard";
 import { TileInventory } from "~/components/TileInventory";
 import { MobileInventory } from "~/components/MobileInventory";

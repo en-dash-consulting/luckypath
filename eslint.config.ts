@@ -58,6 +58,17 @@ export default tseslint.config(
               from: "./app/engine/!(index).ts",
               message: "Import from ~/engine barrel instead of engine internals.",
             },
+            // Hooks barrel enforcement — no deep imports from outside the hooks zone
+            {
+              target: "./app/routes/**",
+              from: "./app/hooks/!(index).ts",
+              message: "Import from ~/hooks barrel instead of individual hook files.",
+            },
+            {
+              target: "./app/components/**",
+              from: "./app/hooks/!(index).ts",
+              message: "Import from ~/hooks barrel instead of individual hook files.",
+            },
             // Layer enforcement — routes must access engine through hooks
             {
               target: "./app/routes/**",
@@ -69,6 +80,12 @@ export default tseslint.config(
               target: "./app/routes/**",
               from: "./app/services/**",
               message: "Routes must not import directly from services (persistence logic should be accessed through hooks).",
+            },
+            // Layer enforcement — components must not import from services
+            {
+              target: "./app/components/**",
+              from: "./app/services/**",
+              message: "Components must not import directly from services (persistence logic should be accessed through hooks).",
             },
             // Layer enforcement — hooks must not import from routes or components
             {
@@ -86,6 +103,22 @@ export default tseslint.config(
               target: "./app/components/**",
               from: "./app/routes/**",
               message: "Components must not import from routes (violates layer boundary: engine → hooks → components → routes).",
+            },
+            // Layer enforcement — services must not import upward
+            {
+              target: "./app/services/**",
+              from: "./app/hooks/**",
+              message: "Services must not import from hooks (services is below hooks in the DAG).",
+            },
+            {
+              target: "./app/services/**",
+              from: "./app/components/**",
+              message: "Services must not import from components (services is below components in the DAG).",
+            },
+            {
+              target: "./app/services/**",
+              from: "./app/routes/**",
+              message: "Services must not import from routes (services is below routes in the DAG).",
             },
             // Layer enforcement — geometry is a foundation layer, must not import upward
             {
@@ -107,6 +140,11 @@ export default tseslint.config(
               target: "./app/geometry/**",
               from: "./app/routes/**",
               message: "Geometry must not import from routes (geometry is a foundation layer below routes).",
+            },
+            {
+              target: "./app/geometry/**",
+              from: "./app/services/**",
+              message: "Geometry must not import from services (geometry is a foundation layer below services).",
             },
           ],
         },

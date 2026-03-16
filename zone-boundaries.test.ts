@@ -117,20 +117,30 @@ describe("eslint config validation", () => {
       // Engine barrel enforcement — no deep imports
       { target: "./app/components/**", from: "./app/engine/!(index).ts" },
       { target: "./app/hooks/**",     from: "./app/engine/!(index).ts" },
+      // Hooks barrel enforcement — no deep imports from outside the hooks zone
+      { target: "./app/routes/**",    from: "./app/hooks/!(index).ts" },
+      { target: "./app/components/**", from: "./app/hooks/!(index).ts" },
       // Routes cannot access engine at all (must go through hooks)
       { target: "./app/routes/**",    from: "./app/engine/**" },
       // Routes cannot access services directly (must go through hooks)
       { target: "./app/routes/**",    from: "./app/services/**" },
+      // Components cannot access services directly (must go through hooks)
+      { target: "./app/components/**", from: "./app/services/**" },
       // Hooks must not import from routes or components
       { target: "./app/hooks/**",     from: "./app/routes/**" },
       { target: "./app/hooks/**",     from: "./app/components/**" },
       // Components must not import from routes
       { target: "./app/components/**", from: "./app/routes/**" },
+      // Services must not import upward
+      { target: "./app/services/**",  from: "./app/hooks/**" },
+      { target: "./app/services/**",  from: "./app/components/**" },
+      { target: "./app/services/**",  from: "./app/routes/**" },
       // Geometry is a foundation layer — must not import upward
       { target: "./app/geometry/**",  from: "./app/engine/**" },
       { target: "./app/geometry/**",  from: "./app/hooks/**" },
       { target: "./app/geometry/**",  from: "./app/components/**" },
       { target: "./app/geometry/**",  from: "./app/routes/**" },
+      { target: "./app/geometry/**",  from: "./app/services/**" },
     ];
 
     // Assert exact count — catches both additions and removals
@@ -193,12 +203,20 @@ describe("zone-boundary ESLint rules", () => {
     expect(rules).toContain("import-x/no-restricted-paths");
   });
 
-  it("allows components importing from hooks (valid DAG direction)", () => {
+  it("allows components importing from hooks barrel (valid DAG direction)", () => {
+    const rules = lintTempFile(
+      "app/components/_zone_test_tmp.ts",
+      `import { useGameSession } from "~/hooks";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+
+  it("blocks components importing from deep hook files", () => {
     const rules = lintTempFile(
       "app/components/_zone_test_tmp.ts",
       `import { useGameSession } from "~/hooks/useGameSession";\n`
     );
-    expect(rules).not.toContain("import-x/no-restricted-paths");
+    expect(rules).toContain("import-x/no-restricted-paths");
   });
 
   it("allows barrel engine imports from hooks", () => {
@@ -243,12 +261,12 @@ describe("zone-boundary ESLint rules", () => {
   //   routes → hooks (allowed) → engine (allowed)
   //   routes → engine (blocked)
 
-  it("allows routes importing from hooks (bridge pattern)", () => {
+  it("blocks routes importing from deep hook files (must use barrel)", () => {
     const rules = lintTempFile(
       "app/routes/_zone_test_tmp.ts",
       `import { useWorldSession } from "~/hooks/useWorldSession";\n`
     );
-    expect(rules).not.toContain("import-x/no-restricted-paths");
+    expect(rules).toContain("import-x/no-restricted-paths");
   });
 
   it("allows routes importing from hooks barrel (bridge pattern)", () => {
@@ -297,5 +315,69 @@ describe("zone-boundary ESLint rules", () => {
       `import { GameBoard } from "~/components/GameBoard";\n`
     );
     expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  it("blocks geometry from importing services (foundation layer cannot depend upward)", () => {
+    const rules = lintTempFile(
+      "app/geometry/_zone_test_tmp.ts",
+      `import { loadSave } from "~/services/persistence";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  // ── Services zone boundary tests ────────────────────────────────────
+  // Services sits between engine and hooks in the DAG. Only hooks may
+  // import from services; services must not import upward.
+
+  it("blocks components from importing services directly", () => {
+    const rules = lintTempFile(
+      "app/components/_zone_test_tmp.ts",
+      `import { loadSave } from "~/services/persistence";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  it("allows hooks importing from services (valid DAG direction)", () => {
+    const rules = lintTempFile(
+      "app/hooks/_zone_test_tmp.ts",
+      `import { loadSave } from "~/services/persistence";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
+  });
+
+  it("blocks services from importing hooks (must not depend upward)", () => {
+    const rules = lintTempFile(
+      "app/services/_zone_test_tmp.ts",
+      `import { useSave } from "~/hooks";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  it("blocks services from importing components (must not depend upward)", () => {
+    const rules = lintTempFile(
+      "app/services/_zone_test_tmp.ts",
+      `import { GameBoard } from "~/components/GameBoard";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  it("blocks services from importing routes (must not depend upward)", () => {
+    const rules = lintTempFile(
+      "app/services/_zone_test_tmp.ts",
+      `import Worlds from "~/routes/worlds";\n`
+    );
+    expect(rules).toContain("import-x/no-restricted-paths");
+  });
+
+  // ── Hooks-internal imports (same-zone, not barrel-enforced) ─────────
+  // Hooks importing from sibling hook files within the same zone is valid.
+  // The barrel enforcement only applies to consumers outside the zone.
+
+  it("allows hooks importing from sibling hook files (same zone)", () => {
+    const rules = lintTempFile(
+      "app/hooks/_zone_test_tmp.ts",
+      `import { useSave } from "~/hooks/useSave";\n`
+    );
+    expect(rules).not.toContain("import-x/no-restricted-paths");
   });
 });
