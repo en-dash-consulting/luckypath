@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { LevelData, GameState, Rotation } from "~/engine";
-import { EAST, NORTH, SOUTH } from "~/engine";
 import {
+  EAST,
   createInitialState,
   selectTileUpdate,
   toggleRemoveModeUpdate,
@@ -10,7 +10,7 @@ import {
   moveTileUpdate,
   removeTileUpdate,
   runSimulationUpdate,
-} from "./useGameState";
+} from "~/engine";
 
 /* ── Test fixtures ───────────────────────────────────────────────── */
 

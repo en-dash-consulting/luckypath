@@ -52,6 +52,18 @@ export { BIOME_THEMES, getBiomeCanvasColors } from "./biome-theme";
 // Scoring
 export { calculateClovers } from "./scoring";
 
+// State updaters (pure game-state transition functions)
+export {
+  createInitialState,
+  selectTileUpdate,
+  toggleRemoveModeUpdate,
+  placeTileUpdate,
+  rotateTileUpdate,
+  moveTileUpdate,
+  removeTileUpdate,
+  runSimulationUpdate,
+} from "./state-updaters";
+
 // Levels & worlds
 export {
   getLevelById,
