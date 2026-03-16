@@ -53,10 +53,20 @@
  * to creating its own state — backward compatible with single-hook routes.
  */
 
-import { useState, useCallback, createContext, useContext, createElement } from "react";
+import { useState, useCallback, useEffect, createContext, useContext, createElement } from "react";
 import type React from "react";
 import { loadSave, getDefaultSave, saveSave, completeLevelUpdater } from "~/services/persistence";
 import type { SaveData } from "~/services/persistence";
+
+/**
+ * Runtime invariant: tracks how many standalone useSave instances are mounted
+ * without a SaveProvider. If more than one is active simultaneously, a dev-mode
+ * warning fires — catching the "silent mutation divergence" bug at the point of
+ * misuse rather than downstream in an unrelated symptom.
+ *
+ * @internal Exported only for testing.
+ */
+export let __standaloneInstanceCount = 0;
 
 /**
  * Public contract for useSave.
@@ -82,7 +92,7 @@ const SaveContext = createContext<UseSaveReturn | null>(null);
  * `useSave()` independently (e.g. worlds.tsx).
  */
 export function SaveProvider({ children }: { children: React.ReactNode }) {
-  const value = useSaveInternal();
+  const value = useSaveInternal(/* fromProvider */ true);
   return createElement(SaveContext.Provider, { value }, children);
 }
 
@@ -104,11 +114,31 @@ export function useSave(): UseSaveReturn {
   return useSaveInternal();
 }
 
-/** Standalone save state — used by SaveProvider and as fallback. */
-function useSaveInternal(): UseSaveReturn {
+/**
+ * Standalone save state — used by SaveProvider and as fallback.
+ *
+ * @param fromProvider  `true` when called by SaveProvider (skips divergence check).
+ */
+function useSaveInternal(fromProvider = false): UseSaveReturn {
   const [save, setSave] = useState<SaveData>(() =>
     typeof window !== "undefined" ? loadSave() : getDefaultSave()
   );
+
+  // Runtime invariant: detect multiple standalone instances (no provider).
+  useEffect(() => {
+    if (fromProvider) return;
+    __standaloneInstanceCount++;
+    if (process.env.NODE_ENV !== "production" && __standaloneInstanceCount > 1) {
+      console.warn(
+        "[useSave] Multiple standalone useSave instances detected without a " +
+          "<SaveProvider>. Save mutations will silently diverge between hooks. " +
+          "Wrap the consuming component tree in <SaveProvider> to share state.",
+      );
+    }
+    return () => {
+      __standaloneInstanceCount--;
+    };
+  }, [fromProvider]);
 
   /**
    * Read-modify-write helper that loads a fresh copy from storage,
