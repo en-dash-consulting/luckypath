@@ -1,9 +1,15 @@
 import { useState, useRef, useCallback } from "react";
 import type React from "react";
-import { getAllLevelIds, getAllWorldIds, ARC_CENTER_Y_RATIO } from "~/engine";
-import type { SaveData } from "~/hooks/persistence";
+import {
+  getAllLevelIds,
+  getAllWorldIds,
+  computeArcProgress,
+  REVEAL_THRESHOLD,
+  PROGRESS_TOLERANCE,
+} from "~/engine";
+import { useSave } from "~/hooks/useSave";
 
-/** Return type for useRainbowEasterEgg — makes the persistence mutation visible. */
+/** Return type for useRainbowEasterEgg. */
 export interface UseRainbowEasterEggReturn {
   rainbowRef: React.RefObject<SVGSVGElement | null>;
   progress: number;
@@ -13,8 +19,8 @@ export interface UseRainbowEasterEggReturn {
   /**
    * Click handler for the pot of gold.
    *
-   * Side-effect: delegates to the caller's `updateSave` to unlock all levels
-   * and worlds. The persistence write is handled by `useSave`.
+   * Side-effect: calls `updateSave` (via internal `useSave()`) to unlock all
+   * levels and worlds.
    */
   handlePotClick: () => void;
   handleRainbowLeave: () => void;
@@ -26,16 +32,14 @@ export interface UseRainbowEasterEggReturn {
  * The user traces along a rainbow arc SVG; once progress exceeds 90 %,
  * a pot of gold is revealed. Clicking the pot unlocks all levels.
  *
- * Side-effects:
- *   - `handlePotClick` delegates to the caller's `updateSave` to persist
- *     unlocked levels/worlds. This keeps all persistence writes flowing
- *     through the `useSave` coordinator.
+ * Persistence: follows the project convention (see useSave.ts module doc) by
+ * calling `useSave()` internally rather than accepting persistence functions
+ * as parameters.
  *
  * Returns state and event handlers that should be wired to the SVG element.
  */
-export function useRainbowEasterEgg(
-  updateSave: (updater: (current: SaveData) => SaveData) => void,
-): UseRainbowEasterEggReturn {
+export function useRainbowEasterEgg(): UseRainbowEasterEggReturn {
+  const { updateSave } = useSave();
   const [progress, setProgress] = useState(0);
   const [potRevealed, setPotRevealed] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
@@ -47,28 +51,18 @@ export function useRainbowEasterEgg(
       const svg = rainbowRef.current;
       if (!svg || potRevealed) return;
 
-      const rect = svg.getBoundingClientRect();
-      const cx = rect.left + rect.width * 0.5;
-      const cy = rect.top + rect.height * ARC_CENTER_Y_RATIO;
-      const dx = e.clientX - cx;
-      const dy = -(e.clientY - cy);
+      const t = computeArcProgress(
+        e.clientX,
+        e.clientY,
+        svg.getBoundingClientRect(),
+      );
+      if (t === null) return;
 
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const maxR = rect.width * 0.48;
-      const minR = rect.width * 0.12;
-      if (dist < minR || dist > maxR) return;
-
-      let angle = Math.atan2(dy, dx);
-      if (angle < 0) angle += Math.PI * 2;
-      if (angle > Math.PI) return;
-
-      const t = 1 - angle / Math.PI;
-
-      if (t > maxProgress.current - 0.05) {
+      if (t > maxProgress.current - PROGRESS_TOLERANCE) {
         maxProgress.current = Math.max(maxProgress.current, t);
         setProgress(maxProgress.current);
 
-        if (maxProgress.current > 0.9) {
+        if (maxProgress.current > REVEAL_THRESHOLD) {
           setPotRevealed(true);
           setProgress(1);
         }
@@ -82,8 +76,6 @@ export function useRainbowEasterEgg(
     setUnlocked(true);
 
     // Grant access to all levels without fabricating completion scores.
-    // Delegates read-modify-write to the caller's updateSave so persistence
-    // initialisation stays in the useSave coordinator.
     updateSave((current) => ({
       ...current,
       unlockedLevels: getAllLevelIds(),

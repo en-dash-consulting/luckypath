@@ -1,10 +1,47 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGameState } from "~/hooks/useGameState";
 import { useSave } from "~/hooks/useSave";
-import { completeLevel } from "~/hooks/persistence";
-import type { SaveData } from "~/hooks/persistence";
+import type { SaveData } from "~/services/persistence";
 import type { GameState, LevelData, TileType, WorldData } from "~/engine";
-import { getWorldById, getNextLevel, isCellForbidden, posKey } from "~/engine";
+import { getWorldById, getNextLevel, isCellForbidden, posKey, calculateClovers } from "~/engine";
+
+/* ── Pure helpers (exported for testing) ──────────────────────────── */
+
+/**
+ * Determines which cell-click action to dispatch, or `"none"` if the
+ * click should be ignored.  Pure function — no side-effects.
+ */
+export type CellClickAction = "remove" | "rotate" | "place" | "none";
+
+export function resolveCellClickAction(
+  state: Pick<GameState, "phase" | "removeMode" | "placedTiles" | "selectedTileType">,
+  level: LevelData,
+  row: number,
+  col: number,
+): CellClickAction {
+  if (state.phase !== "placing") return "none";
+  if (isCellForbidden(level, row, col)) return "none";
+  if (state.removeMode) return "remove";
+  if (state.placedTiles.has(posKey(row, col))) return "rotate";
+  if (state.selectedTileType) return "place";
+  return "none";
+}
+
+/**
+ * Guard for whether a candidate next level should be offered.
+ * Returns `null` when the candidate's world is locked.
+ */
+export function guardNextLevel(
+  candidate: LevelData | null,
+  currentWorldId: number,
+  unlockedWorlds: number[],
+): LevelData | null {
+  if (!candidate) return null;
+  if (candidate.worldId !== currentWorldId) {
+    if (!unlockedWorlds.includes(candidate.worldId)) return null;
+  }
+  return candidate;
+}
 
 /**
  * Public contract for useGameSession.
@@ -16,16 +53,16 @@ import { getWorldById, getNextLevel, isCellForbidden, posKey } from "~/engine";
  * surface is caught at compile time rather than silently propagating.
  *
  * Side-effects:
- *   - When `state.phase` transitions to `"success"`, `completeLevel()`
- *     is called internally to persist the completion and clover count
- *     to localStorage. If `onLevelCompleted` is provided via options,
- *     it fires after persistence so callers can react.
+ *   - When `state.phase` transitions to `"success"`, the level completion
+ *     and clover count are persisted via `updateSave`, keeping React state
+ *     and localStorage in sync through the single reactive write path.
  */
 export interface UseGameSessionReturn {
   state: GameState;
   settings: SaveData["settings"];
   world: WorldData | undefined;
   tilesUsed: number;
+  tilesRemaining: number;
   clovers: number;
   showComplete: boolean;
   nextLevel: LevelData | null;
@@ -38,64 +75,43 @@ export interface UseGameSessionReturn {
   moveTile: (fromRow: number, fromCol: number, toRow: number, toCol: number) => void;
 }
 
-export interface UseGameSessionOptions {
-  /**
-   * Optional callback invoked after a level is persisted as complete.
-   * This makes the internal completeLevel() write side-effect observable
-   * and testable without mocking localStorage.
-   */
-  onLevelCompleted?: (levelId: string, clovers: number) => void;
-}
-
-export function useGameSession(level: LevelData, options: UseGameSessionOptions = {}): UseGameSessionReturn {
-  const { onLevelCompleted } = options;
+export function useGameSession(level: LevelData): UseGameSessionReturn {
   const [showComplete, setShowComplete] = useState(false);
-  const { save } = useSave();
+  const { save, completeLevel } = useSave();
 
   const gameState = useGameState(level);
   const { state, selectTile, toggleRemoveMode, placeTile, rotateTile, removeTile, runSimulation, resetBoard } = gameState;
 
   const world = getWorldById(level.worldId);
   const tilesUsed = state.placedTiles.size;
+  const tilesRemaining = state.remainingInventory.straight + state.remainingInventory.curve;
 
   const clovers = useMemo(() => {
     if (state.phase !== "success") return 0;
-    if (tilesUsed <= level.par) return 3;
-    if (tilesUsed <= level.par + 1) return 2;
-    return 1;
+    return calculateClovers(tilesUsed, level.par);
   }, [state.phase, tilesUsed, level.par]);
 
   useEffect(() => {
     if (state.phase === "success") {
       completeLevel(level.id, clovers);
-      onLevelCompleted?.(level.id, clovers);
       const timer = setTimeout(() => setShowComplete(true), 1500);
       return () => clearTimeout(timer);
     } else {
       setShowComplete(false);
     }
-  }, [state.phase, level.id, clovers, onLevelCompleted]);
+  }, [state.phase, level.id, clovers, completeLevel]);
 
   const handleCellClick = useCallback(
     (row: number, col: number) => {
-      if (state.phase !== "placing") return;
-      if (isCellForbidden(level, row, col)) return;
-
-      if (state.removeMode) {
-        removeTile(row, col);
-        return;
-      }
-
-      if (state.placedTiles.has(posKey(row, col))) {
-        rotateTile(row, col);
-        return;
-      }
-
-      if (state.selectedTileType) {
-        placeTile(row, col);
+      const action = resolveCellClickAction(state, level, row, col);
+      switch (action) {
+        case "remove":  removeTile(row, col); break;
+        case "rotate":  rotateTile(row, col); break;
+        case "place":   placeTile(row, col);  break;
+        case "none":    break;
       }
     },
-    [state.phase, state.selectedTileType, state.placedTiles, state.removeMode, level, placeTile, rotateTile, removeTile]
+    [state, level, placeTile, rotateTile, removeTile]
   );
 
   const handleCellRightClick = useCallback(
@@ -120,23 +136,17 @@ export function useGameSession(level: LevelData, options: UseGameSessionOptions 
     [selectTile]
   );
 
-  const nextLevel = useMemo(() => {
-    const candidate = getNextLevel(level.id);
-    if (!candidate) return null;
-    // Guard: don't offer a next level whose world is locked
-    if (candidate.worldId !== level.worldId) {
-      if (!save.unlockedWorlds.includes(candidate.worldId)) {
-        return null;
-      }
-    }
-    return candidate;
-  }, [level.id, level.worldId, save.unlockedWorlds]);
+  const nextLevel = useMemo(
+    () => guardNextLevel(getNextLevel(level.id), level.worldId, save.unlockedWorlds),
+    [level.id, level.worldId, save.unlockedWorlds],
+  );
 
   return {
     state,
     settings: save.settings,
     world,
     tilesUsed,
+    tilesRemaining,
     clovers,
     showComplete,
     nextLevel,

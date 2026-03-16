@@ -13,13 +13,8 @@
  *   hooks       — 2 symbols
  */
 import { useParams, useNavigate } from "react-router";
-import { useLevelById } from "~/hooks/useLevelById";
-import { useGameSession } from "~/hooks/useGameSession";
-import { GameBoard } from "~/components/GameBoard";
-import { TileInventory } from "~/components/TileInventory";
-import { MobileInventory } from "~/components/MobileInventory";
-import { GameHUD } from "~/components/GameHUD";
-import { LevelComplete } from "~/components/LevelComplete";
+import { useLevelById, useGameSession } from "~/hooks";
+import { GameBoard, TileInventory, MobileInventory, GameHUD, LevelComplete } from "~/components";
 
 /**
  * Play route — single source of truth for levelId is useParams().
@@ -65,6 +60,7 @@ function PlayLevel({
     settings,
     world,
     tilesUsed,
+    tilesRemaining,
     clovers,
     showComplete,
     nextLevel,
@@ -84,7 +80,7 @@ function PlayLevel({
         worldName={world?.name || ""}
         phase={state.phase}
         failReason={state.failReason}
-        tilesRemaining={state.remainingInventory.straight + state.remainingInventory.curve}
+        tilesRemaining={tilesRemaining}
         onRun={handleRun}
         onReset={handleReset}
         onBack={() => navigate("/worlds")}

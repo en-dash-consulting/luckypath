@@ -1,28 +1,34 @@
 /**
  * world-selection-ui zone — route handler for the level-select screen.
  *
- * Layer: routes (top of the dependency DAG: engine → hooks → components → routes).
- * This file is a route handler that sits ABOVE hooks in the dependency hierarchy.
- * It consumes hooks but hooks must never import from routes.
+ * This route consumes two supplier zones:
+ *   1. hooks       (useWorldSession, useRainbowEasterEgg)
+ *   2. components  (WorldGrid, RainbowArc)
  *
- * Following the same orchestration-only pattern as home.tsx — all presentation
- * (SVG, grid, layout) is delegated to dedicated components (WorldGrid, RainbowArc).
+ * Engine access is mediated entirely through hooks so there is a single
+ * abstraction path: engine → hooks → routes.  Both hooks compose `useSave()`
+ * internally via `SaveProvider`, sharing a single save-state instance so
+ * mutations in one hook (e.g. rainbow easter egg unlock) are immediately
+ * visible to the other without depending on render propagation order.
  *
- * Supplier zones:
- *   - hooks      (useWorldSession, useRainbowEasterEgg)
- *   - components (WorldGrid, RainbowArc)
- *
- * Engine access is mediated entirely through hooks (useWorldSession) so there
- * is a single abstraction path: engine → hooks → routes.
+ * Current import budget:
+ *   components  — 2 symbols
+ *   hooks       — 3 symbols (SaveProvider + 2 hooks)
  */
 import { Link } from "react-router";
-import { useRainbowEasterEgg } from "~/hooks/useRainbowEasterEgg";
-import { useWorldSession } from "~/hooks/useWorldSession";
-import { WorldGrid } from "~/components/WorldGrid";
-import { RainbowArc } from "~/components/RainbowArc";
+import { useRainbowEasterEgg, useWorldSession, SaveProvider } from "~/hooks";
+import { WorldGrid, RainbowArc } from "~/components";
 
 export default function Worlds() {
-  const { save, updateSave, worlds, isLevelUnlocked, getClovers, getLevels } = useWorldSession();
+  return (
+    <SaveProvider>
+      <WorldsContent />
+    </SaveProvider>
+  );
+}
+
+function WorldsContent() {
+  const { save, worlds, isLevelUnlocked, getClovers, getLevels } = useWorldSession();
 
   const {
     rainbowRef,
@@ -32,7 +38,7 @@ export default function Worlds() {
     handleRainbowMove,
     handlePotClick,
     handleRainbowLeave,
-  } = useRainbowEasterEgg(updateSave);
+  } = useRainbowEasterEgg();
 
   return (
     <div className="min-h-dvh bg-gradient-to-b from-green-100 via-emerald-50 to-amber-50/50 px-4 py-6 sm:py-8 select-none">

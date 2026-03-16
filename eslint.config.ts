@@ -4,7 +4,7 @@
  * This file is the ONE AND ONLY mechanism that enforces the architecture
  * layer boundary at import time:
  *
- *   engine → hooks → components → routes
+ *   geometry → engine → services → hooks → components → routes
  *
  * The `import-x/no-restricted-paths` rules below are what actually prevent
  * illegal cross-zone imports. Other documentation of the DAG (JSDoc comments
@@ -58,11 +58,66 @@ export default tseslint.config(
               from: "./app/engine/!(index).ts",
               message: "Import from ~/engine barrel instead of engine internals.",
             },
+            // Hooks barrel enforcement — no deep imports from outside the hooks zone
+            {
+              target: "./app/routes/**",
+              from: "./app/hooks/!(index).ts",
+              message: "Import from ~/hooks barrel instead of individual hook files.",
+            },
+            {
+              target: "./app/components/**",
+              from: "./app/hooks/!(index).ts",
+              message: "Import from ~/hooks barrel instead of individual hook files.",
+            },
+            // Components barrel enforcement — no deep imports from outside the components zone
+            {
+              target: "./app/routes/**",
+              from: "./app/components/!(index).tsx",
+              message: "Import from ~/components barrel instead of individual component files.",
+            },
+            {
+              target: "./app/routes/**",
+              from: "./app/components/!(index).ts",
+              message: "Import from ~/components barrel instead of individual component files.",
+            },
             // Layer enforcement — routes must access engine through hooks
             {
               target: "./app/routes/**",
               from: "./app/engine/**",
               message: "Routes must access engine through hooks, not directly (engine → hooks → routes).",
+            },
+            // Layer enforcement — routes must not import directly from services
+            {
+              target: "./app/routes/**",
+              from: "./app/services/**",
+              message: "Routes must not import directly from services (persistence logic should be accessed through hooks).",
+            },
+            // Layer enforcement — components must not import from services
+            {
+              target: "./app/components/**",
+              from: "./app/services/**",
+              message: "Components must not import directly from services (persistence logic should be accessed through hooks).",
+            },
+            // Layer enforcement — engine must not import from services, hooks, components, or routes
+            {
+              target: "./app/engine/**",
+              from: "./app/services/**",
+              message: "Engine must not import from services (services is above engine in the DAG).",
+            },
+            {
+              target: "./app/engine/**",
+              from: "./app/hooks/**",
+              message: "Engine must not import from hooks (hooks is above engine in the DAG).",
+            },
+            {
+              target: "./app/engine/**",
+              from: "./app/components/**",
+              message: "Engine must not import from components (components is above engine in the DAG).",
+            },
+            {
+              target: "./app/engine/**",
+              from: "./app/routes/**",
+              message: "Engine must not import from routes (routes is above engine in the DAG).",
             },
             // Layer enforcement — hooks must not import from routes or components
             {
@@ -80,6 +135,48 @@ export default tseslint.config(
               target: "./app/components/**",
               from: "./app/routes/**",
               message: "Components must not import from routes (violates layer boundary: engine → hooks → components → routes).",
+            },
+            // Layer enforcement — services must not import upward
+            {
+              target: "./app/services/**",
+              from: "./app/hooks/**",
+              message: "Services must not import from hooks (services is below hooks in the DAG).",
+            },
+            {
+              target: "./app/services/**",
+              from: "./app/components/**",
+              message: "Services must not import from components (services is below components in the DAG).",
+            },
+            {
+              target: "./app/services/**",
+              from: "./app/routes/**",
+              message: "Services must not import from routes (services is below routes in the DAG).",
+            },
+            // Layer enforcement — geometry is a foundation layer, must not import upward
+            {
+              target: "./app/geometry/**",
+              from: "./app/engine/**",
+              message: "Geometry must not import from engine (geometry is a foundation layer below engine).",
+            },
+            {
+              target: "./app/geometry/**",
+              from: "./app/hooks/**",
+              message: "Geometry must not import from hooks (geometry is a foundation layer below hooks).",
+            },
+            {
+              target: "./app/geometry/**",
+              from: "./app/components/**",
+              message: "Geometry must not import from components (geometry is a foundation layer below components).",
+            },
+            {
+              target: "./app/geometry/**",
+              from: "./app/routes/**",
+              message: "Geometry must not import from routes (geometry is a foundation layer below routes).",
+            },
+            {
+              target: "./app/geometry/**",
+              from: "./app/services/**",
+              message: "Geometry must not import from services (geometry is a foundation layer below services).",
             },
           ],
         },
