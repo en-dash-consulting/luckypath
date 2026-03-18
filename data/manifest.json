@@ -1,40 +1,40 @@
 {
   "schemaVersion": "1.0.0",
   "toolVersion": "0.1.0",
-  "analyzedAt": "2026-03-16T04:04:03.553Z",
-  "gitSha": "9de0d8c07d4b0e1cfcef686b95a313641f7b532a",
-  "gitBranch": "feature/selfheal0313",
+  "analyzedAt": "2026-03-17T18:13:46.541Z",
+  "gitSha": "f41bfbf1819d4880fb7a3058d7efa5c7190fcb39",
+  "gitBranch": "feature/sv-0317",
   "targetPath": "/Users/nick/development/endash/luckypath",
   "modules": {
     "inventory": {
       "status": "complete",
-      "startedAt": "2026-03-16T03:49:37.313Z",
-      "completedAt": "2026-03-16T03:49:37.331Z"
+      "startedAt": "2026-03-17T17:59:54.388Z",
+      "completedAt": "2026-03-17T17:59:54.403Z"
     },
     "imports": {
       "status": "complete",
-      "startedAt": "2026-03-16T03:49:37.332Z",
-      "completedAt": "2026-03-16T03:49:37.390Z"
+      "startedAt": "2026-03-17T17:59:54.403Z",
+      "completedAt": "2026-03-17T17:59:54.461Z"
     },
     "classifications": {
       "status": "complete",
-      "startedAt": "2026-03-16T03:49:37.391Z",
-      "completedAt": "2026-03-16T03:49:57.245Z"
+      "startedAt": "2026-03-17T17:59:54.461Z",
+      "completedAt": "2026-03-17T18:00:40.605Z"
     },
     "zones": {
       "status": "complete",
-      "startedAt": "2026-03-16T03:49:57.245Z",
-      "completedAt": "2026-03-16T04:04:03.442Z"
+      "startedAt": "2026-03-17T18:00:40.606Z",
+      "completedAt": "2026-03-17T18:13:46.429Z"
     },
     "components": {
       "status": "complete",
-      "startedAt": "2026-03-16T04:04:03.444Z",
-      "completedAt": "2026-03-16T04:04:03.485Z"
+      "startedAt": "2026-03-17T18:13:46.432Z",
+      "completedAt": "2026-03-17T18:13:46.477Z"
     },
     "callgraph": {
       "status": "complete",
-      "startedAt": "2026-03-16T04:04:03.485Z",
-      "completedAt": "2026-03-16T04:04:03.553Z"
+      "startedAt": "2026-03-17T18:13:46.478Z",
+      "completedAt": "2026-03-17T18:13:46.541Z"
     }
   },
   "zoneOutputs": true,

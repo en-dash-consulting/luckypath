@@ -22,13 +22,13 @@
     },
     {
       "path": ".github/workflows/deploy.yml",
-      "size": 1008,
+      "size": 1025,
       "language": "YAML",
       "lineCount": 44,
-      "hash": "f23c4c49320f8ae2f81b8d6b7504648cfaf3889e07d78dbef3dca4dfeaec17f2",
+      "hash": "02f761e04fba9d9d4c6b65b2479caf943f19686a4ddfb758266867683d93d710",
       "role": "build",
       "category": ".github",
-      "lastModified": 1773337152689
+      "lastModified": 1773638223798
     },
     {
       "path": ".gitignore",
@@ -78,7 +78,7 @@
       "hash": "af1455c95311e8cee6922ef5e82c485a66013c4f6452def3cab48bed77281821",
       "role": "source",
       "category": "components",
-      "lastModified": 1773378549283
+      "lastModified": 1773639184193
     },
     {
       "path": "app/components/GameHUD.tsx",
@@ -108,7 +108,7 @@
       "hash": "715c7efce480241d48dcc0b08420794e86a0887547ec0f672b287c146bac84d6",
       "role": "source",
       "category": "components",
-      "lastModified": 1773377994886
+      "lastModified": 1773639184193
     },
     {
       "path": "app/components/RainbowArc.tsx",
@@ -118,7 +118,7 @@
       "hash": "7135057ab52d4cf13b19e61e4bd75da75d3f6b2dd59fa3bb9c3f3a7a1f3a3b37",
       "role": "source",
       "category": "components",
-      "lastModified": 1773631581430
+      "lastModified": 1773639184194
     },
     {
       "path": "app/components/TileInventory.tsx",
@@ -128,7 +128,7 @@
       "hash": "4c3556e1ad8b3a5b2ed95bad9f509d89df6936d96b79c499b576432f7f8d27d2",
       "role": "source",
       "category": "components",
-      "lastModified": 1773378035988
+      "lastModified": 1773639184194
     },
     {
       "path": "app/components/TilePreview.tsx",
@@ -158,7 +158,7 @@
       "hash": "3d82227332f8cbc979d14e80a6ecb88012605f1b26ba9212dd0428cafca2bfa4",
       "role": "source",
       "category": "components",
-      "lastModified": 1773380047653
+      "lastModified": 1773639184194
     },
     {
       "path": "app/components/canvas-drawing.ts",
@@ -168,7 +168,7 @@
       "hash": "c26adf6a6b5822d051e4045b7d9a6e49a88b8194f7e409fa3fecd0de11b1d2a2",
       "role": "source",
       "category": "components",
-      "lastModified": 1773377781171
+      "lastModified": 1773639184194
     },
     {
       "path": "app/components/index.ts",
@@ -178,7 +178,7 @@
       "hash": "4be00e8279a5621d3be97bf39058283a3d003dfd23c65b919e4f3d0c860cbffc",
       "role": "source",
       "category": "components",
-      "lastModified": 1773631883683
+      "lastModified": 1773639184194
     },
     {
       "path": "app/components/inventory-shared.ts",
@@ -188,7 +188,7 @@
       "hash": "b7950e932865df8d1a0d1852b6a53851f1e3fa9f298ee91fbb30d0b4cdcb545c",
       "role": "source",
       "category": "components",
-      "lastModified": 1773377974179
+      "lastModified": 1773639184194
     },
     {
       "path": "app/engine/biome-theme.ts",
@@ -208,7 +208,7 @@
       "hash": "0f3e83eddfaab78f506ae51d41f7ff84686c0bfd421673203ca175495a382009",
       "role": "source",
       "category": "engine",
-      "lastModified": 1773631585672
+      "lastModified": 1773639184195
     },
     {
       "path": "app/engine/levels.ts",
@@ -228,7 +228,7 @@
       "hash": "60030e795a5d535acf156ee6515c2a96eced5f5466fb0dd1bd9ff0c3f45c29c9",
       "role": "test",
       "category": "engine",
-      "lastModified": 1773378748407
+      "lastModified": 1773639184195
     },
     {
       "path": "app/engine/scoring.ts",
@@ -238,7 +238,7 @@
       "hash": "bd82fbe5c7f2c0ceb06a9a8d06bcb8c39769a47e43c9dd5b8d47f4c6837e3391",
       "role": "source",
       "category": "engine",
-      "lastModified": 1773378745652
+      "lastModified": 1773639184195
     },
     {
       "path": "app/engine/state-updaters.test.ts",
@@ -248,7 +248,7 @@
       "hash": "e5e7bffcb7504b6d0d642c41b819ddf1859d2db2109be8e6de327ed69792ff3d",
       "role": "test",
       "category": "engine",
-      "lastModified": 1773625691312
+      "lastModified": 1773639184195
     },
     {
       "path": "app/engine/state-updaters.ts",
@@ -258,7 +258,7 @@
       "hash": "6cf7030f2a6cae6cc6128a7618033763e0b4efdacab2ae04416a97bb488f74d9",
       "role": "source",
       "category": "engine",
-      "lastModified": 1773625539356
+      "lastModified": 1773639184195
     },
     {
       "path": "app/engine/traversal.test.ts",
@@ -318,7 +318,7 @@
       "hash": "37580070ec115f77c82cf286982ea4debd13ecfe4ea5b507d9fa128037ce57eb",
       "role": "source",
       "category": "geometry",
-      "lastModified": 1773631575779
+      "lastModified": 1773639184195
     },
     {
       "path": "app/hooks/index.ts",
@@ -328,7 +328,7 @@
       "hash": "e996d97b78962fe4b4c5a70bcafd1335245c62dc43d1b3b1bfe7052c6ad8cdf4",
       "role": "source",
       "category": "hooks",
-      "lastModified": 1773632277707
+      "lastModified": 1773639184195
     },
     {
       "path": "app/hooks/useGameSession.test.ts",
@@ -338,7 +338,7 @@
       "hash": "0527c51466ca30b824130f7ead65eb9fffaa64769c2f1b011bc930963fbfd947",
       "role": "test",
       "category": "hooks",
-      "lastModified": 1773381719867
+      "lastModified": 1773639184196
     },
     {
       "path": "app/hooks/useGameSession.ts",
@@ -348,7 +348,7 @@
       "hash": "f36b7c081826abebae010bef22428b50ad22c5d3b3afd945c85aecebc65c22db",
       "role": "source",
       "category": "hooks",
-      "lastModified": 1773459984759
+      "lastModified": 1773639184196
     },
     {
       "path": "app/hooks/useGameState.ts",
@@ -358,7 +358,7 @@
       "hash": "258655e74ae4b9ed96097c1ab3466992b8be7a0a82e58e085dd590ad8f7f2334",
       "role": "source",
       "category": "hooks",
-      "lastModified": 1773625570759
+      "lastModified": 1773639184196
     },
     {
       "path": "app/hooks/useLevelById.ts",
@@ -378,7 +378,7 @@
       "hash": "4822122d159c7b7bdc087b1d2fe3faaea50cd8a0a751d12023deb958a5d441fb",
       "role": "source",
       "category": "hooks",
-      "lastModified": 1773624951806
+      "lastModified": 1773639184196
     },
     {
       "path": "app/hooks/useSave.test.ts",
@@ -388,7 +388,7 @@
       "hash": "1b89e3af61abec52c345f714121a0d4c01f33dcab5b8132e1d0aeebcef9dbefb",
       "role": "test",
       "category": "hooks",
-      "lastModified": 1773632094128
+      "lastModified": 1773639184196
     },
     {
       "path": "app/hooks/useSave.ts",
@@ -398,7 +398,7 @@
       "hash": "78011988020a0834e5e40dea6c8dfe731ca244b181ee9dbdc8b5450bbbc87170",
       "role": "source",
       "category": "hooks",
-      "lastModified": 1773632084449
+      "lastModified": 1773639184197
     },
     {
       "path": "app/hooks/useWorldSession.ts",
@@ -408,7 +408,7 @@
       "hash": "c12a1912bbf36a268e204054f796eed0ede290d7a2e1384560cdd2d6c2810f55",
       "role": "source",
       "category": "hooks",
-      "lastModified": 1773378175404
+      "lastModified": 1773639184197
     },
     {
       "path": "app/root.tsx",
@@ -448,7 +448,7 @@
       "hash": "7624420d5c123b46c69e5d33e6151e362dd80fa260a11f8842b4a92199068d3e",
       "role": "source",
       "category": "routes",
-      "lastModified": 1773631899436
+      "lastModified": 1773639184197
     },
     {
       "path": "app/routes/worlds.tsx",
@@ -458,7 +458,7 @@
       "hash": "1dd4262c90e866e6f4454ee4365f511336205c5913a277de4028de8dc1269d41",
       "role": "source",
       "category": "routes",
-      "lastModified": 1773631898069
+      "lastModified": 1773639184197
     },
     {
       "path": "app/services/index.ts",
@@ -468,7 +468,7 @@
       "hash": "dcbb1670a64ab48354b04f285d3fff7b5d83ffdcdde7a772500f08de67928b2f",
       "role": "source",
       "category": "services",
-      "lastModified": 1773625994248
+      "lastModified": 1773639184197
     },
     {
       "path": "app/services/persistence.test.ts",
@@ -478,7 +478,7 @@
       "hash": "944e9305d88afaf349b4a07fd3ea359fd0780e46fb2f90188d65438d76bb9c1d",
       "role": "test",
       "category": "services",
-      "lastModified": 1773381779627
+      "lastModified": 1773639184198
     },
     {
       "path": "app/services/persistence.ts",
@@ -488,7 +488,7 @@
       "hash": "a7fb4cb4ddc709b310c1ae2c4c4e13f2f7bb57f71623791078f71b1a3d9059fd",
       "role": "source",
       "category": "services",
-      "lastModified": 1773378282375
+      "lastModified": 1773639184198
     },
     {
       "path": "eslint.config.ts",
@@ -498,7 +498,7 @@
       "hash": "af4e8dcc31ef20990153e174e3f5fd4c3841d1de0cf14a2ec67f57c5486eec19",
       "role": "config",
       "category": "root",
-      "lastModified": 1773632445499
+      "lastModified": 1773639184198
     },
     {
       "path": "lucky_path_prd.md",
@@ -558,17 +558,17 @@
       "hash": "44efc04fa969f1a9e180d916336da17b5884eefe471f153e1494269bcaca1757",
       "role": "build",
       "category": "scripts",
-      "lastModified": 1773632450286
+      "lastModified": 1773639184198
     },
     {
       "path": "scripts/deploy.sh",
-      "size": 1157,
+      "size": 1196,
       "language": "Shell",
       "lineCount": 41,
-      "hash": "d850bed72667f763109e23d93c107d7ea0ae3b619ae2d1407ef8cc274c7e05eb",
+      "hash": "8aa8274679474d59f8e134bc183de5c4996caaea6ca63dc6eede93b4cb76f740",
       "role": "build",
       "category": "scripts",
-      "lastModified": 1773624729506
+      "lastModified": 1773639184198
     },
     {
       "path": "tsconfig.json",
@@ -598,7 +598,7 @@
       "hash": "b647e00e39012f9ff0ec73d8093025d1995b5afb9fe4cf879e94559850e64624",
       "role": "config",
       "category": "root",
-      "lastModified": 1773380820178
+      "lastModified": 1773639184198
     },
     {
       "path": "zone-boundaries.test.ts",
@@ -608,7 +608,7 @@
       "hash": "757b1e446d098d777628361554cfdc4ef1cade0519c8d33950190f5686f55db0",
       "role": "test",
       "category": "root",
-      "lastModified": 1773632651168
+      "lastModified": 1773639184199
     }
   ],
   "summary": {
