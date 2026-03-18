@@ -10,10 +10,10 @@
  *
  * Current import budget:
  *   components  — 5 symbols
- *   hooks       — 2 symbols
+ *   hooks       — 3 symbols
  */
 import { useParams, useNavigate } from "react-router";
-import { useLevelById, useGameSession } from "~/hooks";
+import { useLevelById, useGameSession, useHelpShortcut } from "~/hooks";
 import { GameBoard, TileInventory, MobileInventory, GameHUD, LevelComplete } from "~/components";
 
 /**
@@ -54,6 +54,8 @@ function PlayLevel({
   level: NonNullable<ReturnType<typeof useLevelById>>;
 }) {
   const navigate = useNavigate();
+
+  const [showHowToPlay, toggleHowToPlay] = useHelpShortcut();
 
   const {
     state,
@@ -146,6 +148,34 @@ function PlayLevel({
           onReplay={handleReset}
           onBack={() => navigate("/worlds")}
         />
+      )}
+
+      {/* Help modal — toggled by '?' shortcut or Escape to close */}
+      {showHowToPlay && (
+        <div
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn"
+          onClick={toggleHowToPlay}
+          role="dialog"
+          aria-modal="true"
+          aria-label="How to play"
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4 text-center animate-scaleIn"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-bold text-emerald-800 mb-4">How to Play</h2>
+            <p className="text-emerald-700 text-sm mb-6">
+              Place tiles to build a path from start to goal. Use straight and curve
+              tiles from your inventory. Right-click to rotate a placed tile.
+            </p>
+            <button
+              onClick={toggleHowToPlay}
+              className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+            >
+              Got it — press <kbd className="px-1.5 py-0.5 rounded bg-emerald-100 font-mono text-xs">?</kbd> to reopen
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
