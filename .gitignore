@@ -2,11 +2,7 @@
 .env
 
 # Tooling artifacts
-.claude/
-.hench/
-.rex/
 .sourcevision/
-.n-dx.json
 
 # Dependencies & build
 /node_modules/

@@ -1,0 +1,691 @@
+{
+  "version": 1,
+  "findings": [
+    {
+      "hash": "6a3140aab951",
+      "reason": "completed",
+      "text": "Address observation issues (7 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.742Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "10d4e6709b2d",
+      "reason": "completed",
+      "text": "Address observation issues (7 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "483ef204a219",
+      "reason": "completed",
+      "text": "Address observation issues (7 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "4d554a0df1f5",
+      "reason": "completed",
+      "text": "Address observation issues (7 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "0ff852f29136",
+      "reason": "completed",
+      "text": "Address observation issues (7 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "2aec9aed2cf5",
+      "reason": "completed",
+      "text": "Address observation issues (7 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "c816005c91a5",
+      "reason": "completed",
+      "text": "Address observation issues (7 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "3ce64d568f7a",
+      "reason": "completed",
+      "text": "Address relationship issues (2 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "5c006b76d2cf",
+      "reason": "completed",
+      "text": "Address relationship issues (2 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "00cb302ab8a1",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "7b95a691a0c2",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "0dc06251c14d",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "5fe313811a1a",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "d3fe83bca7cc",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "632d87c80015",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "1b79f0a487a2",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "f179e18c094c",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "56ddb6f0ebdd",
+      "reason": "completed",
+      "text": "Address suggestion issues (10 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "357e96e990d7",
+      "reason": "completed",
+      "text": "Address suggestion issues (10 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "134645c65edf",
+      "reason": "completed",
+      "text": "Address suggestion issues (10 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "c921fa8b93bd",
+      "reason": "completed",
+      "text": "Address suggestion issues (10 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "f780f92632d3",
+      "reason": "completed",
+      "text": "Address suggestion issues (10 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "dbdd7817dfaa",
+      "reason": "completed",
+      "text": "Address suggestion issues (10 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "7610d7ac363d",
+      "reason": "completed",
+      "text": "Address suggestion issues (10 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "09f9e83ddfe9",
+      "reason": "completed",
+      "text": "Address suggestion issues (10 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "4673fe555f1f",
+      "reason": "completed",
+      "text": "Address suggestion issues (10 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "4b1758844d21",
+      "reason": "completed",
+      "text": "Address suggestion issues (10 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "99c11c521ea0",
+      "reason": "completed",
+      "text": "Address observation issues (4 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "4573984ccaf4",
+      "reason": "completed",
+      "text": "Address observation issues (4 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "a1070eca9eaf",
+      "reason": "completed",
+      "text": "Address observation issues (4 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "a8f6fc9b6379",
+      "reason": "completed",
+      "text": "Address observation issues (4 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "e889f4a456a0",
+      "reason": "completed",
+      "text": "Address suggestion issues (11 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "a0b7592e0daa",
+      "reason": "completed",
+      "text": "Address suggestion issues (11 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "4e77b6a94ed0",
+      "reason": "completed",
+      "text": "Address suggestion issues (11 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "7dd542eb64df",
+      "reason": "completed",
+      "text": "Address suggestion issues (11 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "5bd3b916dc7e",
+      "reason": "completed",
+      "text": "Address suggestion issues (11 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "57790890436d",
+      "reason": "completed",
+      "text": "Address suggestion issues (11 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "0e00e31b6a42",
+      "reason": "completed",
+      "text": "Address suggestion issues (11 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "5a2540eef292",
+      "reason": "completed",
+      "text": "Address suggestion issues (11 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "66f1ea8e5369",
+      "reason": "completed",
+      "text": "Address suggestion issues (11 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "9965af39e265",
+      "reason": "completed",
+      "text": "Address suggestion issues (11 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "f8c948f68cca",
+      "reason": "completed",
+      "text": "Address suggestion issues (11 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "90b7c9fde6f2",
+      "reason": "completed",
+      "text": "Address pattern issues (3 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "23f397a86ea5",
+      "reason": "completed",
+      "text": "Address pattern issues (3 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "7461ecc78292",
+      "reason": "completed",
+      "text": "Address pattern issues (3 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "03cbde433be3",
+      "reason": "completed",
+      "text": "Address relationship issues (2 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "546a09561bae",
+      "reason": "completed",
+      "text": "Address relationship issues (2 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "64e7992c8507",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "19b24525f63b",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "95c374a847e1",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "f7f879dadded",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "d5bad93c3c7d",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "32d096a789e6",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "4eaaf5be9b75",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "182d99bcc02a",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (8 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "ef696bb0a667",
+      "reason": "completed",
+      "text": "Address observation issues (2 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "6cc397948904",
+      "reason": "completed",
+      "text": "Address observation issues (2 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "a561fa20a8a7",
+      "reason": "completed",
+      "text": "Address pattern issues (1 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "17531d0079e5",
+      "reason": "completed",
+      "text": "Address relationship issues (3 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "7caaa1a0513c",
+      "reason": "completed",
+      "text": "Address relationship issues (3 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "f2a1e7fc3850",
+      "reason": "completed",
+      "text": "Address relationship issues (3 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "3f290e1ace7b",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (6 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "3a0e5e09b6d8",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (6 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "5622a6cc4b88",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (6 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "c1ef5cf5b451",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (6 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "441076d9cb19",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (6 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "5cd6dd931f1e",
+      "reason": "completed",
+      "text": "Address anti-pattern issues (6 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "84fb37fba808",
+      "reason": "completed",
+      "text": "Address suggestion issues (5 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "21b1325f81d2",
+      "reason": "completed",
+      "text": "Address suggestion issues (5 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "699c60fa6091",
+      "reason": "completed",
+      "text": "Address suggestion issues (5 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "8d59d54eaf18",
+      "reason": "completed",
+      "text": "Address suggestion issues (5 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "a3d9ddd9f95c",
+      "reason": "completed",
+      "text": "Address suggestion issues (5 findings)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "18c74533dc62",
+      "reason": "completed",
+      "text": "Fix observation in project-infrastructure: Cohesion score of 0 reflects intentional heterogeneity across infrastructure con",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "639b51853962",
+      "reason": "completed",
+      "text": "Fix suggestion in global: Document an explicit hook composition convention: hooks that need persistence sh (+1 more)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "776a8d25d5fc",
+      "reason": "completed",
+      "text": "Fix suggestion in global: Document an explicit hook composition convention: hooks that need persistence sh (+1 more)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "1b000ee9fd27",
+      "reason": "completed",
+      "text": "Fix observation in game-state-persistence: completeLevel in persistence.ts writes to localStorage imperatively (outside the",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "e735cb699f49",
+      "reason": "completed",
+      "text": "Fix pattern in game-engine: board-utils.ts acts as a component-layer re-export proxy for engine barrel symbo",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "b85dc8080d9b",
+      "reason": "completed",
+      "text": "Fix anti-pattern in game-engine: GameBoard.tsx embeds ~380 lines of private canvas drawing helpers (drawStart, dr",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "a76a77714ba1",
+      "reason": "completed",
+      "text": "Fix anti-pattern in game-session-ui: TileInventory.tsx and MobileInventory.tsx share an identical props interface and (+1 more)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "493197cf0c2a",
+      "reason": "completed",
+      "text": "Fix anti-pattern in game-session-ui: TileInventory.tsx and MobileInventory.tsx share an identical props interface and (+1 more)",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "c850fd3750e9",
+      "reason": "completed",
+      "text": "Fix anti-pattern in game-state-persistence: persistence.ts is a plain data-access module (no React hook APIs used) co-locate",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "f89ff9f31c82",
+      "reason": "completed",
+      "text": "Fix suggestion in game-engine: useRainbowEasterEgg's magic numbers (0.9 threshold, 0.48 maxR, 0.12 minR, 0.05 t",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "0d55f35e7e56",
+      "reason": "completed",
+      "text": "Fix suggestion in game-state-persistence: The clovers scoring algorithm (useGameSession.ts:61-66) is pure domain logic — t",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "5c35e070b3c8",
+      "reason": "completed",
+      "text": "Fix suggestion in hooks: useRainbowEasterEgg's dependency-injection pattern for `updateSave` diverges fro",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "e62a862eb051",
+      "reason": "completed",
+      "text": "Fix suggestion in world-navigation: worlds.tsx is the only route that passes a hook's internal function (updateSave ",
+      "acknowledgedAt": "2026-03-13T05:23:10.743Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "2eb123552767",
+      "reason": "completed",
+      "text": "Fix observation in build-infrastructure: Zone cohesion score of 0 is below the <0.4 warning threshold, but the cause is s",
+      "acknowledgedAt": "2026-03-13T06:03:49.995Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "f3a127fbfa1d",
+      "reason": "completed",
+      "text": "Fix observation in code-quality-config: The pairing of eslint.config.ts with a single engine test file is an import-grap",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "d9dec6d00a8d",
+      "reason": "completed",
+      "text": "Fix observation in game-engine: Contains 47% of project files (25/53) — may be too broad, consider splitting (+1 more)",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "dea819686683",
+      "reason": "completed",
+      "text": "Fix observation in game-engine: Contains 47% of project files (25/53) — may be too broad, consider splitting (+1 more)",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "cc31b685104b",
+      "reason": "completed",
+      "text": "Fix observation in global: Bidirectional coupling: \"game-engine\" ↔ \"world-ui\" (2+9 crossings) — consider ex",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "07ba6585a86f",
+      "reason": "completed",
+      "text": "Fix observation in world-ui: High coupling (0.58) — 9 imports target \"game-engine\"",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "c37b16b7a13d",
+      "reason": "completed",
+      "text": "Fix suggestion in game-engine: rainbow-constants.ts should be relocated out of app/engine/ or annotated with a  (+1 more)",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "58373ddfdfa6",
+      "reason": "completed",
+      "text": "Fix suggestion in game-engine: rainbow-constants.ts should be relocated out of app/engine/ or annotated with a  (+1 more)",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "846ca574850c",
+      "reason": "completed",
+      "text": "Fix pattern in code-quality-config: This zone conflates two unrelated architectural guards: eslint.config.ts (static",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "172b60f7e8eb",
+      "reason": "completed",
+      "text": "Fix relationship in game-engine: zone-boundaries.test.ts guards the entire 4-layer DAG (engine → hooks → componen",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "49bf2090bb57",
+      "reason": "completed",
+      "text": "Fix anti-pattern in code-quality-config: The sibling isolation ESLint rule (hooks ↔ components) is only half-tested: zone",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "355445d45ddb",
+      "reason": "completed",
+      "text": "Fix anti-pattern in game-engine: board-utils.ts self-describes as 'internal to game-board-rendering zone' in its ",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    },
+    {
+      "hash": "e426b6198033",
+      "reason": "completed",
+      "text": "Fix suggestion in global: Establish a minimum test requirement for the hooks layer mirroring the engine la",
+      "acknowledgedAt": "2026-03-13T06:03:49.996Z",
+      "acknowledgedBy": "self-heal"
+    }
+  ]
+}
