@@ -28,5 +28,8 @@ export { WorldGrid } from "./WorldGrid";
 // Level flow
 export { LevelComplete } from "./LevelComplete";
 
+// Help & onboarding
+export { HowToPlayModal } from "./HowToPlayModal";
+
 // Rainbow arc
 export { RainbowArc } from "./RainbowArc";
