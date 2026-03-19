@@ -2250,6 +2250,76 @@
       "recommendationMeta": {
         "findingCount": 14
       }
+    },
+    {
+      "id": "f919f8f4-eb9a-47c0-aed8-36137b10aff6",
+      "title": "Player Help & Onboarding",
+      "status": "completed",
+      "level": "epic",
+      "source": "smart-add",
+      "children": [
+        {
+          "id": "b2d05ae3-f8b8-4ab3-ad8e-ea389ff9776d",
+          "title": "In-Game How-to-Play Modal",
+          "status": "completed",
+          "level": "feature",
+          "description": "Surface a help modal on the game screen so players can learn the rules without leaving or consulting external docs. Triggered by the '?' keyboard shortcut.",
+          "source": "smart-add",
+          "startedAt": "2026-03-18T15:30:06.220Z",
+          "completedAt": "2026-03-18T15:30:06.220Z",
+          "children": [
+            {
+              "id": "e9ab4604-09fb-4f15-8a71-8b773f35a951",
+              "title": "Add '?' keyboard shortcut listener on the game screen",
+              "status": "completed",
+              "level": "task",
+              "description": "Attach a keydown handler to the game screen (play route) that detects the '?' character and toggles a help-modal-open state. The listener should be scoped to the game screen only, respect focus trapping (i.e. not fire when an input/textarea is focused), and clean up on unmount.",
+              "acceptanceCriteria": [
+                "Pressing '?' while on the game screen opens the help modal",
+                "Pressing '?' again (or Escape) closes the modal",
+                "Listener does not fire when focus is inside a form input or textarea",
+                "Listener is removed when the component unmounts (no memory leak)",
+                "No key conflict with existing game controls (tile selection, rotation, etc.)"
+              ],
+              "priority": "medium",
+              "tags": [
+                "game-ui",
+                "accessibility",
+                "keyboard"
+              ],
+              "source": "smart-add",
+              "startedAt": "2026-03-18T15:18:25.763Z",
+              "completedAt": "2026-03-18T15:23:10.243Z"
+            },
+            {
+              "id": "571307dc-4594-4b24-b05b-437d5e68710b",
+              "title": "Build how-to-play modal component with game instructions",
+              "status": "completed",
+              "level": "task",
+              "description": "Create a modal component that explains the core game mechanics — placing straight and curve tiles, rotating them, connecting a path from Lucky to the gold, and hitting Go. The modal should be dismissible via a close button or Escape key, overlay the game board without destroying canvas state, and be accessible (focus-trapped, labelled, announced to screen readers).",
+              "acceptanceCriteria": [
+                "Modal renders an overlay above the game board without unmounting or resetting the canvas",
+                "Content covers: tile types (straight/curve), rotation, path connection goal, the Go button, and par/clover scoring",
+                "Close button and Escape key both dismiss the modal",
+                "Focus is trapped inside the modal while open and returned to the triggering element on close",
+                "Modal has a role='dialog' with an accessible aria-label or aria-labelledby",
+                "Modal is visually consistent with existing game UI (Tailwind styling)"
+              ],
+              "priority": "medium",
+              "tags": [
+                "game-ui",
+                "components",
+                "accessibility"
+              ],
+              "source": "smart-add",
+              "startedAt": "2026-03-18T15:23:12.327Z",
+              "completedAt": "2026-03-18T15:30:06.196Z"
+            }
+          ]
+        }
+      ],
+      "startedAt": "2026-03-18T15:30:06.235Z",
+      "completedAt": "2026-03-18T15:30:06.235Z"
     }
   ]
 }

@@ -1,0 +1,1345 @@
+{
+  "id": "5409c87e-a737-4cf4-9a4e-d3fbbbeb955a",
+  "taskId": "571307dc-4594-4b24-b05b-437d5e68710b",
+  "taskTitle": "Build how-to-play modal component with game instructions",
+  "startedAt": "2026-03-18T15:23:12.336Z",
+  "status": "completed",
+  "turns": 36,
+  "tokenUsage": {
+    "input": 204,
+    "output": 465,
+    "cacheCreationInput": 192223,
+    "cacheReadInput": 2450376
+  },
+  "turnTokenUsage": [
+    {
+      "turn": 1,
+      "input": 3,
+      "output": 11,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2637,
+      "cacheReadInput": 8840
+    },
+    {
+      "turn": 2,
+      "input": 3,
+      "output": 11,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2637,
+      "cacheReadInput": 8840
+    },
+    {
+      "turn": 3,
+      "input": 3,
+      "output": 28,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 705,
+      "cacheReadInput": 11477
+    },
+    {
+      "turn": 4,
+      "input": 3,
+      "output": 28,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 705,
+      "cacheReadInput": 11477
+    },
+    {
+      "turn": 5,
+      "input": 1,
+      "output": 19,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 282,
+      "cacheReadInput": 12182
+    },
+    {
+      "turn": 6,
+      "input": 1,
+      "output": 19,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 377,
+      "cacheReadInput": 12182
+    },
+    {
+      "turn": 7,
+      "input": 1,
+      "output": 19,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 377,
+      "cacheReadInput": 12182
+    },
+    {
+      "turn": 8,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 419,
+      "cacheReadInput": 12559
+    },
+    {
+      "turn": 9,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 419,
+      "cacheReadInput": 12559
+    },
+    {
+      "turn": 10,
+      "input": 3,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1622,
+      "cacheReadInput": 15819
+    },
+    {
+      "turn": 11,
+      "input": 5,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 516,
+      "cacheReadInput": 17441
+    },
+    {
+      "turn": 12,
+      "input": 5,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 516,
+      "cacheReadInput": 17441
+    },
+    {
+      "turn": 13,
+      "input": 6,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1181,
+      "cacheReadInput": 17957
+    },
+    {
+      "turn": 14,
+      "input": 6,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1181,
+      "cacheReadInput": 17957
+    },
+    {
+      "turn": 15,
+      "input": 6,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1181,
+      "cacheReadInput": 17957
+    },
+    {
+      "turn": 16,
+      "input": 6,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1181,
+      "cacheReadInput": 17957
+    },
+    {
+      "turn": 17,
+      "input": 6,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 4577,
+      "cacheReadInput": 19138
+    },
+    {
+      "turn": 18,
+      "input": 6,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 4577,
+      "cacheReadInput": 19138
+    },
+    {
+      "turn": 19,
+      "input": 6,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 4577,
+      "cacheReadInput": 19138
+    },
+    {
+      "turn": 20,
+      "input": 6,
+      "output": 2,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2632,
+      "cacheReadInput": 23715
+    },
+    {
+      "turn": 21,
+      "input": 6,
+      "output": 2,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2632,
+      "cacheReadInput": 23715
+    },
+    {
+      "turn": 22,
+      "input": 6,
+      "output": 2,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2632,
+      "cacheReadInput": 23715
+    },
+    {
+      "turn": 23,
+      "input": 6,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1512,
+      "cacheReadInput": 26347
+    },
+    {
+      "turn": 24,
+      "input": 6,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1512,
+      "cacheReadInput": 26347
+    },
+    {
+      "turn": 25,
+      "input": 6,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1512,
+      "cacheReadInput": 26347
+    },
+    {
+      "turn": 26,
+      "input": 6,
+      "output": 3,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 4652,
+      "cacheReadInput": 27859
+    },
+    {
+      "turn": 27,
+      "input": 6,
+      "output": 3,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 4652,
+      "cacheReadInput": 27859
+    },
+    {
+      "turn": 28,
+      "input": 6,
+      "output": 3,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 4652,
+      "cacheReadInput": 27859
+    },
+    {
+      "turn": 29,
+      "input": 6,
+      "output": 3,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2841,
+      "cacheReadInput": 32511
+    },
+    {
+      "turn": 30,
+      "input": 6,
+      "output": 3,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2841,
+      "cacheReadInput": 32511
+    },
+    {
+      "turn": 31,
+      "input": 6,
+      "output": 4,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 812,
+      "cacheReadInput": 35352
+    },
+    {
+      "turn": 32,
+      "input": 6,
+      "output": 4,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 812,
+      "cacheReadInput": 35352
+    },
+    {
+      "turn": 33,
+      "input": 6,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2789,
+      "cacheReadInput": 35352
+    },
+    {
+      "turn": 34,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 5506,
+      "cacheReadInput": 12978
+    },
+    {
+      "turn": 35,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 5506,
+      "cacheReadInput": 12978
+    },
+    {
+      "turn": 36,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 5506,
+      "cacheReadInput": 12978
+    },
+    {
+      "turn": 37,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 5506,
+      "cacheReadInput": 12978
+    },
+    {
+      "turn": 38,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 5506,
+      "cacheReadInput": 12978
+    },
+    {
+      "turn": 39,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 3131,
+      "cacheReadInput": 18484
+    },
+    {
+      "turn": 40,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 3131,
+      "cacheReadInput": 18484
+    },
+    {
+      "turn": 41,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 3131,
+      "cacheReadInput": 18484
+    },
+    {
+      "turn": 42,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 3131,
+      "cacheReadInput": 18484
+    },
+    {
+      "turn": 43,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 3085,
+      "cacheReadInput": 21615
+    },
+    {
+      "turn": 44,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 3085,
+      "cacheReadInput": 21615
+    },
+    {
+      "turn": 45,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 3085,
+      "cacheReadInput": 21615
+    },
+    {
+      "turn": 46,
+      "input": 1,
+      "output": 8,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 3085,
+      "cacheReadInput": 21615
+    },
+    {
+      "turn": 47,
+      "input": 1,
+      "output": 18,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 5630,
+      "cacheReadInput": 24700
+    },
+    {
+      "turn": 48,
+      "input": 1,
+      "output": 9,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 15270,
+      "cacheReadInput": 24700
+    },
+    {
+      "turn": 49,
+      "input": 1,
+      "output": 9,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 15270,
+      "cacheReadInput": 24700
+    },
+    {
+      "turn": 50,
+      "input": 1,
+      "output": 9,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 15270,
+      "cacheReadInput": 24700
+    },
+    {
+      "turn": 51,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2299,
+      "cacheReadInput": 39970
+    },
+    {
+      "turn": 52,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2299,
+      "cacheReadInput": 39970
+    },
+    {
+      "turn": 53,
+      "input": 1,
+      "output": 3,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1371,
+      "cacheReadInput": 42269
+    },
+    {
+      "turn": 54,
+      "input": 1,
+      "output": 3,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 1371,
+      "cacheReadInput": 42269
+    },
+    {
+      "turn": 55,
+      "input": 1,
+      "output": 2,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 284,
+      "cacheReadInput": 43640
+    },
+    {
+      "turn": 56,
+      "input": 1,
+      "output": 2,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 284,
+      "cacheReadInput": 43640
+    },
+    {
+      "turn": 57,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 248,
+      "cacheReadInput": 43924
+    },
+    {
+      "turn": 58,
+      "input": 1,
+      "output": 2,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 578,
+      "cacheReadInput": 44172
+    },
+    {
+      "turn": 59,
+      "input": 1,
+      "output": 2,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 578,
+      "cacheReadInput": 44172
+    },
+    {
+      "turn": 60,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 236,
+      "cacheReadInput": 44750
+    },
+    {
+      "turn": 61,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 236,
+      "cacheReadInput": 44750
+    },
+    {
+      "turn": 62,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 236,
+      "cacheReadInput": 44750
+    },
+    {
+      "turn": 63,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2735,
+      "cacheReadInput": 44986
+    },
+    {
+      "turn": 64,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 2735,
+      "cacheReadInput": 44986
+    },
+    {
+      "turn": 65,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 313,
+      "cacheReadInput": 47721
+    },
+    {
+      "turn": 66,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 313,
+      "cacheReadInput": 47721
+    },
+    {
+      "turn": 67,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 261,
+      "cacheReadInput": 48034
+    },
+    {
+      "turn": 68,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 261,
+      "cacheReadInput": 48034
+    },
+    {
+      "turn": 69,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 340,
+      "cacheReadInput": 48295
+    },
+    {
+      "turn": 70,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 142,
+      "cacheReadInput": 48635
+    },
+    {
+      "turn": 71,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 142,
+      "cacheReadInput": 48635
+    },
+    {
+      "turn": 72,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 308,
+      "cacheReadInput": 48777
+    },
+    {
+      "turn": 73,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 308,
+      "cacheReadInput": 48777
+    },
+    {
+      "turn": 74,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 308,
+      "cacheReadInput": 48777
+    },
+    {
+      "turn": 75,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 308,
+      "cacheReadInput": 48777
+    },
+    {
+      "turn": 76,
+      "input": 1,
+      "output": 25,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 859,
+      "cacheReadInput": 49085
+    },
+    {
+      "turn": 77,
+      "input": 1,
+      "output": 19,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 988,
+      "cacheReadInput": 49085
+    },
+    {
+      "turn": 78,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 315,
+      "cacheReadInput": 50073
+    },
+    {
+      "turn": 79,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 315,
+      "cacheReadInput": 50073
+    },
+    {
+      "turn": 80,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 315,
+      "cacheReadInput": 50073
+    },
+    {
+      "turn": 81,
+      "input": 1,
+      "output": 1,
+      "vendor": "claude",
+      "model": "sonnet",
+      "cacheCreationInput": 953,
+      "cacheReadInput": 50388
+    }
+  ],
+  "toolCalls": [
+    {
+      "turn": 2,
+      "tool": "ToolSearch",
+      "input": {
+        "query": "select:mcp__rex__get_next_task,mcp__rex__update_task_status,mcp__rex__append_log",
+        "max_results": 3
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 3,
+      "tool": "mcp__rex__update_task_status",
+      "input": {
+        "id": "571307dc-4594-4b24-b05b-437d5e68710b",
+        "status": "in_progress"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 4,
+      "tool": "Bash",
+      "input": {
+        "command": "cd /home/user/luckypath && pwd && git branch --show-current",
+        "description": "Check current directory and branch"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 5,
+      "tool": "Bash",
+      "input": {
+        "command": "pwd",
+        "description": "Check current directory"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 6,
+      "tool": "Bash",
+      "input": {
+        "command": "git branch --show-current",
+        "description": "Show current git branch"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 7,
+      "tool": "Bash",
+      "input": {
+        "command": "npm test -- --passWithNoTests 2>&1 | tail -30",
+        "description": "Run tests to check clean state",
+        "timeout": 60000
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 9,
+      "tool": "Agent",
+      "input": {
+        "subagent_type": "Explore",
+        "description": "Explore codebase structure and patterns",
+        "prompt": "Explore the luckypath codebase thoroughly to understand:\n\n1. Project structure - what framework (React? Remix? Next?), what's in app/ directory\n2. Existing modal/dialog components - any existing patterns for modals\n3. The play route (app/routes/play.tsx) - how the game screen works, especially the existing showHowToPlay state and useHelpShortcut hook\n4. The useHelpShortcut hook (app/hooks/useHelpShortcut.ts)\n5. Existing UI component patterns - what's in app/components/, how they're styled (Tailwind?)\n6. Any existing test patterns - how components are tested\n\nGive me the full contents of:\n- app/routes/play.tsx\n- app/hooks/useHelpShortcut.ts\n- Any existing modal components\n- A sample component test to understand testing patterns\n\nAlso list the app/components/ directory structure."
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 10,
+      "tool": "Bash",
+      "input": {
+        "command": "find . -type f -name \"*.tsx\" -o -name \"*.ts\" | head -30"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 11,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 12,
+      "tool": "Bash",
+      "input": {
+        "command": "ls -la /Users/nick/development/endash/luckypath"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 13,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/routes/play.tsx"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 14,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/hooks/useHelpShortcut.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 15,
+      "tool": "Bash",
+      "input": {
+        "command": "ls -la /Users/nick/development/endash/luckypath/app/components/"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 16,
+      "tool": "Bash",
+      "input": {
+        "command": "find /Users/nick/development/endash/luckypath/app/components/ -type f \\( -name \"*.tsx\" -o -name \"*.ts\" \\) | sort"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 17,
+      "tool": "Bash",
+      "input": {
+        "command": "find /Users/nick/development/endash/luckypath/app -type f \\( -name \"*modal*\" -o -name \"*Modal*\" -o -name \"*dialog*\" -o -name \"*Dialog*\" \\)"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 18,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/hooks/useHelpShortcut.test.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 19,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/components/LevelComplete.tsx"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 20,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/components/index.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 21,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/package.json"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 22,
+      "tool": "Bash",
+      "input": {
+        "command": "find /Users/nick/development/endash/luckypath/app -type f -name \"*.test.ts\" -o -name \"*.test.tsx\" -o -name \"*.spec.ts\" | head -5"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 23,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/hooks/useGameSession.test.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 24,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/components/GameHUD.tsx"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 25,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/components/TileInventory.tsx"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 26,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/root.tsx"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 27,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/routes.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 28,
+      "tool": "Bash",
+      "input": {
+        "command": "ls -la /Users/nick/development/endash/luckypath/app/"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 29,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/vitest.config.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 30,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/app.css"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 31,
+      "tool": "Bash",
+      "input": {
+        "command": "ls -la /Users/nick/development/endash/luckypath/app/hooks/"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 32,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/hooks/useGameState.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 33,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/hooks/index.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 36,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/components/LevelComplete.tsx"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 37,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/components/index.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 38,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/hooks/index.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 41,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/routes/play.tsx"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 42,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/app.css"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 45,
+      "tool": "Glob",
+      "input": {
+        "pattern": "**/zone-boundaries.test.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 46,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/hooks/useHelpShortcut.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 47,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/zone-boundaries.test.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 50,
+      "tool": "Write",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/components/HowToPlayModal.tsx",
+        "content": "/**\n * How-to-Play modal — teaches core game mechanics without leaving\n * the game screen.\n *\n * Accessibility:\n *   - role=\"dialog\" with aria-labelledby on the heading\n *   - Focus trapped inside the modal while open\n *   - Focus returned to the triggering element on close\n *   - Close via button, backdrop click, or Escape (handled by parent hook)\n *\n * Rendering:\n *   - Uses a fixed overlay that does NOT unmount or reset the canvas\n *   - Visually consistent with the existing LevelComplete modal pattern\n *\n * Pure data (INSTRUCTIONS, FOCUSABLE_SELECTOR) is exported for\n * testing without a DOM environment.\n */\nimport { useEffect, useRef, useCallback } from \"react\";\n\n/* ── Instructional content (exported for testing) ────────────── */\n\nexport interface InstructionStep {\n  icon: string;\n  title: string;\n  body: string;\n}\n\n/**\n * Ordered instruction steps covering every mechanic the acceptance\n * criteria require: tile types, rotation, path goal, Go button,\n * and par/clover scoring.\n */\nexport const INSTRUCTIONS: readonly InstructionStep[] = Object.freeze([\n  {\n    icon: \"━\",\n    title: \"Straight & Curve Tiles\",\n    body: \"Pick a tile from your inventory and tap an empty cell to place it. Straight tiles continue the path forward; curve tiles turn it 90\\u00B0.\",\n  },\n  {\n    icon: \"\\u21BB\",\n    title: \"Rotate Tiles\",\n    body: \"Right-click (or long-press on mobile) a placed tile to rotate it. Align each tile so the openings connect to its neighbors.\",\n  },\n  {\n    icon: \"\\uD83C\\uDF40\",\n    title: \"Connect the Path\",\n    body: \"Build a continuous path from Lucky to the gold. Every tile must link to the next \\u2014 no gaps allowed!\",\n  },\n  {\n    icon: \"\\u25B6\",\n    title: \"Hit Go\",\n    body: \"When your path looks ready, press Go. Lucky will walk it step by step. If the path is broken you\\u2019ll see exactly where it failed.\",\n  },\n  {\n    icon: \"\\u2605\",\n    title: \"Par & Clovers\",\n    body: \"Each level has a par \\u2014 the target number of tiles. Finish at or under par to earn up to 3 clovers per level!\",\n  },\n]);\n\n/* ── Focus-trap selector (exported for testing) ──────────────── */\n\n/**\n * CSS selector matching all natively focusable interactive elements.\n * Used by the focus-trap logic to cycle Tab / Shift+Tab.\n */\nexport const FOCUSABLE_SELECTOR =\n  'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex=\"-1\"])';\n\n/* ── Props ────────────────────────────────────────────────────── */\n\ninterface HowToPlayModalProps {\n  onClose: () => void;\n}\n\n/* ── Component ────────────────────────────────────────────────── */\n\nexport function HowToPlayModal({ onClose }: HowToPlayModalProps) {\n  const panelRef = useRef<HTMLDivElement>(null);\n  const previousFocusRef = useRef<Element | null>(null);\n\n  /* Save triggering element so focus can be restored on close */\n  useEffect(() => {\n    previousFocusRef.current = document.activeElement;\n  }, []);\n\n  /* Move focus into the modal panel on mount */\n  useEffect(() => {\n    const panel = panelRef.current;\n    if (!panel) return;\n    const first = panel.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);\n    first?.focus();\n  }, []);\n\n  /* Restore focus to the triggering element when the modal unmounts */\n  useEffect(() => {\n    return () => {\n      const prev = previousFocusRef.current;\n      if (prev instanceof HTMLElement) prev.focus();\n    };\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n\n  /* Focus trap: cycle Tab / Shift+Tab within the panel */\n  const handleKeyDown = useCallback(\n    (e: React.KeyboardEvent) => {\n      if (e.key !== \"Tab\") return;\n\n      const panel = panelRef.current;\n      if (!panel) return;\n\n      const focusable = Array.from(\n        panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),\n      );\n      if (focusable.length === 0) return;\n\n      const first = focusable[0];\n      const last = focusable[focusable.length - 1];\n\n      if (e.shiftKey && document.activeElement === first) {\n        e.preventDefault();\n        last.focus();\n      } else if (!e.shiftKey && document.activeElement === last) {\n        e.preventDefault();\n        first.focus();\n      }\n    },\n    [],\n  );\n\n  return (\n    <div\n      className=\"fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn\"\n      onClick={onClose}\n      onKeyDown={handleKeyDown}\n      role=\"dialog\"\n      aria-modal=\"true\"\n      aria-labelledby=\"how-to-play-title\"\n    >\n      <div\n        ref={panelRef}\n        className=\"bg-white rounded-2xl shadow-2xl p-6 sm:p-8 max-w-md w-full mx-4 animate-scaleIn max-h-[85dvh] overflow-y-auto\"\n        onClick={(e) => e.stopPropagation()}\n      >\n        {/* Header */}\n        <div className=\"flex items-center justify-between mb-5\">\n          <h2\n            id=\"how-to-play-title\"\n            className=\"text-xl font-bold text-emerald-800\"\n          >\n            How to Play\n          </h2>\n          <button\n            onClick={onClose}\n            className=\"w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors\"\n            aria-label=\"Close\"\n          >\n            &#x2715;\n          </button>\n        </div>\n\n        {/* Instructions */}\n        <ol className=\"space-y-4 mb-6\">\n          {INSTRUCTIONS.map((step, i) => (\n            <li key={i} className=\"flex gap-3 items-start\">\n              <span\n                className=\"w-7 h-7 shrink-0 rounded-lg bg-emerald-100 flex items-center justify-center text-sm\"\n                aria-hidden=\"true\"\n              >\n                {step.icon}\n              </span>\n              <div>\n                <p className=\"text-sm font-semibold text-emerald-800\">\n                  {step.title}\n                </p>\n                <p className=\"text-sm text-emerald-700/80 leading-relaxed\">\n                  {step.body}\n                </p>\n              </div>\n            </li>\n          ))}\n        </ol>\n\n        {/* Footer */}\n        <div className=\"text-center\">\n          <button\n            onClick={onClose}\n            className=\"px-6 py-2.5 rounded-xl text-sm font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 active:scale-95 transition-all\"\n          >\n            Got it!\n          </button>\n          <p className=\"text-xs text-gray-400 mt-2\">\n            Press{\" \"}\n            <kbd className=\"px-1.5 py-0.5 rounded bg-gray-100 font-mono text-xs\">\n              ?\n            </kbd>{\" \"}\n            anytime to reopen\n          </p>\n        </div>\n      </div>\n    </div>\n  );\n}\n"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 52,
+      "tool": "Write",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/components/HowToPlayModal.test.ts",
+        "content": "/**\n * HowToPlayModal — pure-data tests.\n *\n * Follows the project convention of testing exported pure values and\n * predicates without a DOM environment (no jsdom dependency).\n */\nimport { describe, expect, it } from \"vitest\";\nimport {\n  INSTRUCTIONS,\n  FOCUSABLE_SELECTOR,\n  type InstructionStep,\n} from \"./HowToPlayModal\";\n\n/* ── INSTRUCTIONS content coverage ───────────────────────────── */\n\ndescribe(\"INSTRUCTIONS\", () => {\n  /** Concatenate all titles and bodies for keyword assertions. */\n  const allText = INSTRUCTIONS.map(\n    (s) => `${s.title.toLowerCase()} ${s.body.toLowerCase()}`,\n  ).join(\" \");\n\n  it(\"covers straight tile type\", () => {\n    expect(allText).toContain(\"straight\");\n  });\n\n  it(\"covers curve tile type\", () => {\n    expect(allText).toContain(\"curve\");\n  });\n\n  it(\"covers rotation mechanic\", () => {\n    expect(allText).toMatch(/rotat/);\n  });\n\n  it(\"covers path connection goal\", () => {\n    expect(allText).toContain(\"path\");\n  });\n\n  it(\"covers the Go button\", () => {\n    expect(allText).toMatch(/\\bgo\\b/);\n  });\n\n  it(\"covers par scoring\", () => {\n    expect(allText).toContain(\"par\");\n  });\n\n  it(\"covers clover scoring\", () => {\n    expect(allText).toContain(\"clover\");\n  });\n\n  it(\"has at least one step\", () => {\n    expect(INSTRUCTIONS.length).toBeGreaterThan(0);\n  });\n\n  it(\"every step has a non-empty icon, title, and body\", () => {\n    for (const step of INSTRUCTIONS) {\n      expect(step.icon.length, `icon should not be empty`).toBeGreaterThan(0);\n      expect(step.title.length, `title should not be empty`).toBeGreaterThan(0);\n      expect(step.body.length, `body should not be empty`).toBeGreaterThan(0);\n    }\n  });\n\n  it(\"is frozen (runtime immutability)\", () => {\n    expect(Object.isFrozen(INSTRUCTIONS)).toBe(true);\n  });\n\n  it(\"each step satisfies the InstructionStep interface shape\", () => {\n    for (const step of INSTRUCTIONS) {\n      // Runtime shape check — complements the compile-time type\n      expect(typeof step.icon).toBe(\"string\");\n      expect(typeof step.title).toBe(\"string\");\n      expect(typeof step.body).toBe(\"string\");\n      // No extraneous keys\n      expect(Object.keys(step).sort()).toEqual([\"body\", \"icon\", \"title\"]);\n    }\n  });\n});\n\n/* ── FOCUSABLE_SELECTOR correctness ──────────────────────────── */\n\ndescribe(\"FOCUSABLE_SELECTOR\", () => {\n  it(\"includes anchor elements with href\", () => {\n    expect(FOCUSABLE_SELECTOR).toContain(\"a[href]\");\n  });\n\n  it(\"includes enabled buttons\", () => {\n    expect(FOCUSABLE_SELECTOR).toContain(\"button:not([disabled])\");\n  });\n\n  it(\"includes enabled text inputs\", () => {\n    expect(FOCUSABLE_SELECTOR).toContain(\"input:not([disabled])\");\n  });\n\n  it(\"includes enabled textareas\", () => {\n    expect(FOCUSABLE_SELECTOR).toContain(\"textarea:not([disabled])\");\n  });\n\n  it(\"includes enabled selects\", () => {\n    expect(FOCUSABLE_SELECTOR).toContain(\"select:not([disabled])\");\n  });\n\n  it(\"includes elements with a non-negative tabindex\", () => {\n    expect(FOCUSABLE_SELECTOR).toContain('[tabindex]:not([tabindex=\"-1\"])');\n  });\n\n  it(\"excludes disabled elements from every applicable tag\", () => {\n    // Every tag-based part that can be disabled should include :not([disabled])\n    const tagParts = FOCUSABLE_SELECTOR.split(\",\").map((s) => s.trim());\n    const disableable = tagParts.filter((p) =>\n      /^(button|input|textarea|select)/.test(p),\n    );\n    for (const part of disableable) {\n      expect(part).toContain(\":not([disabled])\");\n    }\n  });\n});\n"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 54,
+      "tool": "Edit",
+      "input": {
+        "replace_all": false,
+        "file_path": "/Users/nick/development/endash/luckypath/app/components/index.ts",
+        "old_string": "// Level flow\nexport { LevelComplete } from \"./LevelComplete\";\n\n// Rainbow arc\nexport { RainbowArc } from \"./RainbowArc\";",
+        "new_string": "// Level flow\nexport { LevelComplete } from \"./LevelComplete\";\n\n// Help & onboarding\nexport { HowToPlayModal } from \"./HowToPlayModal\";\n\n// Rainbow arc\nexport { RainbowArc } from \"./RainbowArc\";"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 56,
+      "tool": "Edit",
+      "input": {
+        "replace_all": false,
+        "file_path": "/Users/nick/development/endash/luckypath/app/routes/play.tsx",
+        "old_string": "import { GameBoard, TileInventory, MobileInventory, GameHUD, LevelComplete } from \"~/components\";",
+        "new_string": "import { GameBoard, TileInventory, MobileInventory, GameHUD, LevelComplete, HowToPlayModal } from \"~/components\";"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 57,
+      "tool": "Edit",
+      "input": {
+        "replace_all": false,
+        "file_path": "/Users/nick/development/endash/luckypath/app/routes/play.tsx",
+        "old_string": "      {/* Help modal — toggled by '?' shortcut or Escape to close */}\n      {showHowToPlay && (\n        <div\n          className=\"fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn\"\n          onClick={toggleHowToPlay}\n          role=\"dialog\"\n          aria-modal=\"true\"\n          aria-label=\"How to play\"\n        >\n          <div\n            className=\"bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4 text-center animate-scaleIn\"\n            onClick={(e) => e.stopPropagation()}\n          >\n            <h2 className=\"text-xl font-bold text-emerald-800 mb-4\">How to Play</h2>\n            <p className=\"text-emerald-700 text-sm mb-6\">\n              Place tiles to build a path from start to goal. Use straight and curve\n              tiles from your inventory. Right-click to rotate a placed tile.\n            </p>\n            <button\n              onClick={toggleHowToPlay}\n              className=\"text-sm text-emerald-600 hover:text-emerald-700 font-medium\"\n            >\n              Got it — press <kbd className=\"px-1.5 py-0.5 rounded bg-emerald-100 font-mono text-xs\">?</kbd> to reopen\n            </button>\n          </div>\n        </div>\n      )}",
+        "new_string": "      {/* Help modal — toggled by '?' shortcut or Escape to close */}\n      {showHowToPlay && <HowToPlayModal onClose={toggleHowToPlay} />}"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 59,
+      "tool": "Edit",
+      "input": {
+        "replace_all": false,
+        "file_path": "/Users/nick/development/endash/luckypath/app/routes/play.tsx",
+        "old_string": " * Current import budget:\n *   components  — 5 symbols\n *   hooks       — 3 symbols",
+        "new_string": " * Current import budget:\n *   components  — 6 symbols\n *   hooks       — 3 symbols"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 61,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/routes/play.tsx"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 62,
+      "tool": "Read",
+      "input": {
+        "file_path": "/Users/nick/development/endash/luckypath/app/components/index.ts"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 64,
+      "tool": "Bash",
+      "input": {
+        "command": "npm test -- --passWithNoTests 2>&1 | tail -40",
+        "description": "Run all tests",
+        "timeout": 120000
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 66,
+      "tool": "Bash",
+      "input": {
+        "command": "npx eslint app/components/HowToPlayModal.tsx app/routes/play.tsx app/components/index.ts 2>&1",
+        "description": "Lint the changed files",
+        "timeout": 30000
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 68,
+      "tool": "Edit",
+      "input": {
+        "replace_all": false,
+        "file_path": "/Users/nick/development/endash/luckypath/app/components/HowToPlayModal.tsx",
+        "old_string": "  /* Restore focus to the triggering element when the modal unmounts */\n  useEffect(() => {\n    return () => {\n      const prev = previousFocusRef.current;\n      if (prev instanceof HTMLElement) prev.focus();\n    };\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);",
+        "new_string": "  /* Restore focus to the triggering element when the modal unmounts */\n  useEffect(() => {\n    return () => {\n      const prev = previousFocusRef.current;\n      if (prev instanceof HTMLElement) prev.focus();\n    };\n  }, []);"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 69,
+      "tool": "Bash",
+      "input": {
+        "command": "npx eslint app/components/HowToPlayModal.tsx app/routes/play.tsx app/components/index.ts 2>&1",
+        "description": "Re-lint the changed files",
+        "timeout": 30000
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 71,
+      "tool": "Bash",
+      "input": {
+        "command": "npm test -- --passWithNoTests 2>&1 | tail -10",
+        "description": "Final test run",
+        "timeout": 120000
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 73,
+      "tool": "Bash",
+      "input": {
+        "command": "git status",
+        "description": "Show working tree status"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 74,
+      "tool": "Bash",
+      "input": {
+        "command": "git diff --stat",
+        "description": "Show diff stats for changed files"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 75,
+      "tool": "Bash",
+      "input": {
+        "command": "git log --oneline -5",
+        "description": "Show recent commit messages"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 76,
+      "tool": "Bash",
+      "input": {
+        "command": "git add app/components/HowToPlayModal.tsx app/components/HowToPlayModal.test.ts app/components/index.ts app/routes/play.tsx",
+        "description": "Stage the implementation files"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 77,
+      "tool": "Bash",
+      "input": {
+        "command": "git commit -m \"$(cat <<'EOF'\nAdd HowToPlayModal component with full game instructions\n\nExtract the inline help modal from play.tsx into a dedicated,\naccessible HowToPlayModal component. The modal covers all core\nmechanics (straight/curve tiles, rotation, path connection, Go\nbutton, par/clover scoring), traps focus while open, restores\nfocus to the trigger on close, and is dismissible via close\nbutton, backdrop click, or Escape key.\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>\nEOF\n)\"",
+        "description": "Commit the HowToPlayModal implementation"
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 79,
+      "tool": "mcp__rex__update_task_status",
+      "input": {
+        "id": "571307dc-4594-4b24-b05b-437d5e68710b",
+        "status": "completed",
+        "resolutionType": "code-change",
+        "resolutionDetail": "Created HowToPlayModal component with full game instructions, focus trapping, accessible markup, and 18 pure-data tests."
+      },
+      "output": "",
+      "durationMs": 0
+    },
+    {
+      "turn": 80,
+      "tool": "mcp__rex__append_log",
+      "input": {
+        "event": "task_completed",
+        "itemId": "571307dc-4594-4b24-b05b-437d5e68710b",
+        "detail": "## Task Complete — Build how-to-play modal component with game instructions\n\n**Commit:** `673c46a` on `feature/sv-0317`\n\n### Files changed (4):\n\n1. **`app/components/HowToPlayModal.tsx`** (new) — Full modal component with:\n   - 5 instruction steps covering: straight/curve tiles, rotation, path connection, Go button, par/clover scoring\n   - `role=\"dialog\"` with `aria-modal=\"true\"` and `aria-labelledby` pointing to heading\n   - Focus trapped via Tab/Shift+Tab cycling within the panel\n   - Focus saved on mount and restored to triggering element on unmount\n   - Close button (✕) and backdrop click both call `onClose`\n   - Escape handled by parent `useHelpShortcut` hook\n   - Fixed overlay (does not unmount/reset canvas)\n   - Consistent Tailwind styling matching LevelComplete pattern\n   - `INSTRUCTIONS` data and `FOCUSABLE_SELECTOR` exported for pure testing\n\n2. **`app/components/HowToPlayModal.test.ts`** (new) — 18 pure-data tests:\n   - Content coverage: verifies all 7 required mechanics are mentioned\n   - Structure: validates icon/title/body shape, non-empty values, frozen immutability\n   - FOCUSABLE_SELECTOR: validates all interactive element types included, disabled exclusions\n\n3. **`app/components/index.ts`** — Added `HowToPlayModal` to barrel exports\n\n4. **`app/routes/play.tsx`** — Replaced 25-line inline modal with `<HowToPlayModal onClose={toggleHowToPlay} />`; updated import budget comment\n\n### Test results: 180 passed (10 files), 0 failed\n### Lint: clean (0 errors, 0 warnings)\n\n### Acceptance criteria met:\n- ✅ Modal renders overlay above game board without unmounting canvas\n- ✅ Content covers tile types, rotation, path goal, Go button, par/clover scoring\n- ✅ Close button and Escape key both dismiss\n- ✅ Focus trapped inside modal, restored to trigger on close\n- ✅ role=\"dialog\" with aria-labelledby\n- ✅ Visually consistent with existing game UI (Tailwind, emerald palette, same animations)"
+      },
+      "output": "",
+      "durationMs": 0
+    }
+  ],
+  "model": "sonnet",
+  "lastActivityAt": "2026-03-18T15:30:06.246Z",
+  "summary": "The MCP tools need permissions to be granted, but the implementation is complete and committed. Here's the summary:\n\n---\n\n## ✅ Task Complete — Build how-to-play modal component with game instructions\n\n**Commit:** `673c46a` on `feature/sv-0317`\n\n### Files changed (4):\n\n1. **`app/components/HowToPlayModal.tsx`** (new) — Full modal component with:\n   - **5 instruction steps** covering all required mechanics: straight/curve tiles, rotation, path connection goal, Go button, and par/clover scoring\n   ",
+  "structuredSummary": {
+    "filesChanged": [],
+    "filesRead": [],
+    "commandsExecuted": [],
+    "testsRun": [],
+    "counts": {
+      "filesRead": 0,
+      "filesChanged": 0,
+      "commandsExecuted": 0,
+      "testsRun": 0,
+      "toolCallsTotal": 59
+    }
+  },
+  "memoryStats": {
+    "peakRssBytes": 120832000,
+    "systemAvailableAtStartBytes": 17232723968,
+    "systemAvailableAtEndBytes": 16808542208,
+    "systemTotalBytes": 68719476736
+  },
+  "finishedAt": "2026-03-18T15:30:06.246Z"
+}
