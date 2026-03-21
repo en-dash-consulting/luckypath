@@ -1,0 +1,6 @@
+{
+  "schema": "rex/v1",
+  "project": "luckypath",
+  "adapter": "file",
+  "sourcevision": "auto"
+}

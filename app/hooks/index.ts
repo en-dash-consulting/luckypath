@@ -32,6 +32,8 @@ export type { UseGameSessionReturn } from "./useGameSession";
 
 export { useLevelById } from "./useLevelById";
 
+export { useHelpShortcut } from "./useHelpShortcut";
+
 // Shared persistence primitive — composed internally by other hooks
 export { useSave, SaveProvider } from "./useSave";
 export type { UseSaveReturn } from "./useSave";

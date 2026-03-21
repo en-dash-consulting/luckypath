@@ -1,0 +1,2325 @@
+{
+  "schema": "rex/v1",
+  "title": "luckypath",
+  "items": [
+    {
+      "id": "6af60d35-7d1b-4c80-93f3-60b1e7a5a54d",
+      "title": "Address observation issues (7 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- High coupling (1) — 6 imports target \"game-engine-core\"\n- Cohesion is 0 — the two components do not import each other, suggesting they are co-zoned by proximity rather than shared logic.\n- High coupling (0.6) — 2 imports target \"core-game-board\"\n- Coupling at 0.6 with dependencies on four other zones indicates this zone is an orchestration hub; acceptable for a route-level component but worth watching as features grow.\n- High coupling (0.56) — 4 imports target \"game-engine-core\"\n- Cohesion is critically low (0.17) while coupling is critically high (0.83), indicating this zone acts more as a shared utility hub than a cohesive module — refactor by grouping types closer to their consuming domains.\n- With only 2 files but 3 inbound zones importing it, this zone is a high-leverage architectural bottleneck; any breaking change here ripples across the entire application.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T01:50:22.232Z",
+      "completedAt": "2026-03-13T01:54:44.170Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "6a3140aab951",
+          "10d4e6709b2d",
+          "483ef204a219",
+          "4d554a0df1f5",
+          "0ff852f29136",
+          "2aec9aed2cf5",
+          "c816005c91a5"
+        ],
+        "category": "observation",
+        "severityDistribution": {
+          "warning": 7
+        },
+        "findingCount": 7
+      }
+    },
+    {
+      "id": "8a1ffca2-e126-445d-8c41-fe630ce7a47d",
+      "title": "Address relationship issues (2 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- components zone bypasses the engine (persistence) zone and imports engine-2 directly 6 times, suggesting rendering logic consumes raw game engine internals rather than a stable domain API — a leaky abstraction risk.\n- game-session-ui fans out to 4 zones (components, engine, engine-2, hooks); no other zone has this breadth of outbound coupling — it is the de-facto system integrator and the highest-risk zone for cascading changes.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T01:54:46.192Z",
+      "completedAt": "2026-03-13T01:58:32.511Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "3ce64d568f7a",
+          "5c006b76d2cf"
+        ],
+        "category": "relationship",
+        "severityDistribution": {
+          "warning": 2
+        },
+        "findingCount": 2
+      }
+    },
+    {
+      "id": "d046ec5f-67bb-4e3a-be4e-839bb00c053c",
+      "title": "Address anti-pattern issues (8 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- GameBoard and TileInventory share zero cohesion and each serve as independent entry points — co-zoning them adds no structural value and obscures their separate consumers; each should be its own single-file zone or TileInventory should be moved to game-session-ui where inventory UI belongs.\n- TileInventory is grouped with board-rendering concerns but its name indicates inventory/selection UI — if confirmed, this is a misplaced file whose true peer components (GameHUD, LevelComplete) live in game-session-ui.\n- SaveData is defined in engine/types.ts but belongs to the persistence domain (lib/persistence.ts) — misplaced type ownership means the engine type file carries concerns unrelated to game mechanics.\n- posKey() utility function lives in types.ts, forcing every types.ts consumer to also take on a runtime utility they may not need — extract posKey to traversal.ts or a dedicated utils module.\n- All game-session orchestration is locked inside a route file, making it untestable without a router context — extracting session state into the hooks zone would enable isolated unit tests for the most complex stateful logic in the codebase.\n- play.tsx conflates React Router route lifecycle (loader, action, outlet) with full game-session state bootstrapping — the session initialization logic should be extracted into a dedicated hook or context provider in the hooks zone, leaving play.tsx as a thin mount point.\n- removeMode is managed as local state in play.tsx rather than inside useGameState — partial state ownership creates an undeclared dependency between the hook and the route for correct interaction behaviour.\n- worlds.tsx is a presentation-layer route handler grouped with pure data modules — it should be promoted to its own route zone (e.g., worlds-ui) so that data model refactors do not force co-review of UI files and vice versa.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T01:46:09.400Z",
+      "completedAt": "2026-03-13T01:50:20.215Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "00cb302ab8a1",
+          "7b95a691a0c2",
+          "0dc06251c14d",
+          "5fe313811a1a",
+          "d3fe83bca7cc",
+          "632d87c80015",
+          "1b79f0a487a2",
+          "f179e18c094c"
+        ],
+        "category": "anti-pattern",
+        "severityDistribution": {
+          "warning": 8
+        },
+        "findingCount": 8
+      }
+    },
+    {
+      "id": "48c07566-6b38-448d-8d5d-951b749330f2",
+      "title": "Address suggestion issues (10 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- BIOME_COLORS in GameBoard.tsx should be co-located with the biome type definition in types.ts or extracted to a dedicated biome-theme module; adding a new biome currently requires editing both files independently with no type-system enforcement that both stay in sync.\n- Extract color and biome display strings from the worlds array in levels.ts into a UI-layer constant (e.g. app/components/worldThemes.ts) — engine/levels.ts should own structural data only, not presentation metadata.\n- simulateTraversal returns informal string literals as its outcome discriminant while the rest of the engine uses typed interfaces — define a TraversalResult discriminated union type (e.g., { outcome: 'goal' | 'edge' | 'obstacle' | 'loop' | ... }) to make traversal outcomes type-checkable at call sites rather than error-prone string comparisons.\n- Remove or explicitly document the TraversalInterface export in traversal.ts — if it has no consumers, it is dead surface area; if it is intended as a public contract, it should be documented and tested as such.\n- MobileInventory defined in play.tsx should be moved to app/components/MobileInventory.tsx — route files exporting non-route components violate React Router conventions and silently couple component consumers to the route's full dependency graph.\n- Add a dependency-cruiser or eslint-plugin-import configuration that enforces the detected DAG layering (engine → hooks → components-2 → components, no reverse edges) — the clean acyclic graph is currently convention-only and will erode silently without automated enforcement.\n- BIOME_COLORS (GameBoard.tsx), biome type union (types.ts), and world.color (levels.ts) are three parallel representations of the same biome identity — extract a single BIOME_THEMES record in types.ts or a new biome-theme.ts that maps each biome to all its visual properties; all three current sites should import from it.\n- The worlds array in levels.ts is the only place UI color/biome metadata is defined — if a new world is added to game data without a matching visual theme, there is no type-level guarantee the color will be provided; model world metadata as a discriminated union or enforce completeness with a const assertion.\n- worlds.tsx embeds addEventListener-based easter egg logic in a React Router v7 route component — audit that all event listeners registered in this component are cleaned up in a useEffect return function; route components can unmount on navigation and re-mount on back-navigation, making manual listener registration a leak risk if cleanup is incomplete.\n- Extract the easter egg interaction logic from worlds.tsx into a dedicated component or hook (e.g., useRainbowEasterEgg) — the current implementation mixes a stateful mouse-tracking side effect with route-level rendering, and event listener cleanup is harder to audit when buried in a 276-line route file.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T01:58:34.532Z",
+      "completedAt": "2026-03-13T02:03:35.737Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "56ddb6f0ebdd",
+          "357e96e990d7",
+          "134645c65edf",
+          "c921fa8b93bd",
+          "f780f92632d3",
+          "dbdd7817dfaa",
+          "7610d7ac363d",
+          "09f9e83ddfe9",
+          "4673fe555f1f",
+          "4b1758844d21"
+        ],
+        "category": "suggestion",
+        "severityDistribution": {
+          "warning": 10
+        },
+        "findingCount": 10
+      }
+    },
+    {
+      "id": "b5b85dbf-c864-4ea8-a061-7ab244592d03",
+      "title": "Address observation issues (4 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- High coupling (0.67) — 4 imports target \"game-engine-core\"\n- Both files are exposed as entry points; a single barrel export (index.ts) would reduce the surface area that upstream zones depend on and make future refactoring safer.\n- Cohesion (0.33) is below the 0.4 threshold and coupling (0.67) exceeds 0.6 — the zone is doing more than one job; audit board-utils.ts exports and relocate any engine-level helpers to the engine zone.\n- worlds.tsx is a route handler grouped with hooks and utilities, indicating the route and session management share imports that blurred their boundary; extract session-specific logic into useGameSession to decouple the route from persistence details.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T02:32:56.627Z",
+      "completedAt": "2026-03-13T02:36:48.570Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "99c11c521ea0",
+          "4573984ccaf4",
+          "a1070eca9eaf",
+          "a8f6fc9b6379"
+        ],
+        "category": "observation",
+        "severityDistribution": {
+          "warning": 4
+        },
+        "findingCount": 4
+      }
+    },
+    {
+      "id": "40ebd43e-0b39-4e1f-bad5-55e9144ec563",
+      "title": "Address suggestion issues (11 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- No ESLint configuration exists in the project. All static-analysis improvements recommended across enrichment passes (import/no-cycle, layer rules, hooks barrel enforcement) depend on a linter being present. Bootstrapping an eslint.config.ts with eslint-plugin-import is a prerequisite before any of those rules can be enforced.\n- The project has no test files and no test runner dependency. The engine zone (traversal, level validation, posKey) is pure and side-effect-free — ideal for unit tests — but has zero coverage. Add Vitest and at minimum test simulateTraversal() outcome variants and posKey format to protect the most-imported zone against regressions.\n- app/lib/persistence.ts acts as a persistence layer consumed by worlds.tsx and useRainbowEasterEgg but is absent from zone analysis. Register it as a dedicated 'persistence' zone so that its coupling to the hooks and routes layers is tracked and any future direct-component imports of persistence utilities are flagged as layer violations.\n- persistence.loadSave shallow-merges saved JSON over the default, meaning any nested object key (currently only settings) is replaced wholesale rather than merged — add explicit field-level defaulting for the settings sub-object (e.g. { ...getDefaultSave().settings, ...parsed.settings }) to make the persistence layer forward-compatible with new settings fields\n- getBiomeCanvasColors exports canvas-specific color structs from the engine barrel; canvas color formatting is a rendering concern, not a domain concern. Move the canvas colour lookup to board-utils.ts or a new rendering-theme module and remove it from the engine barrel to preserve the engine's zero-coupling guarantee.\n- SVG hit-detection geometry in useRainbowEasterEgg is calibrated to the hardcoded 320×140 viewBox in worlds.tsx with no shared constant linking them — extract SVG_WIDTH, SVG_HEIGHT, and ARC_CENTER_Y_RATIO as named constants exported from useRainbowEasterEgg (or a co-located constants file) and import them in both the hook and the SVG element to make the coupling explicit and breakage detectable\n- useGameSession.nextLevel advances blindly through the flat levels array without checking world-unlock status in save data — add a guard that returns null when levels[currentIdx+1].worldId is not in save.unlockedWorlds to prevent the completion modal from offering a locked level as the next destination\n- useRainbowEasterEgg.handlePotClick writes clover=1 for all uncompleted levels, conflating 'unlock access' with 'record a completion score' — use a separate unlockedLevels set in SaveData (or set completedLevels only for actually-played levels) so the easter egg grants access without fabricating performance data\n- worlds.tsx uses getDefaultSave() as useState initialiser and then overwrites it via useEffect+loadSave() — this two-phase init causes a locked-level flash on every mount; initialise directly from loadSave() with an SSR guard (typeof window !== 'undefined' ? loadSave() : getDefaultSave()) to collapse the two renders into one\n- TILE_DEFS (TileInventory.tsx) and TILES (MobileInventory.tsx) are two separate tile type arrays describing the same two tile types with different shapes. Consolidate into a single canonical tile-type registry in the engine or a shared component constant, and derive both component-local shapes from it to prevent drift when tile types are added.\n- key={currentLevelId} on PlayLevel remounts the component on state change but does not react to URL param changes after initial mount — this partial mitigation masks the root cause (dual-source level ID). Replace with a single source of truth derived from useParams() directly and drop the local useState to make URL-driven remounting reliable.",
+      "priority": "critical",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T02:16:33.900Z",
+      "completedAt": "2026-03-13T02:26:53.884Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "e889f4a456a0",
+          "a0b7592e0daa",
+          "4e77b6a94ed0",
+          "7dd542eb64df",
+          "5bd3b916dc7e",
+          "57790890436d",
+          "0e00e31b6a42",
+          "5a2540eef292",
+          "66f1ea8e5369",
+          "9965af39e265",
+          "f8c948f68cca"
+        ],
+        "category": "suggestion",
+        "severityDistribution": {
+          "warning": 10,
+          "critical": 1
+        },
+        "findingCount": 11
+      }
+    },
+    {
+      "id": "86b6ef38-4af4-4d42-8e6e-438c3b6ba935",
+      "title": "Address pattern issues (3 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- board-utils.ts archetype is 'component' but behaves as a utility; reclassifying it as 'utility' would align zone-detection heuristics with actual behavior and avoid misrouting future helpers.\n- This zone is the sole integration point between three concerns (state, persistence, routing); any schema change to useGameState or persistence.ts will require changes here — consider explicit interface types at the zone boundary to contain blast radius\n- gameplay-ui is the sole three-supplier consumer (engine + components + hooks) — its coupling breadth makes it the highest-risk zone for cascading breakage; monitor its import count as a leading indicator of architectural drift.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T02:36:50.593Z",
+      "completedAt": "2026-03-13T02:40:01.522Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "90b7c9fde6f2",
+          "23f397a86ea5",
+          "7461ecc78292"
+        ],
+        "category": "pattern",
+        "severityDistribution": {
+          "warning": 3
+        },
+        "findingCount": 3
+      }
+    },
+    {
+      "id": "1bdfab94-34f4-4cce-915a-8412e24e0492",
+      "title": "Address relationship issues (2 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- worlds.tsx co-located with session hooks creates a leaky route→hook abstraction: the route layer should sit above hooks in the dependency hierarchy, not share a zone boundary with them — move worlds.tsx to a dedicated routes zone to enforce the layering\n- The single hooks→hooks-2 import edge is the architectural seam between raw state and session lifecycle — define an explicit TypeScript interface for what useGameState exposes so this contract is visible and breakage is caught at compile time rather than runtime",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T02:40:03.548Z",
+      "completedAt": "2026-03-13T02:44:12.277Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "03cbde433be3",
+          "546a09561bae"
+        ],
+        "category": "relationship",
+        "severityDistribution": {
+          "warning": 2
+        },
+        "findingCount": 2
+      }
+    },
+    {
+      "id": "5e96ab13-b0cc-4d89-b427-a6fd9da2553e",
+      "title": "Address anti-pattern issues (8 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- board-utils.ts exports getEdgePoint, which is used by GameBoard.tsx for canvas pixel coordinates and by TilePreview for SVG viewBox coordinates. Both callers pass arbitrary size arguments, but they implicitly rely on the same spatial model. This cross-context reuse means a change to the canvas geometry constants can silently break SVG tile previews — the coupling is invisible to static analysis because both callers look identical.\n- Cell placement validation — checking whether a clicked cell is a start, goal, or obstacle — is implemented inside useGameSession.handleCellClick rather than in the engine. This leaks domain rules into the session layer and duplicates the set-construction logic each time a cell is clicked. A pure isPlaceableCell(level, row, col) helper in engine/utils.ts would centralise the rule and eliminate the posKey dependency from the hooks layer.\n- useGameSession.handleCellClick duplicates the start/goal/obstacle boundary validation already enforced inside useGameState.placeTile — the guard logic is owned by neither layer exclusively and must be kept in sync manually\n- useRainbowEasterEgg hardcodes unlockedWorlds=[1,2,3,4] rather than deriving the list from the engine's worlds array — creates a hidden cross-zone dependency on engine data that is not expressed as an import\n- worlds.tsx duplicates the isLevelUnlocked predicate from persistence.ts instead of importing and calling it — creates two sources of truth for level-unlock logic that will diverge under maintenance\n- placeTile and moveTile both reconstruct the obstacle key set and validate start/goal/obstacle boundaries inline — extract to a pure helper (e.g. isCellForbidden) to give the constraint a single definition inside game-state-core\n- TilePreview is defined in TileInventory.tsx but exported for and consumed by MobileInventory.tsx. A shared UI primitive co-located inside one of its two consumers creates asymmetric coupling: MobileInventory has an undeclared dependency on TileInventory's file identity. TilePreview should be extracted to board-utils.ts or its own file since it already imports getEdgePoint from there.\n- play.tsx initialises currentLevelId via useState(levelId) from useParams(), then on level advance calls both setCurrentLevelId and navigate() to keep them in sync. This dual-write pattern means browser history navigation (back/forward) updates router params but not the local state, causing the displayed level to diverge from the URL until a remount resets it.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T02:26:55.915Z",
+      "completedAt": "2026-03-13T02:32:54.595Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "64e7992c8507",
+          "19b24525f63b",
+          "95c374a847e1",
+          "f7f879dadded",
+          "d5bad93c3c7d",
+          "32d096a789e6",
+          "4eaaf5be9b75",
+          "182d99bcc02a"
+        ],
+        "category": "anti-pattern",
+        "severityDistribution": {
+          "warning": 8
+        },
+        "findingCount": 8
+      }
+    },
+    {
+      "id": "d3e508e1-69f9-46b5-b724-856f399a29ad",
+      "title": "Address observation issues (2 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- Fan-in hotspot: app/engine/index.ts receives calls from 10 files — high-impact module, changes may have wide ripple effects\n- worlds.tsx mixes route-level data orchestration with inline SVG drawing code (arc math, pot-of-gold illustration, rainbow rendering). Extracting the rainbow easter egg SVG into a dedicated component would reduce the route to its intended coordination role.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T03:06:17.704Z",
+      "completedAt": "2026-03-13T03:08:09.094Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "ef696bb0a667",
+          "6cc397948904"
+        ],
+        "category": "observation",
+        "severityDistribution": {
+          "warning": 2
+        },
+        "findingCount": 2
+      }
+    },
+    {
+      "id": "75376717-34fe-4175-8235-ef9f6dfb484f",
+      "title": "Address pattern issues (1 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- The engine barrel exports both raw data collections (levels, worlds) and domain query functions (getLevelById, getLevelsForWorld) at the same surface level — consumers could bypass query logic by iterating raw arrays directly, which is a latent encapsulation risk as query complexity grows.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T03:08:11.111Z",
+      "completedAt": "2026-03-13T03:11:38.278Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "a561fa20a8a7"
+        ],
+        "category": "pattern",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "17038a05-85d1-4690-a06d-010d096a9a68",
+      "title": "Address relationship issues (3 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- Three hooks independently call loadSave with no shared initialization coordinator — if save validation, migration logic, or error recovery needs to be added, it must be duplicated or a new coordination layer (e.g., a useSave primitive) introduced to avoid drift.\n- worlds.tsx imports constants from useRainbowEasterEgg (SVG_WIDTH, SVG_HEIGHT, ARC_CENTER_Y_RATIO) but renders all SVG markup inline rather than delegating to a component — this creates an implicit rendering contract between a route and a hook that bypasses the component zone entirely.\n- routes→engine direct import coexists with routes→hooks imports, giving the route layer two independent access paths to engine internals. This split mediation undermines the hooks layer as the single source of engine abstraction for routes.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T03:11:40.312Z",
+      "completedAt": "2026-03-13T03:20:39.531Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "17531d0079e5",
+          "7caaa1a0513c",
+          "f2a1e7fc3850"
+        ],
+        "category": "relationship",
+        "severityDistribution": {
+          "warning": 3
+        },
+        "findingCount": 3
+      }
+    },
+    {
+      "id": "72b6a8a6-9ea5-4d37-bbf2-a4038b068d7a",
+      "title": "Address anti-pattern issues (6 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- eslint.config.ts is the sole enforcement mechanism for the entire zone-boundary DAG, but there are no tests or CI assertions verifying that the ESLint rules themselves are correctly configured — a misconfigured rule silently degrades to no enforcement with no observable failure signal.\n- getBiomeCanvasColors is defined in engine/biome-theme.ts:62 and identically re-implemented in components/board-utils.ts:30 because the engine barrel does not re-export the function — board-utils.ts comment even acknowledges the duplication as a 'rendering concern' rather than fixing the barrel gap\n- makeWorld factory in levels.ts:315 derives worlds[] from BIOME_THEMES with no exhaustiveness check — the TypeScript type system does not enforce that every Biome key in BIOME_THEMES has a corresponding entry in the worlds array, so adding a biome is a silent two-step operation with no compile-time guardrail\n- useGameSession fires a completeLevel write side-effect at line 59 inside a callback that is not surfaced in UseGameSessionReturn — the explicit return interface documents the readable state contract but is silent about the persistence mutation, making the write invisible to consumers and untestable without mocking localStorage\n- useRainbowEasterEgg calls saveSave directly at line 72, making it a hidden persistence mutator — callers (worlds.tsx) have no visibility that the hook will write to localStorage when the pot is clicked, and the write is not reflected in any return value or callback parameter the route can intercept\n- worlds.tsx self-renders all presentation (SVG, grid, layout) while home.tsx is pure orchestration with no inline rendering — the two files in the same zone have incompatible conceptions of a route handler's role, making it impossible to define a consistent zone contract.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T02:56:18.204Z",
+      "completedAt": "2026-03-13T03:06:15.677Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "3f290e1ace7b",
+          "3a0e5e09b6d8",
+          "5622a6cc4b88",
+          "c1ef5cf5b451",
+          "441076d9cb19",
+          "5cd6dd931f1e"
+        ],
+        "category": "anti-pattern",
+        "severityDistribution": {
+          "warning": 6
+        },
+        "findingCount": 6
+      }
+    },
+    {
+      "id": "0a39c99b-9455-4f27-b0c3-a52c8150267f",
+      "title": "Address suggestion issues (5 findings)",
+      "status": "completed",
+      "level": "feature",
+      "description": "- Consider adding an ESLint rule (or vitest smoke test) that imports and evaluates the eslint config itself to confirm the import-x/no-restricted-paths rules are syntactically valid and non-empty — a misconfigured or accidentally emptied rules array currently fails silently with no CI signal.\n- Document in eslint.config.ts that it is the single authoritative source of DAG enforcement — not one of three independent enforcers — so maintainers know that editing only the JSDoc comments or .n-dx.json overrides does not change what is actually enforced at import time.\n- Abolish app/lib/ as a directory by relocating persistence.ts to app/hooks/ — this removes the only unzoned directory in the codebase, closes the ESLint enforcement gap, and aligns the file's location with its 100% hooks-consumer import neighborhood.\n- Establish and document an explicit naming rule for hook return types: either always define a named exported interface (Use{HookName}Return) or always rely on inferred types — the current split between UseGameSessionReturn (explicit) and useWorldSession (inferred object) creates inconsistency that will compound as the hooks zone grows.\n- The coupling metric should be verified to confirm whether it measures inbound, outbound, or bidirectional coupling — if it measures inbound only, the routes zone's apparent health (coupling: 0) is a false negative for the zone most dependent on other zones by outbound import count.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T03:20:41.566Z",
+      "completedAt": "2026-03-13T03:27:11.570Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "84fb37fba808",
+          "21b1325f81d2",
+          "699c60fa6091",
+          "8d59d54eaf18",
+          "a3d9ddd9f95c"
+        ],
+        "category": "suggestion",
+        "severityDistribution": {
+          "warning": 5
+        },
+        "findingCount": 5
+      }
+    },
+    {
+      "id": "0b327294-1594-435b-8eb4-9bf14e40dcb3",
+      "title": "Fix observation in project-infrastructure: Cohesion score of 0 reflects intentional heterogeneity across infrastructure con",
+      "status": "completed",
+      "level": "task",
+      "description": "- Cohesion score of 0 reflects intentional heterogeneity across infrastructure concerns (CI, containerization, bundling, testing) rather than a design problem — no action needed.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:06:27.597Z",
+      "completedAt": "2026-03-13T05:08:39.887Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "18c74533dc62"
+        ],
+        "category": "observation",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "1e5cf9f1-1ea2-4879-a566-9a6d777f0a5f",
+      "title": "Fix suggestion in global: Document an explicit hook composition convention: hooks that need persistence sh (+1 more)",
+      "status": "completed",
+      "level": "task",
+      "description": "- Document an explicit hook composition convention: hooks that need persistence should either always compose useSave() internally OR always accept updateSave as a parameter — not both. The current split (internal for game/world session, injected for rainbow easter egg) will cause future developers to make inconsistent choices without a stated rule.\n- Move the clovers scoring formula from useGameSession.ts:61-66 into engine/ as a pure function (e.g., calculateClovers(tilesUsed: number, par: number): number). This closes the only gap in the engine's ownership of game domain logic and makes the scoring rule unit-testable without a React environment.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:13:41.002Z",
+      "completedAt": "2026-03-13T05:17:10.336Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "639b51853962",
+          "776a8d25d5fc"
+        ],
+        "category": "suggestion",
+        "severityDistribution": {
+          "warning": 2
+        },
+        "findingCount": 2
+      }
+    },
+    {
+      "id": "7db9e4ee-f41a-46f6-9350-5524297d13d6",
+      "title": "Fix observation in game-state-persistence: completeLevel in persistence.ts writes to localStorage imperatively (outside the",
+      "status": "completed",
+      "level": "task",
+      "description": "- completeLevel in persistence.ts writes to localStorage imperatively (outside the useSave/updateSave reactive cycle), requiring useGameSession to call onLevelCompleted so callers can trigger a refreshSave. This split write path is a latent consistency risk if future callers forget to refresh.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:03:44.344Z",
+      "completedAt": "2026-03-13T05:06:25.552Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "1b000ee9fd27"
+        ],
+        "category": "observation",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "6faa713a-1e72-41c5-9d4e-7019d46cc380",
+      "title": "Fix pattern in game-engine: board-utils.ts acts as a component-layer re-export proxy for engine barrel symbo",
+      "status": "completed",
+      "level": "task",
+      "description": "- board-utils.ts acts as a component-layer re-export proxy for engine barrel symbols rather than a true utility module with its own logic. Consumers of board-utils.ts could import from ~/engine directly; the indirection adds a dependency hop with no encapsulation benefit.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:08:41.939Z",
+      "completedAt": "2026-03-13T05:09:51.704Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "e735cb699f49"
+        ],
+        "category": "pattern",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "25116689-954e-4f35-af75-3195741880d9",
+      "title": "Fix anti-pattern in game-engine: GameBoard.tsx embeds ~380 lines of private canvas drawing helpers (drawStart, dr",
+      "status": "completed",
+      "level": "task",
+      "description": "- GameBoard.tsx embeds ~380 lines of private canvas drawing helpers (drawStart, drawGoal, drawTile, etc.) inside the component file — they cannot be tested in isolation, cannot be reused by a second canvas consumer, and inflate the component to an unmaintainable size.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T04:54:37.510Z",
+      "completedAt": "2026-03-13T04:58:25.024Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "b85dc8080d9b"
+        ],
+        "category": "anti-pattern",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "300d6df9-da5f-4811-a78e-0e67e4f94675",
+      "title": "Fix anti-pattern in game-session-ui: TileInventory.tsx and MobileInventory.tsx share an identical props interface and (+1 more)",
+      "status": "completed",
+      "level": "task",
+      "description": "- TileInventory.tsx and MobileInventory.tsx share an identical props interface and identical tile-selection logic with no shared abstraction — future bugs in tile selection must be fixed in two places.\n- play.tsx computes `tilesRemaining` via inline arithmetic on `state.remainingInventory` rather than delegating the computation to useGameSession — presentation-layer arithmetic on internal hook state shapes breaks the hook-as-interface boundary.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T04:58:27.078Z",
+      "completedAt": "2026-03-13T05:01:35.082Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "a76a77714ba1",
+          "493197cf0c2a"
+        ],
+        "category": "anti-pattern",
+        "severityDistribution": {
+          "warning": 2
+        },
+        "findingCount": 2
+      }
+    },
+    {
+      "id": "c073e2a2-ffca-4621-a2b0-f28062525ac8",
+      "title": "Fix anti-pattern in game-state-persistence: persistence.ts is a plain data-access module (no React hook APIs used) co-locate",
+      "status": "completed",
+      "level": "task",
+      "description": "- persistence.ts is a plain data-access module (no React hook APIs used) co-located in the hooks zone. It exports SaveData, getDefaultSave, loadSave, updateSave, and completeLevel — all pure TS functions with no hook lifecycle. Placing a non-hook module in the hooks zone violates the zone's semantic contract and sets a precedent for accumulating other non-hook utilities there. Moving it to app/services/persistence.ts (or app/engine/ if it is treated as domain logic) would eliminate the mismatch.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:01:37.128Z",
+      "completedAt": "2026-03-13T05:03:42.302Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "c850fd3750e9"
+        ],
+        "category": "anti-pattern",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "1c24a3d7-2539-41fd-9b3d-152bf3dd5aa6",
+      "title": "Fix suggestion in game-engine: useRainbowEasterEgg's magic numbers (0.9 threshold, 0.48 maxR, 0.12 minR, 0.05 t",
+      "status": "completed",
+      "level": "task",
+      "description": "- useRainbowEasterEgg's magic numbers (0.9 threshold, 0.48 maxR, 0.12 minR, 0.05 tolerance) should be defined as named constants in rainbow-constants.ts alongside the existing SVG geometry, keeping all rainbow-specific numeric parameters in one authoritative location consistent with the project's centralization convention.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:09:53.750Z",
+      "completedAt": "2026-03-13T05:11:49.131Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "f89ff9f31c82"
+        ],
+        "category": "suggestion",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "30ee9982-9092-410a-bf9c-2abb9c426e6d",
+      "title": "Fix suggestion in game-state-persistence: The clovers scoring algorithm (useGameSession.ts:61-66) is pure domain logic — t",
+      "status": "completed",
+      "level": "task",
+      "description": "- The clovers scoring algorithm (useGameSession.ts:61-66) is pure domain logic — tiles-used vs par maps to 1/2/3 stars — that should live in engine/ as calculateClovers(tilesUsed, par). It is currently the sole game-scoring formula that cannot be unit-tested without invoking a React hook environment.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:11:51.172Z",
+      "completedAt": "2026-03-13T05:13:38.952Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "0d55f35e7e56"
+        ],
+        "category": "suggestion",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "7ef213f7-8251-44a3-bfd2-758b2653cdba",
+      "title": "Fix suggestion in hooks: useRainbowEasterEgg's dependency-injection pattern for `updateSave` diverges fro",
+      "status": "completed",
+      "level": "task",
+      "description": "- useRainbowEasterEgg's dependency-injection pattern for `updateSave` diverges from the internal-composition pattern used by every other stateful hook. Consider whether it should call useSave() internally (consistent with peers) or whether the injection pattern should be documented as an intentional zone-boundary contract so future developers don't unify it incorrectly.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:17:12.385Z",
+      "completedAt": "2026-03-13T05:20:01.621Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "5c35e070b3c8"
+        ],
+        "category": "suggestion",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "cd667b79-beba-45e6-8b65-a5912ff3e8d3",
+      "title": "Fix suggestion in world-navigation: worlds.tsx is the only route that passes a hook's internal function (updateSave ",
+      "status": "completed",
+      "level": "task",
+      "description": "- worlds.tsx is the only route that passes a hook's internal function (updateSave from useSave) as a parameter to a second hook (useRainbowEasterEgg). This breaks the route's role as a pure consumer of hook return values. If useRainbowEasterEgg composed useSave() internally, worlds.tsx would regain symmetry with the other routes.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:20:03.663Z",
+      "completedAt": "2026-03-13T05:23:08.589Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "e62a862eb051"
+        ],
+        "category": "suggestion",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "abbccc3c-9ad4-4fce-a6ca-7497844256d4",
+      "title": "Fix observation in build-infrastructure: Zone cohesion score of 0 is below the <0.4 warning threshold, but the cause is s",
+      "status": "completed",
+      "level": "task",
+      "description": "- Zone cohesion score of 0 is below the <0.4 warning threshold, but the cause is structural (no runtime graph edges between config files), not logical fragmentation.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:34:51.853Z",
+      "completedAt": "2026-03-13T05:36:13.330Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "2eb123552767"
+        ],
+        "category": "observation",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "12130ae6-0e11-4cf3-924a-900acabb8ded",
+      "title": "Fix observation in code-quality-config: The pairing of eslint.config.ts with a single engine test file is an import-grap",
+      "status": "completed",
+      "level": "task",
+      "description": "- The pairing of eslint.config.ts with a single engine test file is an import-graph artefact, not a real design grouping — treat this zone as two separate concerns requiring reassignment.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:36:15.384Z",
+      "completedAt": "2026-03-13T05:37:33.316Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "f3a127fbfa1d"
+        ],
+        "category": "observation",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "6aeb4e76-73d2-44aa-ae3a-e90249be9003",
+      "title": "Fix observation in game-engine: Contains 47% of project files (25/53) — may be too broad, consider splitting (+1 more)",
+      "status": "completed",
+      "level": "task",
+      "description": "- Contains 47% of project files (25/53) — may be too broad, consider splitting\n- The 2 outbound imports from engine → world-ui create a reverse dependency on the UI layer; these should be inverted or extracted to break the cycle.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:37:35.366Z",
+      "completedAt": "2026-03-13T05:39:58.591Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "d9dec6d00a8d",
+          "dea819686683"
+        ],
+        "category": "observation",
+        "severityDistribution": {
+          "warning": 2
+        },
+        "findingCount": 2
+      }
+    },
+    {
+      "id": "cdca3082-0cf6-4ab4-99d4-9531dee0b3aa",
+      "title": "Fix observation in global: Bidirectional coupling: \"game-engine\" ↔ \"world-ui\" (2+9 crossings) — consider ex",
+      "status": "completed",
+      "level": "task",
+      "description": "- Bidirectional coupling: \"game-engine\" ↔ \"world-ui\" (2+9 crossings) — consider extracting shared interface",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:40:00.638Z",
+      "completedAt": "2026-03-13T05:43:18.596Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "cc31b685104b"
+        ],
+        "category": "observation",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "5a8b9be5-cc54-4461-b3a3-6f2fa7209e69",
+      "title": "Fix observation in world-ui: High coupling (0.58) — 9 imports target \"game-engine\"",
+      "status": "completed",
+      "level": "task",
+      "description": "- High coupling (0.58) — 9 imports target \"game-engine\"",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:43:20.658Z",
+      "completedAt": "2026-03-13T05:45:13.755Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "07ba6585a86f"
+        ],
+        "category": "observation",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "f1a3bba8-f960-44e0-96d6-164a4ad8520b",
+      "title": "Fix suggestion in game-engine: rainbow-constants.ts should be relocated out of app/engine/ or annotated with a  (+1 more)",
+      "status": "completed",
+      "level": "task",
+      "description": "- rainbow-constants.ts should be relocated out of app/engine/ or annotated with a JSDoc explaining it is a DAG-bypass for cross-layer constant sharing, not domain logic. Without this, the engine's domain purity is violated silently: UI geometry constants live alongside tile traversal and scoring logic with no structural distinction.\n- useGameState.ts (~197 lines, 0 tests) is the highest-risk untested file in the codebase. Add unit tests covering at minimum: legal phase transitions, inventory add/remove invariants, and the reset boundary. The engine layer's pure functions (scoring, traversal, utils) set a tested-function precedent that the hooks layer does not follow for equivalent complexity.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:53:14.894Z",
+      "completedAt": "2026-03-13T05:58:31.437Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "c37b16b7a13d",
+          "58373ddfdfa6"
+        ],
+        "category": "suggestion",
+        "severityDistribution": {
+          "warning": 2
+        },
+        "findingCount": 2
+      }
+    },
+    {
+      "id": "41fe6fce-e162-4bfd-8488-b09b31386397",
+      "title": "Fix pattern in code-quality-config: This zone conflates two unrelated architectural guards: eslint.config.ts (static",
+      "status": "completed",
+      "level": "task",
+      "description": "- This zone conflates two unrelated architectural guards: eslint.config.ts (static rule definition) and zone-boundaries.test.ts (runtime verification that the rules are wired correctly). Splitting them into their proper homes would expose a gap — neither build-infrastructure nor game-engine currently owns the live enforcement verification.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:45:15.809Z",
+      "completedAt": "2026-03-13T05:47:48.496Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "846ca574850c"
+        ],
+        "category": "pattern",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "fd099b02-d8a6-428e-bb72-bca12882e6e5",
+      "title": "Fix relationship in game-engine: zone-boundaries.test.ts guards the entire 4-layer DAG (engine → hooks → componen",
+      "status": "completed",
+      "level": "task",
+      "description": "- zone-boundaries.test.ts guards the entire 4-layer DAG (engine → hooks → components → routes), not just game-engine internals — its scope is global architecture enforcement, which makes its misclassification into code-quality-config a higher-priority correction than previously noted.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:47:50.553Z",
+      "completedAt": "2026-03-13T05:53:12.844Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "172b60f7e8eb"
+        ],
+        "category": "relationship",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "f24b3b6d-ae54-4bba-bfd5-c9f308f993be",
+      "title": "Fix anti-pattern in code-quality-config: The sibling isolation ESLint rule (hooks ↔ components) is only half-tested: zone",
+      "status": "completed",
+      "level": "task",
+      "description": "- The sibling isolation ESLint rule (hooks ↔ components) is only half-tested: zone-boundaries.test.ts covers hooks→components but not components→hooks. A silent misconfiguration in the components→hooks direction would go undetected by the existing test suite.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:30:57.299Z",
+      "completedAt": "2026-03-13T05:33:14.786Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "49bf2090bb57"
+        ],
+        "category": "anti-pattern",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "cd5e3a38-3dd7-4e68-80dc-052b8ac35ed9",
+      "title": "Fix anti-pattern in game-engine: board-utils.ts self-describes as 'internal to game-board-rendering zone' in its ",
+      "status": "completed",
+      "level": "task",
+      "description": "- board-utils.ts self-describes as 'internal to game-board-rendering zone' in its module JSDoc, but community detection places it in game-engine. A file whose own documentation contradicts its zone assignment is a reliable signal of misclassification that graph topology alone cannot resolve.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:33:16.828Z",
+      "completedAt": "2026-03-13T05:34:49.803Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "355445d45ddb"
+        ],
+        "category": "anti-pattern",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "a5048f2d-6ff1-4fda-bfa3-ed5658dc7101",
+      "title": "Fix suggestion in global: Establish a minimum test requirement for the hooks layer mirroring the engine la",
+      "status": "completed",
+      "level": "task",
+      "description": "- Establish a minimum test requirement for the hooks layer mirroring the engine layer's coverage. Priority order: useSave (SSR safety + default-save fallback), useGameState (phase transition invariants), useGameSession (persistence round-trip after level complete). The engine's testing pattern (pure function → dedicated test file) is portable to hooks with a React testing library or custom renderHook harness.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-13T05:58:33.485Z",
+      "completedAt": "2026-03-13T06:03:47.825Z",
+      "recommendationMeta": {
+        "findingHashes": [
+          "e426b6198033"
+        ],
+        "category": "suggestion",
+        "severityDistribution": {
+          "warning": 1
+        },
+        "findingCount": 1
+      }
+    },
+    {
+      "id": "e2d41b76-d657-493d-a04b-7ad574c9db9b",
+      "title": "Code Health: 11 findings across 3 zones",
+      "status": "completed",
+      "level": "epic",
+      "description": "Automated recommendations from SourceVision analysis. 8 zone+category groups covering 11 total findings.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-14T03:54:18.634Z",
+      "completedAt": "2026-03-14T03:54:18.634Z",
+      "children": [
+        {
+          "id": "3a7abe22-aad3-4797-a73a-8f193ca8b428",
+          "title": "Fix observation in game-engine (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Two reverse imports (engine → components) create a bidirectional dependency with the components zone; verify these are not importing UI primitives into domain logic, which would violate layering.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-14T03:24:32.605Z",
+          "completedAt": "2026-03-14T03:24:32.605Z",
+          "children": [
+            {
+              "id": "426d751e-f7f6-42c3-bb27-9460316883f7",
+              "title": "Fix observation in game-engine: Two reverse imports (engine → components) create a bidirectional dependency with",
+              "status": "completed",
+              "level": "task",
+              "description": "- Two reverse imports (engine → components) create a bidirectional dependency with the components zone; verify these are not importing UI primitives into domain logic, which would violate layering.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-14T03:15:54.681Z",
+              "completedAt": "2026-03-14T03:24:32.593Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "21d0abf59ffd"
+                ],
+                "category": "observation",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "21d0abf59ffd"
+            ],
+            "category": "observation",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "cf3f3079-3787-41cc-a5d3-944731fffbfa",
+          "title": "Fix observation in global (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Bidirectional coupling: \"game-engine\" ↔ \"world-inventory-ui\" (2+9 crossings) — consider extracting shared interface",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-14T03:31:10.201Z",
+          "completedAt": "2026-03-14T03:31:10.201Z",
+          "children": [
+            {
+              "id": "b079cd3d-ea38-4207-83ac-4fb8b3c0535f",
+              "title": "Fix observation in global: Bidirectional coupling: \"game-engine\" ↔ \"world-inventory-ui\" (2+9 crossings) — c",
+              "status": "completed",
+              "level": "task",
+              "description": "- Bidirectional coupling: \"game-engine\" ↔ \"world-inventory-ui\" (2+9 crossings) — consider extracting shared interface",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-14T03:24:34.662Z",
+              "completedAt": "2026-03-14T03:31:10.187Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "8111848ca6bf"
+                ],
+                "category": "observation",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "8111848ca6bf"
+            ],
+            "category": "observation",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "9c8bd532-29c1-4ac5-9b27-f2199ce3540f",
+          "title": "Fix suggestion in game-engine (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- useGameSession.ts imports completeLevelUpdater directly from ~/services/persistence instead of composing useSave(). This creates two persistence access patterns in the hooks layer. Refactor useGameSession to call useSave() and use the returned updater, matching the convention in useWorldSession and useRainbowEasterEgg.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-14T03:47:29.802Z",
+          "completedAt": "2026-03-14T03:47:29.802Z",
+          "children": [
+            {
+              "id": "10ffcad3-961e-463f-adbc-1917fedad236",
+              "title": "Fix suggestion in game-engine: useGameSession.ts imports completeLevelUpdater directly from ~/services/persiste",
+              "status": "completed",
+              "level": "task",
+              "description": "- useGameSession.ts imports completeLevelUpdater directly from ~/services/persistence instead of composing useSave(). This creates two persistence access patterns in the hooks layer. Refactor useGameSession to call useSave() and use the returned updater, matching the convention in useWorldSession and useRainbowEasterEgg.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-14T03:45:14.445Z",
+              "completedAt": "2026-03-14T03:47:29.788Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "cd742ec2f5b8"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "cd742ec2f5b8"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "867cc8c6-b00e-4744-8508-d33de48cdf09",
+          "title": "Fix suggestion in global (2 findings)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- app/services/ directory and its two files (persistence.ts, persistence.test.ts) have no zone classification. Add a services zone entry covering app/services/** so the persistence layer gains cohesion/coupling metrics, appears in zone-boundary governance, and is no longer an architectural blind spot.\n- useRainbowEasterEgg and useWorldSession independently own separate useSave() state instances in worlds.tsx. Introduce a shared save context (React context or a lifted useSave call passed as prop) so both hooks operate on the same SaveData reference and save mutations are immediately consistent across hooks without depending on render propagation order.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-14T03:54:18.627Z",
+          "completedAt": "2026-03-14T03:54:18.627Z",
+          "children": [
+            {
+              "id": "578916fa-4a93-4030-843e-bd4688b597a6",
+              "title": "Fix suggestion in global: app/services/ directory and its two files (persistence.ts, persistence.test.ts)  (+1 more)",
+              "status": "completed",
+              "level": "task",
+              "description": "- app/services/ directory and its two files (persistence.ts, persistence.test.ts) have no zone classification. Add a services zone entry covering app/services/** so the persistence layer gains cohesion/coupling metrics, appears in zone-boundary governance, and is no longer an architectural blind spot.\n- useRainbowEasterEgg and useWorldSession independently own separate useSave() state instances in worlds.tsx. Introduce a shared save context (React context or a lifted useSave call passed as prop) so both hooks operate on the same SaveData reference and save mutations are immediately consistent across hooks without depending on render propagation order.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-14T03:47:31.849Z",
+              "completedAt": "2026-03-14T03:54:18.614Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "12eafa924b9d",
+                  "01976e9e0972"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 2
+                },
+                "findingCount": 2
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "12eafa924b9d",
+              "01976e9e0972"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 2
+            },
+            "findingCount": 2
+          }
+        },
+        {
+          "id": "e18f41e2-da9c-4d79-a618-fffad01a8335",
+          "title": "Fix pattern in game-engine (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- SVG layout constants (SVG_WIDTH, SVG_HEIGHT, ARC_*_RATIO) are re-exported through engine/index.ts — these constrain RainbowArc rendering rather than encoding game rules, mixing UI presentation constants into the domain public API.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-14T03:35:49.297Z",
+          "completedAt": "2026-03-14T03:35:49.297Z",
+          "children": [
+            {
+              "id": "bae062c9-4fec-4fd7-9790-0365bb4661bb",
+              "title": "Fix pattern in game-engine: SVG layout constants (SVG_WIDTH, SVG_HEIGHT, ARC_*_RATIO) are re-exported throug",
+              "status": "completed",
+              "level": "task",
+              "description": "- SVG layout constants (SVG_WIDTH, SVG_HEIGHT, ARC_*_RATIO) are re-exported through engine/index.ts — these constrain RainbowArc rendering rather than encoding game rules, mixing UI presentation constants into the domain public API.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-14T03:31:12.254Z",
+              "completedAt": "2026-03-14T03:35:49.284Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "03fca6beb11e"
+                ],
+                "category": "pattern",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "03fca6beb11e"
+            ],
+            "category": "pattern",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "9e5c4dad-55ba-4ec5-9dd8-4bfbe4cb7142",
+          "title": "Fix relationship in game-engine (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Hooks useRainbowEasterEgg and useWorldSession act as the sole permitted bridge from engine to routes (zone-boundaries.test.ts blocks routes from importing engine directly), making them a load-bearing interface layer that is invisible at zone-graph level because they sit inside game-engine.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-14T03:43:20.401Z",
+          "completedAt": "2026-03-14T03:43:20.401Z",
+          "children": [
+            {
+              "id": "7f88886e-30f4-4294-9bd0-cf19cb894359",
+              "title": "Fix relationship in game-engine: Hooks useRainbowEasterEgg and useWorldSession act as the sole permitted bridge f",
+              "status": "completed",
+              "level": "task",
+              "description": "- Hooks useRainbowEasterEgg and useWorldSession act as the sole permitted bridge from engine to routes (zone-boundaries.test.ts blocks routes from importing engine directly), making them a load-bearing interface layer that is invisible at zone-graph level because they sit inside game-engine.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-14T03:35:51.350Z",
+              "completedAt": "2026-03-14T03:43:20.389Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "58bcad0b414e"
+                ],
+                "category": "relationship",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "58bcad0b414e"
+            ],
+            "category": "relationship",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "cd871439-948b-44cb-aab2-34cac54e3532",
+          "title": "Fix anti-pattern in game-engine (3 findings)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- board-utils.ts and canvas-drawing.ts are physically located in app/components/ but zone-classified as game-engine. This directory/zone split means the filesystem boundary and the architectural boundary disagree, making it impossible to infer zone membership from directory alone and raising misclassification risk for new contributors.\n- rainbow-constants.ts is annotated as a DAG-bypass because SVG geometry constants must be shared between hooks and components. Housing rendering constants inside the domain engine to work around a layering constraint is a missing-abstraction smell. A dedicated app/geometry or app/constants module below hooks would eliminate the bypass and give both layers a clean downward import.\n- useRainbowEasterEgg imports five SVG arc geometry constants from the engine barrel and uses them to compute rendering state. Computing pixel-level arc geometry in a hook couples the state layer to presentation math. The arc path computation should live in RainbowArc or a co-located geometry utility so the hook only manages interaction state and easter-egg unlock logic.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-14T03:15:52.622Z",
+          "completedAt": "2026-03-14T03:15:52.622Z",
+          "children": [
+            {
+              "id": "0586d602-eb90-4e1e-8904-a3bb15ba02e1",
+              "title": "Fix anti-pattern in game-engine: board-utils.ts and canvas-drawing.ts are physically located in app/components/ b (+2 more)",
+              "status": "completed",
+              "level": "task",
+              "description": "- board-utils.ts and canvas-drawing.ts are physically located in app/components/ but zone-classified as game-engine. This directory/zone split means the filesystem boundary and the architectural boundary disagree, making it impossible to infer zone membership from directory alone and raising misclassification risk for new contributors.\n- rainbow-constants.ts is annotated as a DAG-bypass because SVG geometry constants must be shared between hooks and components. Housing rendering constants inside the domain engine to work around a layering constraint is a missing-abstraction smell. A dedicated app/geometry or app/constants module below hooks would eliminate the bypass and give both layers a clean downward import.\n- useRainbowEasterEgg imports five SVG arc geometry constants from the engine barrel and uses them to compute rendering state. Computing pixel-level arc geometry in a hook couples the state layer to presentation math. The arc path computation should live in RainbowArc or a co-located geometry utility so the hook only manages interaction state and easter-egg unlock logic.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-14T03:08:38.822Z",
+              "completedAt": "2026-03-14T03:15:52.609Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "3460dd5aeda8",
+                  "4167a14bac3b",
+                  "fdbc86909ba6"
+                ],
+                "category": "anti-pattern",
+                "severityDistribution": {
+                  "warning": 3
+                },
+                "findingCount": 3
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "3460dd5aeda8",
+              "4167a14bac3b",
+              "fdbc86909ba6"
+            ],
+            "category": "anti-pattern",
+            "severityDistribution": {
+              "warning": 3
+            },
+            "findingCount": 3
+          }
+        },
+        {
+          "id": "e3aaa07d-6031-4ba6-9389-4cfe321dfd8b",
+          "title": "Fix suggestion in arch-governance (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- zone-boundaries.test.ts does not assert the number or identity of no-restricted-paths rules — only that the config parses. Add assertions that check the specific rule entries exist (e.g., count of restricted path pairs, or presence of specific zone pairs) so that accidental rule removal is caught by CI.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-14T03:45:12.389Z",
+          "completedAt": "2026-03-14T03:45:12.389Z",
+          "children": [
+            {
+              "id": "0bfb368b-f82e-4c82-af38-49ebe3a6d711",
+              "title": "Fix suggestion in arch-governance: zone-boundaries.test.ts does not assert the number or identity of no-restricted-",
+              "status": "completed",
+              "level": "task",
+              "description": "- zone-boundaries.test.ts does not assert the number or identity of no-restricted-paths rules — only that the config parses. Add assertions that check the specific rule entries exist (e.g., count of restricted path pairs, or presence of specific zone pairs) so that accidental rule removal is caught by CI.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-14T03:43:22.456Z",
+              "completedAt": "2026-03-14T03:45:12.376Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "074fbd696f9a"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "074fbd696f9a"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        }
+      ],
+      "recommendationMeta": {
+        "findingCount": 11
+      }
+    },
+    {
+      "id": "49f27856-3edc-4a88-bd2d-4cddb04e0477",
+      "title": "Code Health: 15 findings across 8 zones",
+      "status": "completed",
+      "level": "epic",
+      "description": "Automated recommendations from SourceVision analysis. 13 zone+category groups covering 15 total findings.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-16T02:29:11.717Z",
+      "completedAt": "2026-03-16T02:29:11.717Z",
+      "children": [
+        {
+          "id": "d5b8002c-503f-4953-83c4-e9b9d79569fb",
+          "title": "Fix observation in build-infrastructure (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- deploy.sh sitting alongside framework config files (react-router.config.ts, vite.config.ts) suggests deployment concerns are not separated from build concerns",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T01:32:53.169Z",
+          "completedAt": "2026-03-16T01:32:53.169Z",
+          "children": [
+            {
+              "id": "c548ff3b-64a4-4d22-b579-7b356c800a89",
+              "title": "Fix observation in build-infrastructure: deploy.sh sitting alongside framework config files (react-router.config.ts, vite",
+              "status": "completed",
+              "level": "task",
+              "description": "- deploy.sh sitting alongside framework config files (react-router.config.ts, vite.config.ts) suggests deployment concerns are not separated from build concerns",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:30:57.183Z",
+              "completedAt": "2026-03-16T01:32:53.152Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "2cf989b9a43c"
+                ],
+                "category": "observation",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "2cf989b9a43c"
+            ],
+            "category": "observation",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "a96b5953-9daa-46ad-bda1-b603e1e54706",
+          "title": "Fix suggestion in game-engine (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- The SaveProvider mandatory-vs-optional rule (required when multiple sibling hooks independently compose useSave() in the same subtree) should be documented in useSave.ts to prevent incorrect omission or redundant wrapping in future routes",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T01:50:36.501Z",
+          "completedAt": "2026-03-16T01:50:36.501Z",
+          "children": [
+            {
+              "id": "755e7dac-1973-4286-8ec1-72241ba695fa",
+              "title": "Fix suggestion in game-engine: The SaveProvider mandatory-vs-optional rule (required when multiple sibling hook",
+              "status": "completed",
+              "level": "task",
+              "description": "- The SaveProvider mandatory-vs-optional rule (required when multiple sibling hooks independently compose useSave() in the same subtree) should be documented in useSave.ts to prevent incorrect omission or redundant wrapping in future routes",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:49:18.655Z",
+              "completedAt": "2026-03-16T01:50:36.487Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "991e2c87e59c"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "991e2c87e59c"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "f13db02c-ec82-455b-96bd-7e9ead30f364",
+          "title": "Fix observation in world-navigation (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Cohesion of 0.5 is acceptable but the mix of route handlers (worlds.tsx, home.tsx) and display components (RainbowArc.tsx, WorldGrid.tsx) suggests the zone conflates routing and presentation responsibilities",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T01:35:13.262Z",
+          "completedAt": "2026-03-16T01:35:13.262Z",
+          "children": [
+            {
+              "id": "a0c38ca7-16fc-4852-8a9d-60ba1455f9ea",
+              "title": "Fix observation in world-navigation: Cohesion of 0.5 is acceptable but the mix of route handlers (worlds.tsx, home.ts",
+              "status": "completed",
+              "level": "task",
+              "description": "- Cohesion of 0.5 is acceptable but the mix of route handlers (worlds.tsx, home.tsx) and display components (RainbowArc.tsx, WorldGrid.tsx) suggests the zone conflates routing and presentation responsibilities",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:32:55.237Z",
+              "completedAt": "2026-03-16T01:35:13.245Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "3ecb2e626648"
+                ],
+                "category": "observation",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "3ecb2e626648"
+            ],
+            "category": "observation",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "e2ffbc16-af9d-4d64-a2cc-6f6cf0b88cba",
+          "title": "Fix relationship in arc-geometry (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- useRainbowEasterEgg imports directly from ~/geometry/rainbow-arc rather than re-exporting geometry through ~/engine — this is a minor inconsistency: geometry is consumed inside the engine zone but not surfaced through the engine's public API, creating an invisible internal dependency",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T01:36:34.160Z",
+          "completedAt": "2026-03-16T01:36:34.160Z",
+          "children": [
+            {
+              "id": "0c4cf2a6-8173-4abe-836d-5e45ccf36020",
+              "title": "Fix relationship in arc-geometry: useRainbowEasterEgg imports directly from ~/geometry/rainbow-arc rather than re-",
+              "status": "completed",
+              "level": "task",
+              "description": "- useRainbowEasterEgg imports directly from ~/geometry/rainbow-arc rather than re-exporting geometry through ~/engine — this is a minor inconsistency: geometry is consumed inside the engine zone but not surfaced through the engine's public API, creating an invisible internal dependency",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:35:15.349Z",
+              "completedAt": "2026-03-16T01:36:34.143Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "64646e3f63fd"
+                ],
+                "category": "relationship",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "64646e3f63fd"
+            ],
+            "category": "relationship",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "0dac20b9-1f90-44be-9067-2b2100fd91a8",
+          "title": "Fix relationship in world-navigation (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- home.tsx and RainbowArc.tsx carry zero outbound engine imports, while worlds.tsx accounts for 3 of the 4 cross-zone imports alone — the zone's coupling score of 0.5 masks that coupling is structurally concentrated in a single file",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T01:39:20.676Z",
+          "completedAt": "2026-03-16T01:39:20.676Z",
+          "children": [
+            {
+              "id": "fd0f868f-f750-47bc-b6e7-57df57c3c7ae",
+              "title": "Fix relationship in world-navigation: home.tsx and RainbowArc.tsx carry zero outbound engine imports, while worlds.tsx",
+              "status": "completed",
+              "level": "task",
+              "description": "- home.tsx and RainbowArc.tsx carry zero outbound engine imports, while worlds.tsx accounts for 3 of the 4 cross-zone imports alone — the zone's coupling score of 0.5 masks that coupling is structurally concentrated in a single file",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:36:36.228Z",
+              "completedAt": "2026-03-16T01:39:20.658Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "8d645cd73acc"
+                ],
+                "category": "relationship",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "8d645cd73acc"
+            ],
+            "category": "relationship",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "b2999a38-9ea7-42e4-b51e-709ef0e412ba",
+          "title": "Fix anti-pattern in game-engine (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- play.tsx is a route handler (157 LOC, imports 7 engine symbols and 5 components) residing inside the game-engine zone. Route orchestration is a different architectural concern than game logic and rendering; its peer worlds.tsx lives in world-navigation, creating asymmetric zone placement for two structurally parallel route handlers.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T01:29:25.592Z",
+          "completedAt": "2026-03-16T01:29:25.592Z",
+          "children": [
+            {
+              "id": "58b9108b-03de-49ce-a989-caf75689ccbc",
+              "title": "Fix anti-pattern in game-engine: play.tsx is a route handler (157 LOC, imports 7 engine symbols and 5 components)",
+              "status": "completed",
+              "level": "task",
+              "description": "- play.tsx is a route handler (157 LOC, imports 7 engine symbols and 5 components) residing inside the game-engine zone. Route orchestration is a different architectural concern than game logic and rendering; its peer worlds.tsx lives in world-navigation, creating asymmetric zone placement for two structurally parallel route handlers.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:21:25.724Z",
+              "completedAt": "2026-03-16T01:29:25.574Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "48568c58054d"
+                ],
+                "category": "anti-pattern",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "48568c58054d"
+            ],
+            "category": "anti-pattern",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "bb955bed-1d60-4621-a2b6-1512f7f5647b",
+          "title": "Fix anti-pattern in world-navigation (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- worlds.tsx imports hooks directly by file path (e.g. ~/hooks/useRainbowEasterEgg, ~/hooks/useSave) instead of consuming them through the ~/hooks barrel. This bypasses the barrel-as-interface contract and means worlds.tsx is coupled to internal hook module paths rather than the stable public API surface.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T01:30:55.116Z",
+          "completedAt": "2026-03-16T01:30:55.116Z",
+          "children": [
+            {
+              "id": "260ee3eb-af3d-4212-9588-2b3cfd94b5e7",
+              "title": "Fix anti-pattern in world-navigation: worlds.tsx imports hooks directly by file path (e.g. ~/hooks/useRainbowEasterEgg",
+              "status": "completed",
+              "level": "task",
+              "description": "- worlds.tsx imports hooks directly by file path (e.g. ~/hooks/useRainbowEasterEgg, ~/hooks/useSave) instead of consuming them through the ~/hooks barrel. This bypasses the barrel-as-interface contract and means worlds.tsx is coupled to internal hook module paths rather than the stable public API surface.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:29:27.687Z",
+              "completedAt": "2026-03-16T01:30:55.099Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "953abb299b68"
+                ],
+                "category": "anti-pattern",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "953abb299b68"
+            ],
+            "category": "anti-pattern",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "2733330f-c68d-4337-9cb7-b49551b4e259",
+          "title": "Fix suggestion in architectural-governance (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- The SaveProvider wrapping requirement (multi-hook routes must wrap in SaveProvider or mutations silently diverge) is enforced only by comments. This is a behavioral contract that cannot be caught by import-path linting. Consider encoding it as a runtime invariant or an explicit integration test that mounts two save-consuming hooks without SaveProvider and asserts the expected failure mode.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T01:42:33.702Z",
+          "completedAt": "2026-03-16T01:42:33.702Z",
+          "children": [
+            {
+              "id": "b7150731-cafc-4d0a-b645-b0581c0ff1c9",
+              "title": "Fix suggestion in architectural-governance: The SaveProvider wrapping requirement (multi-hook routes must wrap in SaveProvid",
+              "status": "completed",
+              "level": "task",
+              "description": "- The SaveProvider wrapping requirement (multi-hook routes must wrap in SaveProvider or mutations silently diverge) is enforced only by comments. This is a behavioral contract that cannot be caught by import-path linting. Consider encoding it as a runtime invariant or an explicit integration test that mounts two save-consuming hooks without SaveProvider and asserts the expected failure mode.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:39:22.755Z",
+              "completedAt": "2026-03-16T01:42:33.685Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "4e556367c3aa"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "4e556367c3aa"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "c796b469-3caf-4ba8-af79-f7faea961d41",
+          "title": "Fix suggestion in build-infrastructure (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Add a zone-boundary test asserting that route files do not import directly from app/services/ — the routes→services boundary is currently undefined and unenforced, leaving an unguarded path for persistence logic to leak into route handlers",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T01:44:21.628Z",
+          "completedAt": "2026-03-16T01:44:21.628Z",
+          "children": [
+            {
+              "id": "ec9bb73e-cba1-4e1b-b991-5aeb0a55b98a",
+              "title": "Fix suggestion in build-infrastructure: Add a zone-boundary test asserting that route files do not import directly from ",
+              "status": "completed",
+              "level": "task",
+              "description": "- Add a zone-boundary test asserting that route files do not import directly from app/services/ — the routes→services boundary is currently undefined and unenforced, leaving an unguarded path for persistence logic to leak into route handlers",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:42:35.787Z",
+              "completedAt": "2026-03-16T01:44:21.613Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "85ca87419f9c"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "85ca87419f9c"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "98395335-9bca-440c-a10a-4b07bea20194",
+          "title": "Fix suggestion in engine (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- The pure updater functions in useGameState.ts (createInitialState, selectTileUpdate, etc.) are stateless game logic and should live in engine, not hooks. Keeping them in hooks makes them unavailable to any future non-React consumer and weakens the engine zone's claim to owning all game rules.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T01:49:16.592Z",
+          "completedAt": "2026-03-16T01:49:16.592Z",
+          "children": [
+            {
+              "id": "09deac52-a236-45be-8957-09c05d3a7133",
+              "title": "Fix suggestion in engine: The pure updater functions in useGameState.ts (createInitialState, selectTileUpd",
+              "status": "completed",
+              "level": "task",
+              "description": "- The pure updater functions in useGameState.ts (createInitialState, selectTileUpdate, etc.) are stateless game logic and should live in engine, not hooks. Keeping them in hooks makes them unavailable to any future non-React consumer and weakens the engine zone's claim to owning all game rules.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:44:23.714Z",
+              "completedAt": "2026-03-16T01:49:16.571Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "01451d84542a"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "01451d84542a"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "218368a7-7948-409b-8851-c0ec884b7bd5",
+          "title": "Fix suggestion in global (3 findings)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- All five behavioral contracts (SaveProvider wrapping, useSave internalization, Use{Name}Return naming, pure-updaters-in-engine, presentation-only components) share the same failure mode: they are invisible to CI. A single architectural decision — codify conventions in zone-boundaries.test.ts or ESLint — would close all five gaps simultaneously rather than addressing them file by file.\n- The hooks barrel-as-interface pattern mirrors the engine barrel pattern but has no ESLint or test enforcement — add a zone-boundary rule asserting that files outside the hooks zone import from `~/hooks` rather than from individual hook file paths, mirroring the engine barrel enforcement already in place\n- The services zone (app/services/persistence.ts) is the origin point of the entire save/persistence subsystem and the only production file with no zone registration, no barrel, and no boundary tests. Its untracked status means any file in any zone can import from it directly without a zone violation being detected — giving it de facto global scope despite sitting logically between engine and hooks.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T01:55:23.991Z",
+          "completedAt": "2026-03-16T01:55:23.991Z",
+          "children": [
+            {
+              "id": "99970ae0-c9dc-4e50-b9a4-2004cf409def",
+              "title": "Fix suggestion in global: All five behavioral contracts (SaveProvider wrapping, useSave internalization, U (+2 more)",
+              "status": "completed",
+              "level": "task",
+              "description": "- All five behavioral contracts (SaveProvider wrapping, useSave internalization, Use{Name}Return naming, pure-updaters-in-engine, presentation-only components) share the same failure mode: they are invisible to CI. A single architectural decision — codify conventions in zone-boundaries.test.ts or ESLint — would close all five gaps simultaneously rather than addressing them file by file.\n- The hooks barrel-as-interface pattern mirrors the engine barrel pattern but has no ESLint or test enforcement — add a zone-boundary rule asserting that files outside the hooks zone import from `~/hooks` rather than from individual hook file paths, mirroring the engine barrel enforcement already in place\n- The services zone (app/services/persistence.ts) is the origin point of the entire save/persistence subsystem and the only production file with no zone registration, no barrel, and no boundary tests. Its untracked status means any file in any zone can import from it directly without a zone violation being detected — giving it de facto global scope despite sitting logically between engine and hooks.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:50:38.572Z",
+              "completedAt": "2026-03-16T01:55:23.973Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "d01d8546e8e3",
+                  "5800a01805ec",
+                  "2120e7e4fcf3"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 3
+                },
+                "findingCount": 3
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "d01d8546e8e3",
+              "5800a01805ec",
+              "2120e7e4fcf3"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 3
+            },
+            "findingCount": 3
+          }
+        },
+        {
+          "id": "8d058284-0e95-4135-948d-b3c9ebea8ab9",
+          "title": "Fix suggestion in root (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- The services/persistence.ts file is a production dependency of the hooks layer but exists outside the tracked zone graph. Register it as an explicit zone to bring its imports under boundary enforcement and make the engine → services → hooks dependency chain visible in the architecture model.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T02:01:05.274Z",
+          "completedAt": "2026-03-16T02:01:05.274Z",
+          "children": [
+            {
+              "id": "43f1b5f3-e806-4f00-b147-895863121bc1",
+              "title": "Fix suggestion in root: The services/persistence.ts file is a production dependency of the hooks layer b",
+              "status": "completed",
+              "level": "task",
+              "description": "- The services/persistence.ts file is a production dependency of the hooks layer but exists outside the tracked zone graph. Register it as an explicit zone to bring its imports under boundary enforcement and make the engine → services → hooks dependency chain visible in the architecture model.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T01:55:26.066Z",
+              "completedAt": "2026-03-16T02:01:05.258Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "f6dbe3170207"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "f6dbe3170207"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "94aceb3c-315f-4837-926a-3f95f113db48",
+          "title": "Fix suggestion in world-navigation (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- worlds.tsx imports hooks by direct file path while the hooks barrel exists precisely to provide a stable cross-zone import contract — migrating worlds.tsx (and play.tsx) to import from `~/hooks` would exercise the barrel and eliminate internal path coupling",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T02:29:11.707Z",
+          "completedAt": "2026-03-16T02:29:11.707Z",
+          "children": [
+            {
+              "id": "8c81abb2-7324-434e-b0be-3ea942755954",
+              "title": "Fix suggestion in world-navigation: worlds.tsx imports hooks by direct file path while the hooks barrel exists preci",
+              "status": "completed",
+              "level": "task",
+              "description": "- worlds.tsx imports hooks by direct file path while the hooks barrel exists precisely to provide a stable cross-zone import contract — migrating worlds.tsx (and play.tsx) to import from `~/hooks` would exercise the barrel and eliminate internal path coupling",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T02:01:07.357Z",
+              "completedAt": "2026-03-16T02:29:11.690Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "205e8d1b1659"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "205e8d1b1659"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        }
+      ],
+      "recommendationMeta": {
+        "findingCount": 15
+      }
+    },
+    {
+      "id": "deb42c2b-0bd3-45a1-9bc5-f6eb7c9d00b6",
+      "title": "Code Health: 14 findings across 5 zones",
+      "status": "completed",
+      "level": "epic",
+      "description": "Automated recommendations from SourceVision analysis. 10 zone+category groups covering 14 total findings.",
+      "priority": "high",
+      "source": "sourcevision",
+      "startedAt": "2026-03-16T03:45:37.148Z",
+      "completedAt": "2026-03-16T03:45:37.148Z",
+      "children": [
+        {
+          "id": "797c97a2-5fc2-4235-a8eb-810c92f71f87",
+          "title": "Fix observation in game-ui-routes (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Cohesion of 0.57 is below 0.6 but not critically low; monitor as the route count grows since mixing route handlers with pure UI components can fragment responsibilities.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T03:22:33.957Z",
+          "completedAt": "2026-03-16T03:22:33.957Z",
+          "children": [
+            {
+              "id": "701b5bbe-ed64-4d21-8566-bb5779e58868",
+              "title": "Fix observation in game-ui-routes: Cohesion of 0.57 is below 0.6 but not critically low; monitor as the route count",
+              "status": "completed",
+              "level": "task",
+              "description": "- Cohesion of 0.57 is below 0.6 but not critically low; monitor as the route count grows since mixing route handlers with pure UI components can fragment responsibilities.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T03:20:32.241Z",
+              "completedAt": "2026-03-16T03:22:33.935Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "efb231123f87"
+                ],
+                "category": "observation",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "efb231123f87"
+            ],
+            "category": "observation",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "692bc20f-0e47-4060-b776-7fa9854f9ac8",
+          "title": "Fix pattern in game-engine (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Undocumented implicit contract: ~/hooks barrel is consumed for runtime state, ~/engine barrel for types only. Without barrel-level JSDoc or enforced export separation, this split will erode as the codebase grows.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T03:25:13.023Z",
+          "completedAt": "2026-03-16T03:25:13.023Z",
+          "children": [
+            {
+              "id": "c9f73106-0865-4a22-9336-72f831b2aea3",
+              "title": "Fix pattern in game-engine: Undocumented implicit contract: ~/hooks barrel is consumed for runtime state, ~/",
+              "status": "completed",
+              "level": "task",
+              "description": "- Undocumented implicit contract: ~/hooks barrel is consumed for runtime state, ~/engine barrel for types only. Without barrel-level JSDoc or enforced export separation, this split will erode as the codebase grows.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T03:22:36.039Z",
+              "completedAt": "2026-03-16T03:25:13.003Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "eaf6478df470"
+                ],
+                "category": "pattern",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "eaf6478df470"
+            ],
+            "category": "pattern",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "209ada11-cf4a-47f6-a631-767cf1e5a488",
+          "title": "Fix relationship in game-ui-routes (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- RainbowArc.tsx duplicates arc geometry constants that conceptually belong in geometry-primitives, creating silent drift risk if rainbow-arc.ts in the geometry zone evolves independently.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T03:27:20.332Z",
+          "completedAt": "2026-03-16T03:27:20.332Z",
+          "children": [
+            {
+              "id": "75479c05-267a-4466-8d81-80f54428ca66",
+              "title": "Fix relationship in game-ui-routes: RainbowArc.tsx duplicates arc geometry constants that conceptually belong in geo",
+              "status": "completed",
+              "level": "task",
+              "description": "- RainbowArc.tsx duplicates arc geometry constants that conceptually belong in geometry-primitives, creating silent drift risk if rainbow-arc.ts in the geometry zone evolves independently.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T03:25:15.115Z",
+              "completedAt": "2026-03-16T03:27:20.311Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "342c07d0c7db"
+                ],
+                "category": "relationship",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "342c07d0c7db"
+            ],
+            "category": "relationship",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "d300adba-e067-4cb4-b772-d227b98e6c6f",
+          "title": "Fix relationship in project-infrastructure (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- The check-layers.sh (scripts zone) and zone-boundaries.test.ts (project-infrastructure zone) form a dual-enforcement pair at different abstraction levels; they must be kept in sync or they will produce contradictory architectural signals.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T03:30:18.552Z",
+          "completedAt": "2026-03-16T03:30:18.552Z",
+          "children": [
+            {
+              "id": "3810eddd-932e-4bcc-a4fb-6df0e636c1bf",
+              "title": "Fix relationship in project-infrastructure: The check-layers.sh (scripts zone) and zone-boundaries.test.ts (project-infrastr",
+              "status": "completed",
+              "level": "task",
+              "description": "- The check-layers.sh (scripts zone) and zone-boundaries.test.ts (project-infrastructure zone) form a dual-enforcement pair at different abstraction levels; they must be kept in sync or they will produce contradictory architectural signals.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T03:27:22.423Z",
+              "completedAt": "2026-03-16T03:30:18.528Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "79cae67c9395"
+                ],
+                "category": "relationship",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "79cae67c9395"
+            ],
+            "category": "relationship",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "58cbcdf0-e282-48db-beec-97aa2f864e7c",
+          "title": "Fix anti-pattern in game-engine (2 findings)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Pure game logic (app/engine/) and React integration layer (app/hooks/) are merged into one zone with no sub-boundary. As the hooks layer grows, the informal engine/hooks separation will erode with no zone-level check to catch violations — only the directory-pattern check in check-layers.sh stands between correct layering and silent regression.\n- app/hooks/ is a separate enforcement layer in check-layers.sh but is folded into game-engine at the zone level. A direct import from an engine-internal module (app/engine/*) into a hooks file (app/hooks/*) violates the check-layers.sh 4-layer DAG but is undetectable by zone-boundaries.test.ts — the two enforcement systems share a blind spot at the engine/hooks seam.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T03:17:29.076Z",
+          "completedAt": "2026-03-16T03:17:29.076Z",
+          "children": [
+            {
+              "id": "4a330197-2a13-4ea0-8344-59b39df946d1",
+              "title": "Fix anti-pattern in game-engine: Pure game logic (app/engine/) and React integration layer (app/hooks/) are merge (+1 more)",
+              "status": "completed",
+              "level": "task",
+              "description": "- Pure game logic (app/engine/) and React integration layer (app/hooks/) are merged into one zone with no sub-boundary. As the hooks layer grows, the informal engine/hooks separation will erode with no zone-level check to catch violations — only the directory-pattern check in check-layers.sh stands between correct layering and silent regression.\n- app/hooks/ is a separate enforcement layer in check-layers.sh but is folded into game-engine at the zone level. A direct import from an engine-internal module (app/engine/*) into a hooks file (app/hooks/*) violates the check-layers.sh 4-layer DAG but is undetectable by zone-boundaries.test.ts — the two enforcement systems share a blind spot at the engine/hooks seam.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T03:13:52.648Z",
+              "completedAt": "2026-03-16T03:17:29.056Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "5840a0317ce2",
+                  "2a1dff9f9189"
+                ],
+                "category": "anti-pattern",
+                "severityDistribution": {
+                  "warning": 2
+                },
+                "findingCount": 2
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "5840a0317ce2",
+              "2a1dff9f9189"
+            ],
+            "category": "anti-pattern",
+            "severityDistribution": {
+              "warning": 2
+            },
+            "findingCount": 2
+          }
+        },
+        {
+          "id": "dae8de70-d9ba-4e73-9dad-9b9d8291d0cc",
+          "title": "Fix anti-pattern in game-ui-routes (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Mixing route handlers and pure presentational components in a single zone forces both to change together. A routing change (e.g., adding a loader) and a visual change (e.g., updating GameHUD layout) touch the same zone boundary, inflating perceived coupling and making the zone's public surface harder to reason about.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T03:20:30.150Z",
+          "completedAt": "2026-03-16T03:20:30.150Z",
+          "children": [
+            {
+              "id": "bc08dca6-4f79-4fa4-8b96-6a83d1e8cefc",
+              "title": "Fix anti-pattern in game-ui-routes: Mixing route handlers and pure presentational components in a single zone forces",
+              "status": "completed",
+              "level": "task",
+              "description": "- Mixing route handlers and pure presentational components in a single zone forces both to change together. A routing change (e.g., adding a loader) and a visual change (e.g., updating GameHUD layout) touch the same zone boundary, inflating perceived coupling and making the zone's public surface harder to reason about.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T03:17:31.150Z",
+              "completedAt": "2026-03-16T03:20:30.131Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "11b64e6bb344"
+                ],
+                "category": "anti-pattern",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "11b64e6bb344"
+            ],
+            "category": "anti-pattern",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "bd1e1eed-4203-46f8-9c04-9158392a0978",
+          "title": "Fix suggestion in components (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Create app/components/index.ts barrel and add an ESLint no-restricted-paths rule blocking routes from importing ./app/components/!(index).tsx to match the barrel enforcement pattern already applied to hooks and engine; without this, the components boundary is the only unchecked seam in the DAG",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T03:33:26.467Z",
+          "completedAt": "2026-03-16T03:33:26.467Z",
+          "children": [
+            {
+              "id": "785e9e2c-c4a9-4972-b13f-1df87bec0288",
+              "title": "Fix suggestion in components: Create app/components/index.ts barrel and add an ESLint no-restricted-paths rule",
+              "status": "completed",
+              "level": "task",
+              "description": "- Create app/components/index.ts barrel and add an ESLint no-restricted-paths rule blocking routes from importing ./app/components/!(index).tsx to match the barrel enforcement pattern already applied to hooks and engine; without this, the components boundary is the only unchecked seam in the DAG",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T03:30:20.629Z",
+              "completedAt": "2026-03-16T03:33:26.446Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "af9473fdf2f6"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "af9473fdf2f6"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "2b8a2649-1faf-4121-92d4-4c2b8dc73a6c",
+          "title": "Fix suggestion in game-engine (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- `__standaloneInstanceCount` in useSave.ts is a mutable `let` export marked `@internal` but protected only by a doc comment. Move it to a separate test-utility module (e.g., useSave.test-utils.ts) imported only by tests, or use `export const __standaloneInstanceCount` with a getter function so the binding is read-only. The double-underscore prefix is also a naming inconsistency — TypeScript convention for internal symbols does not use Python-style dunder names.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T03:35:47.225Z",
+          "completedAt": "2026-03-16T03:35:47.225Z",
+          "children": [
+            {
+              "id": "7043e297-0608-4b49-be3b-8d15a32b9c75",
+              "title": "Fix suggestion in game-engine: `__standaloneInstanceCount` in useSave.ts is a mutable `let` export marked `@int",
+              "status": "completed",
+              "level": "task",
+              "description": "- `__standaloneInstanceCount` in useSave.ts is a mutable `let` export marked `@internal` but protected only by a doc comment. Move it to a separate test-utility module (e.g., useSave.test-utils.ts) imported only by tests, or use `export const __standaloneInstanceCount` with a getter function so the binding is read-only. The double-underscore prefix is also a naming inconsistency — TypeScript convention for internal symbols does not use Python-style dunder names.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T03:33:28.565Z",
+              "completedAt": "2026-03-16T03:35:47.207Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "4c48ae92c23a"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "4c48ae92c23a"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        },
+        {
+          "id": "7a6918af-11fd-4074-9cd9-3327442923a0",
+          "title": "Fix suggestion in global (4 findings)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Add a meta-test that asserts all three enforcement models (eslint.config.ts restricted-paths pairs, check-layers.sh forbidden edges, zone-boundaries.test.ts zone rules) cover the same set of layer boundaries — currently a new layer boundary added to check-layers.sh does not automatically appear in the other two systems\n- Create app/components/index.ts as a barrel and add an ESLint no-restricted-paths rule blocking `target: ./app/routes/**, from: ./app/components/!(index).ts`. This closes the only remaining layer without barrel enforcement and prevents internal component implementation details (canvas-drawing.ts, board-utils.ts, inventory-shared.ts) from being imported directly by routing code.\n- The SaveData re-export chain (services → useWorldSession → hooks barrel) is fragile: it depends on useWorldSession continuing to import SaveData as a side-effect of its own logic. Promote the re-export to be explicit in the hooks barrel by importing SaveData directly from `~/services` in hooks/index.ts. This makes the intentional exposure of the type self-documenting and immune to refactors of useWorldSession.\n- The components zone lacks a barrel and ESLint barrel enforcement while every other consumable zone has both — add app/components/index.ts and a corresponding no-restricted-paths ESLint rule to restore uniform boundary strength across all production zones",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T03:42:17.634Z",
+          "completedAt": "2026-03-16T03:42:17.634Z",
+          "children": [
+            {
+              "id": "d71ae32d-7174-42a1-80f6-6c9f87ea95cf",
+              "title": "Fix suggestion in global: Add a meta-test that asserts all three enforcement models (eslint.config.ts rest (+3 more)",
+              "status": "completed",
+              "level": "task",
+              "description": "- Add a meta-test that asserts all three enforcement models (eslint.config.ts restricted-paths pairs, check-layers.sh forbidden edges, zone-boundaries.test.ts zone rules) cover the same set of layer boundaries — currently a new layer boundary added to check-layers.sh does not automatically appear in the other two systems\n- Create app/components/index.ts as a barrel and add an ESLint no-restricted-paths rule blocking `target: ./app/routes/**, from: ./app/components/!(index).ts`. This closes the only remaining layer without barrel enforcement and prevents internal component implementation details (canvas-drawing.ts, board-utils.ts, inventory-shared.ts) from being imported directly by routing code.\n- The SaveData re-export chain (services → useWorldSession → hooks barrel) is fragile: it depends on useWorldSession continuing to import SaveData as a side-effect of its own logic. Promote the re-export to be explicit in the hooks barrel by importing SaveData directly from `~/services` in hooks/index.ts. This makes the intentional exposure of the type self-documenting and immune to refactors of useWorldSession.\n- The components zone lacks a barrel and ESLint barrel enforcement while every other consumable zone has both — add app/components/index.ts and a corresponding no-restricted-paths ESLint rule to restore uniform boundary strength across all production zones",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T03:35:49.284Z",
+              "completedAt": "2026-03-16T03:42:17.613Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "e5419c49d4b5",
+                  "2c219d11135c",
+                  "1c36990ab84c",
+                  "1061e5493fa6"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 4
+                },
+                "findingCount": 4
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "e5419c49d4b5",
+              "2c219d11135c",
+              "1c36990ab84c",
+              "1061e5493fa6"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 4
+            },
+            "findingCount": 4
+          }
+        },
+        {
+          "id": "6755e934-9b69-4c08-a2b3-a2c8edde5d43",
+          "title": "Fix suggestion in project-infrastructure (1 finding)",
+          "status": "completed",
+          "level": "feature",
+          "description": "- Add a zone-boundaries assertion that all route files registered in react-router.config.ts exist within the known game-ui-routes file set. This closes the blind spot where a newly registered route could bypass all zone enforcement silently.",
+          "priority": "high",
+          "source": "sourcevision",
+          "startedAt": "2026-03-16T03:45:37.137Z",
+          "completedAt": "2026-03-16T03:45:37.137Z",
+          "children": [
+            {
+              "id": "dcad0487-742f-45cd-94ba-06dd1be5468f",
+              "title": "Fix suggestion in project-infrastructure: Add a zone-boundaries assertion that all route files registered in react-router.",
+              "status": "completed",
+              "level": "task",
+              "description": "- Add a zone-boundaries assertion that all route files registered in react-router.config.ts exist within the known game-ui-routes file set. This closes the blind spot where a newly registered route could bypass all zone enforcement silently.",
+              "priority": "high",
+              "source": "sourcevision",
+              "startedAt": "2026-03-16T03:42:19.723Z",
+              "completedAt": "2026-03-16T03:45:37.119Z",
+              "recommendationMeta": {
+                "findingHashes": [
+                  "6551d9f45949"
+                ],
+                "category": "suggestion",
+                "severityDistribution": {
+                  "warning": 1
+                },
+                "findingCount": 1
+              }
+            }
+          ],
+          "recommendationMeta": {
+            "findingHashes": [
+              "6551d9f45949"
+            ],
+            "category": "suggestion",
+            "severityDistribution": {
+              "warning": 1
+            },
+            "findingCount": 1
+          }
+        }
+      ],
+      "recommendationMeta": {
+        "findingCount": 14
+      }
+    },
+    {
+      "id": "f919f8f4-eb9a-47c0-aed8-36137b10aff6",
+      "title": "Player Help & Onboarding",
+      "status": "completed",
+      "level": "epic",
+      "source": "smart-add",
+      "children": [
+        {
+          "id": "b2d05ae3-f8b8-4ab3-ad8e-ea389ff9776d",
+          "title": "In-Game How-to-Play Modal",
+          "status": "completed",
+          "level": "feature",
+          "description": "Surface a help modal on the game screen so players can learn the rules without leaving or consulting external docs. Triggered by the '?' keyboard shortcut.",
+          "source": "smart-add",
+          "startedAt": "2026-03-18T15:30:06.220Z",
+          "completedAt": "2026-03-18T15:30:06.220Z",
+          "children": [
+            {
+              "id": "e9ab4604-09fb-4f15-8a71-8b773f35a951",
+              "title": "Add '?' keyboard shortcut listener on the game screen",
+              "status": "completed",
+              "level": "task",
+              "description": "Attach a keydown handler to the game screen (play route) that detects the '?' character and toggles a help-modal-open state. The listener should be scoped to the game screen only, respect focus trapping (i.e. not fire when an input/textarea is focused), and clean up on unmount.",
+              "acceptanceCriteria": [
+                "Pressing '?' while on the game screen opens the help modal",
+                "Pressing '?' again (or Escape) closes the modal",
+                "Listener does not fire when focus is inside a form input or textarea",
+                "Listener is removed when the component unmounts (no memory leak)",
+                "No key conflict with existing game controls (tile selection, rotation, etc.)"
+              ],
+              "priority": "medium",
+              "tags": [
+                "game-ui",
+                "accessibility",
+                "keyboard"
+              ],
+              "source": "smart-add",
+              "startedAt": "2026-03-18T15:18:25.763Z",
+              "completedAt": "2026-03-18T15:23:10.243Z"
+            },
+            {
+              "id": "571307dc-4594-4b24-b05b-437d5e68710b",
+              "title": "Build how-to-play modal component with game instructions",
+              "status": "completed",
+              "level": "task",
+              "description": "Create a modal component that explains the core game mechanics — placing straight and curve tiles, rotating them, connecting a path from Lucky to the gold, and hitting Go. The modal should be dismissible via a close button or Escape key, overlay the game board without destroying canvas state, and be accessible (focus-trapped, labelled, announced to screen readers).",
+              "acceptanceCriteria": [
+                "Modal renders an overlay above the game board without unmounting or resetting the canvas",
+                "Content covers: tile types (straight/curve), rotation, path connection goal, the Go button, and par/clover scoring",
+                "Close button and Escape key both dismiss the modal",
+                "Focus is trapped inside the modal while open and returned to the triggering element on close",
+                "Modal has a role='dialog' with an accessible aria-label or aria-labelledby",
+                "Modal is visually consistent with existing game UI (Tailwind styling)"
+              ],
+              "priority": "medium",
+              "tags": [
+                "game-ui",
+                "components",
+                "accessibility"
+              ],
+              "source": "smart-add",
+              "startedAt": "2026-03-18T15:23:12.327Z",
+              "completedAt": "2026-03-18T15:30:06.196Z"
+            }
+          ]
+        }
+      ],
+      "startedAt": "2026-03-18T15:30:06.235Z",
+      "completedAt": "2026-03-18T15:30:06.235Z"
+    }
+  ]
+}

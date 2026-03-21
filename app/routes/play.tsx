@@ -9,12 +9,12 @@
  * abstraction path: engine → hooks → routes.
  *
  * Current import budget:
- *   components  — 5 symbols
- *   hooks       — 2 symbols
+ *   components  — 6 symbols
+ *   hooks       — 3 symbols
  */
 import { useParams, useNavigate } from "react-router";
-import { useLevelById, useGameSession } from "~/hooks";
-import { GameBoard, TileInventory, MobileInventory, GameHUD, LevelComplete } from "~/components";
+import { useLevelById, useGameSession, useHelpShortcut } from "~/hooks";
+import { GameBoard, TileInventory, MobileInventory, GameHUD, LevelComplete, HowToPlayModal } from "~/components";
 
 /**
  * Play route — single source of truth for levelId is useParams().
@@ -54,6 +54,8 @@ function PlayLevel({
   level: NonNullable<ReturnType<typeof useLevelById>>;
 }) {
   const navigate = useNavigate();
+
+  const [showHowToPlay, toggleHowToPlay] = useHelpShortcut();
 
   const {
     state,
@@ -147,6 +149,9 @@ function PlayLevel({
           onBack={() => navigate("/worlds")}
         />
       )}
+
+      {/* Help modal — toggled by '?' shortcut or Escape to close */}
+      {showHowToPlay && <HowToPlayModal onClose={toggleHowToPlay} />}
     </div>
   );
 }
